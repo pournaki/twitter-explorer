@@ -1,0 +1,8 @@
+streamlit
+tweepy
+pandas
+cufflinks
+plotly
+json-lines
+python-igraph
+louvain

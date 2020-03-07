@@ -1,0 +1,293 @@
+<style>
+.switch {
+    position: relative;
+    width: 60px;
+    }
+/* Hide default HTML checkbox */
+    .onoffswitch {
+        position: relative;         
+        margin: 10px;
+        /*margin-left:270px;*/
+        width: 40px;
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    }
+    .onoffswitch-checkbox {
+        display: none;
+    }
+    .onoffswitch-label {
+        display: block; overflow: hidden; cursor: pointer;
+        height: 15px; padding: 0; line-height: 15px;
+        border: 2px solid #999999; border-radius: 15px;
+        background-color: #EEEEEE;
+        transition: background-color 0.3s ease-in;
+    }
+    .onoffswitch-label:before {
+        content: "";
+        display: block; width: 15px; margin: 0px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 23px;
+        border: 2px solid #999999; border-radius: 15px;
+        transition: all 0.3s ease-in 0s; 
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label {
+        background-color: #fff;
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+       border-color: #999999;
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+        right: 0px; 
+    }
+    html.transition,
+    html.transition *,
+    html.transition *:before,
+    html.transition *:after {
+      transition: ease-in-out 200ms !important;
+      transition-delay: 0 !important;
+    }
+      html {
+          background: var(--backg);
+                    --backg: #fff;
+                    --color_text: #000;
+                    --color_title_text: #fff;
+                    --color_title_backg: #000;
+                    --backg_buttons: rgba(0,0,0,0.15);}
+      html[data-theme='darktheme'] {
+          background: var(--backg);
+          --backg: #000;
+          --color_text: #fff;
+          --color_title_text: #000;
+          --color_title_backg: #fff;
+          --backg_buttons: rgba(255,255,255,0.25)
+            }
+      body {margin: 0; 
+            font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+            font-size: 12pt;
+            background-color: var(--backg);
+            color: var(--color_text)}
+
+        #totalborder {
+        border: 1px;
+        margin: 25px;
+        width: 325px;
+        border-style: solid;
+        padding-left: 0px;
+        position: relative;
+        float: left;
+        z-index: 10;
+        background-color: var(--backg)
+        }
+
+        #totalborder:hover {
+          cursor: move
+        }
+        
+        #panel00{
+          text-decoration: underline;
+          text-transform: uppercase;
+        }
+
+        .borders {
+          border: solid 1px;
+          margin: 10px;
+          width: 300px;
+        }
+        .borders_small {
+          border: solid 1px;
+          margin: 0px;
+          width: 270px;
+          margin-top: 10px
+        }
+
+        #title {
+        padding: 10px;
+        width: 300px;
+        color: var(--color_title_text);
+        font-size: 20pt;
+        font-weight: bold;
+        }
+
+        #titleborder {
+        background-color: var(--color_title_backg)
+        }
+
+        .content {
+          display: none;
+          padding: 10px;
+        }
+
+        .subtitle {
+          padding: 10px;
+        }
+        .subsubtitle {
+          padding: 5px;
+          font-size: 11pt;
+        }
+
+        .subtitle:hover{
+          background-color: var(--backg_buttons);
+          cursor: pointer;
+        }
+        .subsubtitle:hover{
+          background-color: var(--backg_buttons);
+          cursor: pointer;
+        }
+
+        #footer{
+          font-size: 8pt;
+          padding-left: 10px;
+          padding-bottom: 5px;
+          color:grey;
+        }
+
+        a{
+          color:var(--text-color);
+        }
+        #infodiv{
+            padding-left: 20px;
+            position: relative;
+            float: left;
+            z-index: 10;
+        }
+        iframe.infodiv{
+                padding-left:0px;
+
+        }
+        @media(max-width:1000px){
+            #infodiv{
+                padding-left:0px;
+            }
+            #stripecontainer{
+              padding-left:0;
+            }
+        }
+        /* ---------------------------- */  
+        /* ---------- Selector ---------- */
+        #mainselection select {
+           border: 1;
+           border-width: 1px;
+           /*border-color: black;*/
+           border-radius: 4px;
+           background: transparent;
+           font-size: 11pt;
+           color: var(--text_color);
+           padding: 2px 5px;
+           width: 270px;
+           -webkit-appearance: none;
+        }
+        #mainselection {
+           /*overflow:hidden;*/
+           width:240px;
+           border: 1;
+           /*background: #58B14C no-repeat scroll 150px center;*/
+        }
+        /* ---------------------------- */  
+        /* ---------- Button ---------- */
+        .button1 {
+            background-color:transparent;
+            border-radius:4px;
+            margin-top: 10px;
+            border:1px solid;
+            display:inline-block;
+            cursor:pointer;
+            color:var(--color_text);
+            width: 119px;
+            font-size:10pt;
+            padding:5px 5px;
+            /*padding:6px 36px;*/
+            text-decoration:none;
+            margin-right: 5px
+          }
+          .button1:hover {
+            background-color: var(--backg_buttons);
+          }
+          .button1:active {
+            position:relative;
+            top:1px;
+          }
+        /* ---------------------------- */  
+        /* ---------- Checkbox ---------- */
+        .checkbox {
+            display: inline-flex;
+            cursor: pointer;
+            position: relative;
+        }
+        .checkbox > span {
+            padding: 0.3rem 0.5rem;
+            font-size: 12pt
+        }
+        .checkbox > input {
+            height: 25px;
+            width: 25px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -o-appearance: none;
+            appearance: none;
+            border: 1px solid;
+            border-radius: 4px;
+            outline: none;
+            transition-duration: 0.3s;
+            background-color: transparent;
+            cursor: pointer;
+            margin-left: 1px
+          }
+        .checkbox > input:checked {
+            border: 1px solid;
+        }
+        .checkbox > input:checked + span::before {
+            content: '\2713';
+            display: block;
+            text-align: center;
+            color: var(--color_text);
+            position: absolute;
+            left: 0.3rem;
+            top: 0.2rem;
+            font-size: 14pt
+
+        }
+        .checkbox > input:active {
+            border: 2px solid #34495E;
+        }
+        .description{
+            font-size:9pt;
+            margin-top: 0px
+        }
+        .element{
+          margin-bottom: 10px
+        }
+        #twittertimeline{
+          margin-top: 0px
+        }
+        /* ---------------------------- */  
+        /* ---------- Search Box ---------- */
+        input[type=search] {
+            border-radius: 4px;
+            font-size: 12pt;
+            width: 272px;
+            background-color: transparent;
+            color: var(--color_text);
+        }
+        /* ---------------------------- */
+        ul{
+            padding-left:15px;
+            list-style-type:circle; 
+            font-size: 11pt; 
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        #slido{width: 270px;}
+        #slido_links{width: 270px;}        
+        #scale{margin-top: 20px}
+        #user_tweets{
+          overflow-y: scroll;
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* Internet Explorer 10+ */          
+          height: 300px;
+        }
+        #user_tweets::-webkit-scrollbar { /* WebKit */
+        width: 0;
+        height: 0;
+        }
+</style>
+</head>

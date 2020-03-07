@@ -1,0 +1,81 @@
+<body>
+<div id="totalborder">
+<div class="onoffswitch">
+    <input type="checkbox" name="mode" class="onoffswitch-checkbox" id="myonoffswitch">
+    <label class="onoffswitch-label" for="myonoffswitch"></label>
+</div>
+<div class="borders" id="titleborder">
+<div id="title">twitter explorer</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel00"></div>
+<div class = "content" id="content00">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel01">VISUALIZATION OPTIONS</div>
+<div class = "content" id="content01">
+    <div id="mainselection" class="element">
+        <div class="description">Auto-color nodes by</div>
+            <select id = "nodecolor">
+                <option value = "none" style="font-weight: bold"></option>
+                <option value = "louvain_com">Louvain community</option>
+                <option value = "infomap_com">Infomap community</option>
+            </select>
+        <br> <br>
+        <div class="description">Node size (variable scale)</div>
+            <select id = "nodesize">
+                <option value = "none">None</option>
+                <option value = "in_degree">In-Degree (number of times the user got retweeted)</option>
+                <option value = "out_degree">Out-Degree (number of times the user retweeted someone)</option>
+                <option value = "followers">Number of followers</option>
+                <option value = "friends">Number of followed accounts</option>
+            </select>
+        </div>
+        <div class="description" id="scale">Size scale</div>
+        <div class="slidecontainer">
+          <input type="range" min="0.2" max="20" value="2" id="slido">
+        </div>        
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel02">NETWORK MEASURES</div>
+<div class = "content" id="content02">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel03">USER INFORMATION</div>
+<div class = "content" id="content03">
+    <div class="description"> Search user</div>
+    <input id="searchuser" type="search"/>
+        <br>
+        <a href="javascript:void(0);" onclick="zoomonuser()" class="button1">Zoom on node</a>
+        <a href="javascript:void(0);" onclick="flashcolor()" class="button1">Flash color</a><br>
+        <a href="javascript:void(0);" onclick="drawtweets()" class="button1">Show tweets</a>        
+        <a href="javascript:void(0);" onclick="drawtimeline()" class="button1">Show timeline</a> 
+    <br><br>
+    <div id="userinfostring"></div>
+    <div class="borders_small">
+        <div class= "subsubtitle" id="panel04">TWEETS IN DATASET</div>
+        <div class = "content" id="content04">
+            <div id="user_tweets">
+                <a id="usertweets" class="usertweets"></a>
+            </div>
+        </div>
+    </div>  
+    <div class="borders_small">
+        <div class= "subsubtitle" id="panel05">TWITTER TIMELINE</div>
+        <div class = "content" id="content05">
+            <div id="twittertimeline">
+                <a id="twitter_timeline" class="twitter-timeline"></a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+<div id="footer"><a href="https://twitterexplorer.org">twitter explorer version 0.1</a></div></div>
+</div>
+
+<div id="graph" style="width:100%;height: 100%;position: absolute;"></div>
