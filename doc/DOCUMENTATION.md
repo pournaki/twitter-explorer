@@ -43,19 +43,33 @@ python -V
 ```
 If your version is above 3.6, continue to the next step. Otherwise, please refer to the guides specific to your operating system to install Python ≥ 3.6. 
 
-Download the current release of the **twitter explorer**. Open a terminal again and change to the folder to which you downloaded the **twitter explorer**. Now run the following command to install the necessary libraries:
+Download the current release of the **twitter explorer** and extract it. Open a terminal again and change to the folder to which you downloaded the **twitter explorer** (typically `cd ~/Downloads/twitter-explorer-v010`). Now run the following command to install the necessary Python libraries:
 ```
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 ```
-
+You can now start the collector from the terminal:
+```
+streamlit run collector.py
+```
 ## Windows
 We recommend Windows users to install [Anaconda Python](https://www.anaconda.com/distribution/#download-section). Follow the installation instructions on the website to install it. 
 
-Then download the current release of the **twitter explorer**. Go to the folder where you downloaded it and right-click and `Open Powershell here`. Now type in the following command to install the necessary packages:
+Then download the current release of the **twitter explorer** to your `Downloads` folder and extract it. Open the newly installed Anaconda Powershell (search for `Anaconda` in your start menu) and type in:
 ```
-conda install streamlit tweepy pandas cufflinks plotly json-lines python-igraph louvain
+cd .\Downloads\twitter-explorer-v010
 ```
-Once `conda` has finished installing the packages you are ready to start the **twitter explorer**.
+Install the necessary Python libraries: 
+```
+pip install -r requirements.txt
+```
+Note that there could be an error when building the `louvain` package. If this is the case, you need to download the precompiled binary file for your operating system [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#louvain-igraph). If you installed Python 3.7, download `louvain‑0.6.1‑cp37‑cp37m‑win_amd64.whl` to the `twitter explorer` folder. Now install it (using Anaconda Powershell) with:
+```
+pip install ./louvain‑0.6.1‑cp37‑cp37m‑win_amd64.whl
+```
+You can now start the collector from the Anaconda Powershell:
+```
+streamlit run collector.py
+```
 
 # Data collection
 
