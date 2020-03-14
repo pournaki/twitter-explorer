@@ -108,18 +108,14 @@ if st.button("Plot tweet count over time"):
         tweetlist = []
 
         # get first and last date and adjust resolution of time
-        with open(filename, 'rb') as fh:
-            firstline = next(fh).decode()
-            fh.seek(-1000000, 2)
-            lastline = fh.readlines()[-1].decode()
-        try:
-            firstdate = json.loads(lastline)["created_at"]
-        except JSONDecodeError:
-            with open(filename, 'rb') as fh:
-                firstline = next(fh).decode()
-                fh.seek(-10000000, 2)
-                lastline = fh.readlines()[-1].decode()
+        with open(filename, "rb") as f:
+            firstline = f.readline()
+            f.seek(-2, os.SEEK_END)
+            while f.read(1) != b"\n":
+                f.seek(-2, os.SEEK_CUR)
+            lastline = f.readline()
 
+        firstdate = json.loads(lastline)["created_at"]
         lastdate = json.loads(firstline)["created_at"]
 
         if firstdate[:10] == lastdate[:10]:
@@ -233,10 +229,12 @@ if st.button("Generate Retweet Network"):
             json_to_jsonl(filename)
         filename += "l"
     with st.spinner("Loading tweets..."):
-        with open(filename, 'rb') as fh:
-            firstline = next(fh).decode()
-            fh.seek(-100000, 2)
-            lastline = fh.readlines()[-1].decode()
+        with open(filename, "rb") as f:
+            firstline = f.readline()
+            f.seek(-2, os.SEEK_END)
+            while f.read(1) != b"\n":
+                f.seek(-2, os.SEEK_CUR)
+            lastline = f.readline()
     firstdate = json.loads(lastline)["created_at"]
     lastdate = json.loads(firstline)["created_at"]
     firstdate_str = firstdate[:16]
@@ -373,10 +371,12 @@ if st.button("Generate Hashtag Network"):
         filename += "l"
     # load the tweets
     with st.spinner("Loading tweets..."):
-        with open(filename, 'rb') as fh:
-            firstline = next(fh).decode()
-            fh.seek(-100000, 2)
-            lastline = fh.readlines()[-1].decode()
+        with open(filename, "rb") as f:
+            firstline = f.readline()
+            f.seek(-2, os.SEEK_END)
+            while f.read(1) != b"\n":
+                f.seek(-2, os.SEEK_CUR)
+            lastline = f.readline()
         firstdate = json.loads(lastline)["created_at"]
         lastdate = json.loads(firstline)["created_at"]
         firstdate_str = firstdate[:16]
