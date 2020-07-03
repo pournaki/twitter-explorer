@@ -1,3 +1,4 @@
+
 [![twitter explorer][title-img]][title-url]<br/>
 
 Table of Contents
@@ -52,25 +53,44 @@ You can now start the collector from the terminal:
 streamlit run collector.py
 ```
 ## Windows
-We recommend Windows users to install [Anaconda Python](https://www.anaconda.com/distribution/#download-section). Follow the installation instructions on the website to install it. 
+1. Get the latest Python version
+https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe
 
-Then download the current release of the **twitter explorer** to your `Downloads` folder and extract it. Open the newly installed Anaconda Powershell (search for `Anaconda` in your start menu) and type in:
+2. Make sure to tick the option of adding Python to your PATH variable.
+
+3. Open a Powershell (Hit the Windows key and start typing "power")
+
+4. Type in the following command to install the necessary packages, followed by ENTER: 
+
+```
+pip3 install streamlit tweepy pandas cufflinks plotly json-lines python-igraph
+
+```
+
+5. Download the file `louvain‑0.6.1‑cp38‑cp38‑win_amd64.whl` from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#louvain-igraph) and save it to your Desktop.
+
+6. Go back to the Powershell window and type in:
+
+```
+cd Desktop
+```
+
+7. Install the louvain package with: 
+
+```
+pip3 install louvain‑0.6.1‑cp38‑cp38‑win_amd64.whl
+```
+
+8. You are good to go. You can now download the current release of the twitter explorer to your Downloads folder and extract it. Go back to the Powershell and type in 
+
 ```
 cd .\Downloads\twitter-explorer-v010
 ```
-Install the necessary Python libraries: 
-```
-pip install -r requirements.txt
-```
-Note that there could be an error when building the `louvain` package. If this is the case, you need to download the precompiled binary file for your operating system [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#louvain-igraph). If you installed Python 3.7, download `louvain‑0.6.1‑cp37‑cp37m‑win_amd64.whl` to the `twitter explorer` folder. Now install it (using Anaconda Powershell) with:
-```
-pip install ./louvain‑0.6.1‑cp37‑cp37m‑win_amd64.whl
-```
-You can now start the collector from the Anaconda Powershell:
+
+9. Start the collector with
 ```
 streamlit run collector.py
 ```
-
 # Data collection
 
 ## Authentication
