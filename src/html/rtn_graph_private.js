@@ -8,6 +8,7 @@ const elem = document.getElementById('graph');
 const Graph = ForceGraph()(elem)
 .graphData({nodes: data.nodes, links: data.links})
 .nodeId('name')
+//.nodeLabel(node => node.name)
 .nodeColor(node => "black")
 .nodeVal(node => node.in_degree * nodescaling)
 .linkDirectionalParticleColor(() => 'red')
@@ -26,6 +27,7 @@ for(var i in data.nodes)
     if (data.nodes[i].followers > 5000){
     users.push(data.nodes[i].name)};
 
+
 // DRAW TWEETS IN DATASET
 function drawtweets (){
     var bodyelement = document.querySelector('body')
@@ -39,9 +41,9 @@ function drawtweets (){
     return data.nodes.find(node => node.name === name);
     };
     var node = getNode(name)
+    highlight(node)
     var tweets = node.tweets
     for (tweet of tweets) {
-        console.log(tweet)
         twttr.widgets.createTweet(
           tweet,
           document.getElementById('usertweets'),
@@ -52,7 +54,8 @@ function drawtweets (){
           }
         );        
     }
-    $("#content04").slideDown(300);
+$("#content04").slideDown(300);
+$("#content05").slideUp(300)
 ;  
 }
 
@@ -80,19 +83,80 @@ dnt: true
 });
 {
 $("#content05").slideDown(300);
+$("#content04").slideUp(300)
 };                  
 }
 
 // USER INFO ON CLICK
-Graph.onNodeClick((node =>  {if (node.followers > 5000) { 
+Graph.onNodeClick((node =>  {
+    if (node.followers > 5000) {
 userinfostring = `<ul> 
 <li> Followers: ${node.followers}
 <li> Followed accounts: ${node.friends}
 <li> Times the user retweeted: ${node.out_degree}
 <li> Times the user got retweeted: ${node.in_degree}
 </ul>`
-document.getElementById('userinfostring').innerHTML = userinfostring
-$("#content03").slideDown(300)}}))
+document.getElementById('userinfostring').innerHTML = userinfostring;
+pastenodeinfo(node);
+$("#content03").slideDown(300)
+$("#content01").slideUp(300)
+
+highlight(node)
+
+}}))
+
+function highlight(node){
+var neighbors = []
+neighbors.push(node)
+
+for (link of data.links) {
+  if (link.source == node) {
+    neighbors.push(link.target)
+    link.colorthat = 1
+  }
+  else if (link.target == node){
+    neighbors.push(link.source)
+    link.colorthat = 1
+  }
+  else {link.colorthat=0}
+}
+for (node of data.nodes){
+  if(neighbors.includes(node)){
+    node.colorthat = 1
+  }
+  else node.colorthat = 0}
+colorbar = ['#d3d3d3', 'red']
+Graph.nodeColor(() => 'black') 
+Graph.nodeColor(node => colorbar[node.colorthat])
+// linkcolor depending on dark/lightmode
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {var colorbar2 = ['rgba(0,0,0,0.05)', 'rgba(255,0,0,0.5)']}
+if (bg === 'rgb(255, 255, 255)') {var colorbar2 = ['rgba(255,255,255,0.03)', 'rgba(255,0,0,0.5)']}
+Graph.linkColor(link => colorbar2[link.colorthat])
+}
+Graph.linkDirectionalParticles(link => {
+  if (link.colorthat == 1) {
+    return 1}
+    else {
+      return 0
+    }})
+
+Graph.onBackgroundClick(() => resetcolors())
+
+function resetcolors(){
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {
+  var linkcol = 'rgba(0,0,0,0.2)'}
+if (bg === 'rgb(255, 255, 255)') {
+  var linkcol = 'rgba(255,255,255,0.2)'}
+
+recolornodes()
+Graph.linkColor(() => linkcol)}
+
 
 var input = document.getElementById("searchuser");
 new Awesomplete(input, {
@@ -211,7 +275,7 @@ else { Graph.nodeVal(node => 1.0)}
 }
 
 // NODE INFO ON HOVER
-function pastenodeinfo(node){ if (node.followers > 5000) {
+function pastenodeinfo(node){
 userinfostring = `<ul> 
 <li> Followers: ${node.followers}
 <li> Followed accounts: ${node.friends}
@@ -222,8 +286,9 @@ document.getElementById('userinfostring').innerHTML = userinfostring
 document.getElementById("searchuser").value = node.name
 if ($('#usertweets').is(':visible')){drawtweets()}
 if ($('#twitter_timeline').is(':visible')){drawtimeline()} 
-}}
-Graph.onNodeHover(node => { node && pastenodeinfo(node)})
+}
+
+
 $(function() {
 var colval="none"; 
 $("#nodecolor").val(colval);
@@ -240,10 +305,7 @@ var netinfo = `<ul>
 <li> Collected on: ${data.graph.collected_on}</li>
 <li> First tweet: ${data.graph.first_tweet}</li>
 <li> Last tweet: ${data.graph.last_tweet}</li>
-</ul>
-<p style="font-size:10pt">
-        For reasons of data privacy, users that had less than 5000 followers at the time of collection are neither clickable nor searchable in this example.
-</p>`
+</ul>`
 var netmeasures = `
 <ul>
   <li>Nodes: ${data.graph.N_nodes}</li>
@@ -253,6 +315,7 @@ document.getElementById('panel00').innerHTML = data.graph.type
 document.getElementById('content00').innerHTML = netinfo
 document.getElementById('content02').innerHTML = netmeasures
 
+$("#content00").slideToggle(300)
 
 </script>
 

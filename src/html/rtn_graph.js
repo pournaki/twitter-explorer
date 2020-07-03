@@ -35,9 +35,9 @@ function drawtweets (){
     return data.nodes.find(node => node.name === name);
     };
     var node = getNode(name)
+    highlight(node)
     var tweets = node.tweets
     for (tweet of tweets) {
-        console.log(tweet)
         twttr.widgets.createTweet(
           tweet,
           document.getElementById('usertweets'),
@@ -48,7 +48,8 @@ function drawtweets (){
           }
         );        
     }
-    $("#content04").slideDown(300);
+$("#content04").slideDown(300);
+$("#content05").slideUp(300)
 ;  
 }
 
@@ -76,6 +77,7 @@ dnt: true
 });
 {
 $("#content05").slideDown(300);
+$("#content04").slideUp(300)
 };                  
 }
 
@@ -87,8 +89,65 @@ userinfostring = `<ul>
 <li> Times the user retweeted: ${node.out_degree}
 <li> Times the user got retweeted: ${node.in_degree}
 </ul>`
-document.getElementById('userinfostring').innerHTML = userinfostring
-$("#content03").slideDown(300)}))
+document.getElementById('userinfostring').innerHTML = userinfostring;
+pastenodeinfo(node);
+$("#content03").slideDown(300)
+$("#content01").slideUp(300)
+highlight(node)
+}))
+
+function highlight(node){
+var neighbors = []
+neighbors.push(node)
+
+for (link of data.links) {
+  if (link.source == node) {
+    neighbors.push(link.target)
+    link.colorthat = 1
+  }
+  else if (link.target == node){
+    neighbors.push(link.source)
+    link.colorthat = 1
+  }
+  else {link.colorthat=0}
+}
+for (node of data.nodes){
+  if(neighbors.includes(node)){
+    node.colorthat = 1
+  }
+  else node.colorthat = 0}
+colorbar = ['#d3d3d3', 'red']
+Graph.nodeColor(() => 'black') 
+Graph.nodeColor(node => colorbar[node.colorthat])
+// linkcolor depending on dark/lightmode
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {var colorbar2 = ['rgba(0,0,0,0.05)', 'rgba(255,0,0,0.5)']}
+if (bg === 'rgb(255, 255, 255)') {var colorbar2 = ['rgba(255,255,255,0.03)', 'rgba(255,0,0,0.5)']}
+Graph.linkColor(link => colorbar2[link.colorthat])
+}
+Graph.linkDirectionalParticles(link => {
+  if (link.colorthat == 1) {
+    return 1}
+    else {
+      return 0
+    }})
+
+Graph.onBackgroundClick(() => resetcolors())
+
+function resetcolors(){
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {
+  var linkcol = 'rgba(0,0,0,0.2)'}
+if (bg === 'rgb(255, 255, 255)') {
+  var linkcol = 'rgba(255,255,255,0.2)'}
+
+recolornodes()
+Graph.linkColor(() => linkcol)}
+
 
 var input = document.getElementById("searchuser");
 new Awesomplete(input, {
@@ -207,6 +266,7 @@ else { Graph.nodeVal(node => 1.0)}
 }
 
 // NODE INFO ON HOVER
+// NODE INFO ON HOVER
 function pastenodeinfo(node){
 userinfostring = `<ul> 
 <li> Followers: ${node.followers}
@@ -219,7 +279,6 @@ document.getElementById("searchuser").value = node.name
 if ($('#usertweets').is(':visible')){drawtweets()}
 if ($('#twitter_timeline').is(':visible')){drawtimeline()} 
 }
-Graph.onNodeHover(node => node && pastenodeinfo(node))
 
 $(function() {
 var colval="none"; 
@@ -247,6 +306,7 @@ document.getElementById('panel00').innerHTML = data.graph.type
 document.getElementById('content00').innerHTML = netinfo
 document.getElementById('content02').innerHTML = netmeasures
 
+$("#content00").slideToggle(300)
 
 </script>
 
