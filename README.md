@@ -18,7 +18,7 @@ The **twitter explorer** helps computational social scientists to:
 ## Quick start
 The **twitter explorer** requires Python ≥ 3.6. If you meet this requirement, open a terminal in your preferred folder to clone the repo and install the required libraries:
 ```
-$ git clone git@github.com:pournaki/testrepo-.git
+$ git clone https://github.com/pournaki/twitter-explorer.git
 $ pip3 install -r requirements.txt
 ```
 You can now run the collector and the visualizer:
