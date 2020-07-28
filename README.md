@@ -77,7 +77,7 @@ The **twitter explorer** is licensed under the [GNU GPLV3](https://www.gnu.org/l
 <!-- logos and links -->
 [title-img]: ./doc/img/titlelogo.png
 [title-url]: https://twitterexplorer.org
-[version-img]:https://img.shields.io/badge/version-0.1-000?style=for-the-badge&?color=ffffff&?logoWidth=100
+[version-img]:https://img.shields.io/badge/version-0.2-000?style=for-the-badge&?color=ffffff&?logoWidth=100
 [version-url]:https://twitterexplorer.org
 [python-img]:https://img.shields.io/badge/python-%E2%89%A53.6-000?style=for-the-badge&?color=ffffff
 [python-url]:https://www.python.org/downloads/release/python-360/
