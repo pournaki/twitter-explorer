@@ -62,7 +62,7 @@
           --backg_buttons: rgba(255,255,255,0.25)
             }
       body {margin: 0; 
-            font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+            font-family: "Inter",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
             font-size: 12pt;
             background-color: var(--backg);
             color: var(--color_text)}

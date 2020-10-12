@@ -303,8 +303,8 @@ $("#nodesize").val(sizeval);
 var netinfo = `<ul> 
 <li> Keyword: ${data.graph.keyword}</li>
 <li> Collected on: ${data.graph.collected_on}</li>
-<li> First tweet: ${data.graph.first_tweet}</li>
-<li> Last tweet: ${data.graph.last_tweet}</li>
+<li> First retweet: ${data.graph.first_tweet}</li>
+<li> Last retweet: ${data.graph.last_tweet}</li>
 </ul>`
 var netmeasures = `
 <ul>

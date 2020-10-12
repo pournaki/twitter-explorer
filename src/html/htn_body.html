@@ -5,7 +5,7 @@
     <label class="onoffswitch-label" for="myonoffswitch"></label>
 </div>
 <div class="borders" id="titleborder">
-<div id="title">twitter explorer</div>
+<div id="title">twitter explorer <span style="font-size:8pt;">BETA</span></div>
 </div>
 <div class="borders">
 <div class= "subtitle" id="panel00"></div>
@@ -21,16 +21,16 @@
                 <option value = "none" style="font-weight: bold"></option>
                 <option value = "louvain_com">Louvain community</option>
             </select>
-        <br> <br>
-        <div class="description">Node size (variable scale)</div>
+        <br>
+<!--         <div class="description">Node size (variable scale)</div>
             <select id = "nodesize">
                 <option value = "none">None</option>
                 <option value = "degree">Degree</option>
             </select>
-        </div>
+ -->        </div>
         <div class="description" id="scale">Size scale</div>
         <div class="slidecontainer">
-          <input type="range" min="1" max="10" value="0" id="slido">
+          <input type="range" min="1" max="10" value="3" id="slido">
         </div>        
 </div>
 </div>
@@ -46,13 +46,12 @@
         <input id="searchuser" type="search"/>
         <br>
         <a href="javascript:void(0);" onclick="zoomonuser()" class="button1">Zoom on node</a>
-        <a href="javascript:void(0);" onclick="flashcolor()" class="button1">Flash color</a><br>
         <a href="javascript:void(0);" onclick="openhashtag()" class="button1">Open timeline</a> 
 <br><br>
     <div id="userinfostring"></div>        
 </div>
 </div>
 
-<div id="footer"><a href="https://twitterexplorer.org">twitter explorer v0.2.0</a></div></div>
+<div id="footer"><a href="https://twitterexplorer.org">twitter explorer v0.3.0</a></div></div>
 
 <div id="graph" style="width:100%;height: 100%;position: absolute;"></div>
