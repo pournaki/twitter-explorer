@@ -22,7 +22,9 @@ import os
 import pandas as pd
 from src.transformations import *
 from src.networks import *
+from src.utils import iso_to_string
 from datetime import datetime
+import datetime as dt
 
 import cufflinks as cf
 import plotly.offline
@@ -181,11 +183,37 @@ st.write("---")
 st.header("Interactive networks")
 
 st.write("Create interaction networks (retweet networks) and semantic networks \
-    (hashtag networks).")
+    (hashtag networks). Only retweets from this time range will be used to create\
+     the networks.")
+
+
+# guess the default daterange from the filename
+try:
+    today = dt.date.fromisoformat(filename[7:17])
+    lastweek = today + dt.timedelta(days=-7)
+except Error:
+    today = dt.date.today()
+    lastweek = today + dt.timedelta(days=-7)
+    
+daterange = st.date_input(label="Timerange for creating networks:",
+                          value=[lastweek,
+                                 today])
+
+# st.write(f"You will create networks with tweets from {daterange[0]} to {daterange[1]}")
+
+# col1, col2 = st.beta_columns(2)
+# with col1:
+#     starttime_str = st.text_input(label="Start date in ISO format",
+#                                   value="2020-01-01")
+# with col2:
+#     endtime_str = st.text_input(label="End date in ISO format",
+#                                 value="2021-01-01")
+
+st.write("---")
 
 st.subheader("Retweet Network")
 st.write()
-st.write("A directed network in which nodes are users. A link is drawn from \
+st.write("Directed network in which nodes are users. A link is drawn from \
     `i` to `j` if `i` retweets `j`.")
 st.write('<span style="text-decoration: underline;">Options</span>', 
          unsafe_allow_html=True)
@@ -233,28 +261,40 @@ if st.button("Generate Retweet Network"):
                         dataset to jsonl and saving..."):
             json_to_jsonl(filename)
         filename += "l"
-    with st.spinner("Loading tweets..."):
-        with open(filename, "rb") as f:
-            firstline = f.readline()
-            f.seek(-2, os.SEEK_END)
-            while f.read(1) != b"\n":
-                f.seek(-2, os.SEEK_CUR)
-            lastline = f.readline()
-    firstdate = json.loads(lastline)["created_at"]
-    lastdate = json.loads(firstline)["created_at"]
-    firstdate_str = firstdate[:16]
-    lastdate_str = lastdate[:16]
+    # with st.spinner("Loading tweets..."):
+    #     with open(filename, "rb") as f:
+    #         firstline = f.readline()
+    #         f.seek(-2, os.SEEK_END)
+    #         while f.read(1) != b"\n":
+    #             f.seek(-2, os.SEEK_CUR)
+    #         lastline = f.readline()
+    # firstdate = json.loads(lastline)["created_at"]
+    # lastdate = json.loads(firstline)["created_at"]
+    # firstdate_str = firstdate[:16]
+    # lastdate_str = lastdate[:16]
     # create the retweetnetwork
     # return error when trying to choose both aggregations
+    
     if rtn_aggregation_soft is True and rtn_aggregation_hard is True:
         st.error("Please choose only one of the aggregations")
+
     with st.spinner("Creating retweet network..."):
         G = retweetnetwork(filename=filename,
                            giant_component=rtn_giantcomponent,
                            aggregation=aggregationmethod,
-                           t=threshold)
+                           t=threshold,
+                           starttime=daterange[0],
+                           endtime=daterange[1])
         if privacy:
             G = makeprivate(G)
+
+
+    # get the first and last tweet    
+    edgeslist = list(G.es)
+    st.write(len(edgeslist))
+    firstdate_str = iso_to_string(edgeslist[-1]["time"])
+    lastdate_str = iso_to_string(edgeslist[0]["time"])
+
     if rtn_comdeclist == ['louvain']:
         with st.spinner("Computing communities..."):
             G, cgl = community_detection(G, methods=rtn_comdeclist)
@@ -358,7 +398,7 @@ if st.button("Generate Retweet Network"):
 st.write("---")
 
 st.subheader("Hashtag Network")
-st.write("An undirected network in which nodes are hashtags. \
+st.write("Undirected network in which nodes are hashtags. \
     A link is drawn between `i` and `j` if they appear in the same tweet.")
 st.write('<span style="text-decoration: underline;">Options</span>', 
          unsafe_allow_html=True)
@@ -388,7 +428,9 @@ if st.button("Generate Hashtag Network"):
         lastdate_str = lastdate[:16]
     with st.spinner("Creating hashtag network..."):
         H = hashtagnetwork(filename=filename,
-                           giant_component=htn_giantcomponent)
+                           giant_component=htn_giantcomponent,
+                           starttime=daterange[0],
+                           endtime=daterange[1])
     if htn_louvain:
         with st.spinner("Computing communities..."):
             H, Hcg = community_detection(G=H, methods=['louvain'])
@@ -405,6 +447,11 @@ if st.button("Generate Hashtag Network"):
             with open(f"{projectdir}/{project}_HTN_CG_louvain.html",
                       "w", encoding='utf-8') as f:
                 f.write(x)
+
+    # get the first and last tweet    
+    edgeslist = list(H.es)
+    firstdate_str = iso_to_string(edgeslist[-1]["time"])
+    lastdate_str = iso_to_string(edgeslist[0]["time"])
 
     HTN = d3_htn(H)
     HTN['graph'] = {}

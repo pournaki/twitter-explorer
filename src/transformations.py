@@ -50,8 +50,10 @@ def json_to_jsonl(filename):
 def retweetnetwork(filename, 
                    giant_component=False, 
                    privacy=False,
-                   aggregation=None, 
-                   t=0):
+                   aggregation=None,
+                   t=0,
+                   starttime=None,
+                   endtime=None):
     """Generate Retweet Network from Twitter data collection.
 
     Parameters:
@@ -71,49 +73,54 @@ def retweetnetwork(filename,
         d3graph = {"nodes": [], "links": []}
         
         #print("Reading file...")
-        
-        for tweet in json_lines.reader(f):
+
+        for tweet in (json_lines.reader(f)):
             if 'retweeted_status' in tweet:
                 
-                # retweeting node [source of retweet action]                
-                name = tweet["user"]["screen_name"]
-                try:
-                    nodesdict[f"{name}"]["followers"] = tweet["user"]["followers_count"]
-                    nodesdict[f"{name}"]["friends"] = tweet["user"]["friends_count"]
-                except KeyError:
-                    nodesdict[f"{name}"] = {}
-                    nodesdict[f"{name}"]["followers"] = tweet["user"]["followers_count"]
-                    nodesdict[f"{name}"]["friends"] = tweet["user"]["friends_count"]
-                try:
-                    nodesdict[f"{name}"]["tweets"].append(tweet["id_str"])
-                except KeyError:
-                    nodesdict[f"{name}"]["tweets"] = []
-                    nodesdict[f"{name}"]["tweets"].append(tweet["id_str"])
+                time = tweet["created_at"]
+                time = datetime.strptime(time,'%a %b %d %X %z %Y')
+                time_date = time.date()
+
+                if starttime <= time_date <= endtime:
+
+                    # retweeting node [source of retweet action]                
+                    name = tweet["user"]["screen_name"]
+                    try:
+                        nodesdict[f"{name}"]["followers"] = tweet["user"]["followers_count"]
+                        nodesdict[f"{name}"]["friends"] = tweet["user"]["friends_count"]
+                    except KeyError:
+                        nodesdict[f"{name}"] = {}
+                        nodesdict[f"{name}"]["followers"] = tweet["user"]["followers_count"]
+                        nodesdict[f"{name}"]["friends"] = tweet["user"]["friends_count"]
+                    try:
+                        nodesdict[f"{name}"]["tweets"].append(tweet["id_str"])
+                    except KeyError:
+                        nodesdict[f"{name}"]["tweets"] = []
+                        nodesdict[f"{name}"]["tweets"].append(tweet["id_str"])
+                    
+                    # retweeted node [target of retweet action]
+                    name = tweet['retweeted_status']["user"]["screen_name"]
+                    try:
+                        nodesdict[f"{name}"]["followers"] = tweet['retweeted_status']["user"]["followers_count"]
+                        nodesdict[f"{name}"]["friends"] = tweet['retweeted_status']["user"]["friends_count"]
+                    except KeyError:
+                        nodesdict[f"{name}"] = {}
+                        nodesdict[f"{name}"]["followers"] = tweet['retweeted_status']["user"]["followers_count"]
+                        nodesdict[f"{name}"]["friends"] = tweet['retweeted_status']["user"]["followers_count"]
+                    try:
+                        nodesdict[f"{name}"]["tweets"].append(tweet['retweeted_status']["id_str"])
+                    except KeyError:
+                        nodesdict[f"{name}"]["tweets"] = []
+                        nodesdict[f"{name}"]["tweets"].append(tweet['retweeted_status']["id_str"])
+                                    
+                    # links
+                    source   = tweet["user"]["screen_name"]                
+                    target   = tweet['retweeted_status']['user']['screen_name']
+                    tweetid  = tweet["id_str"]
+                    time_str = time.isoformat(timespec='seconds')
+                    edgelist.append((source, target, tweetid, time_str))
                 
-                # retweeted node [target of retweet action]
-                name = tweet['retweeted_status']["user"]["screen_name"]
-                try:
-                    nodesdict[f"{name}"]["followers"] = tweet['retweeted_status']["user"]["followers_count"]
-                    nodesdict[f"{name}"]["friends"] = tweet['retweeted_status']["user"]["friends_count"]
-                except KeyError:
-                    nodesdict[f"{name}"] = {}
-                    nodesdict[f"{name}"]["followers"] = tweet['retweeted_status']["user"]["followers_count"]
-                    nodesdict[f"{name}"]["friends"] = tweet['retweeted_status']["user"]["followers_count"]
-                try:
-                    nodesdict[f"{name}"]["tweets"].append(tweet['retweeted_status']["id_str"])
-                except KeyError:
-                    nodesdict[f"{name}"]["tweets"] = []
-                    nodesdict[f"{name}"]["tweets"].append(tweet['retweeted_status']["id_str"])
-                                
-                # links
-                source   = tweet["user"]["screen_name"]                
-                target   = tweet['retweeted_status']['user']['screen_name']
-                tweetid  = tweet["id_str"]
-                time     = tweet["created_at"]
-                time     = datetime.strptime(time,'%a %b %d %X %z %Y').isoformat(timespec='seconds')
-                edgelist.append((source, target, tweetid, time))
-    
-    
+            
     #print("Importing to igraph...")
     # import to igraph
     G = ig.Graph.DictList(edges=(dict(source=source, target=target, tweet=tweetid,time=time, weight=1) for source, target, tweet, time in edgelist), 
@@ -298,7 +305,10 @@ def convert_graph(G, savename):
     warnings.filterwarnings("default", category=RuntimeWarning)
 # --- HASHTAG NETWORKS ---
 
-def hashtagnetwork(filename, giant_component=False):
+def hashtagnetwork(filename, 
+                   giant_component=False,
+                   starttime=None,
+                   endtime=None):
     """Generate Hashtag Network from Twitter data collection.
 
     Parameters:
@@ -312,18 +322,26 @@ def hashtagnetwork(filename, giant_component=False):
     edgelist = []
     with open(filename, 'rb') as f:
         for tweet in json_lines.reader(f):
-            if len(tweet["entities"]["hashtags"]) > 1:
-                cohashtags = []
-                for element in tweet["entities"]["hashtags"]:
-                    hashtag = element["text"]
-                    cohashtags.append(hashtag)
-                combs = list(combinations(cohashtags,2))
-                for element in combs:
-                    source = element[0]
-                    target = element[1]
-                    edgelist.append((source, target))
 
-    H = ig.Graph.DictList(edges=(dict(source=source, target=target, weight=1) for source, target in edgelist), 
+            time = tweet["created_at"]
+            time = datetime.strptime(time,'%a %b %d %X %z %Y')
+            time_date = time.date()
+
+            if starttime <= time_date <= endtime:
+
+                if len(tweet["entities"]["hashtags"]) > 1:
+                    cohashtags = []
+                    for element in tweet["entities"]["hashtags"]:
+                        hashtag = element["text"]
+                        cohashtags.append(hashtag)
+                    combs = list(combinations(cohashtags,2))
+                    for element in combs:
+                        source = element[0]
+                        target = element[1]
+                        time_str = time.isoformat(timespec='seconds')
+                        edgelist.append((source, target, time_str))
+
+    H = ig.Graph.DictList(edges=(dict(source=source, target=target, time=time, weight=1) for source, target, time in edgelist), 
                           vertices=None, 
                           directed=False)
 
