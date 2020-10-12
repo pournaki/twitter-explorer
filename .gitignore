@@ -5,6 +5,9 @@
 # API keys
 twitter_apikeys.txt
 
+# dev
+dev.ipynb
+
 ### Emacs ###
 # -*- mode: gitignore; -*-
 *~
