@@ -230,9 +230,9 @@ rtn_aggregation_soft = st.checkbox(
 rtn_aggregation_hard = st.checkbox(
     "Hard aggregate (remove nodes with in-degree ≤ threshold)",
     key='rtn_aggregation_hard')
-threshold = 1
+threshold = 0
 if rtn_aggregation_hard:
-    thresh_rtn = st.slider("threshold", 0.0, 10.0, 1.0, 1.0, key='thresh_rtn')
+    thresh_rtn = st.slider("threshold", 0.0, 20.0, 1.0, 1.0, key='thresh_rtn')
     threshold += thresh_rtn
 if rtn_aggregation_soft:
     aggregationmethod = 'soft'
@@ -403,6 +403,12 @@ st.write("Undirected network in which nodes are hashtags. \
 st.write('<span style="text-decoration: underline;">Options</span>', 
          unsafe_allow_html=True)
 htn_giantcomponent = st.checkbox("Giant component", key='htn_giantcomponent')
+htn_removenodes = st.checkbox("Remove hashtags that appear less than t times", key='htn_removenodes')
+threshold_htn = 0
+if htn_removenodes:
+    thresh_htn = st.slider("threshold t", 0.0, 100.0, 1.0, 1.0, key='thresh_htn')
+    threshold_htn += thresh_htn
+
 st.write('<span style="text-decoration: underline;">Community detection</span>', 
          unsafe_allow_html=True)
 htn_louvain = st.checkbox("Louvain", key='htn_louvain')
@@ -429,6 +435,8 @@ if st.button("Generate Hashtag Network"):
     with st.spinner("Creating hashtag network..."):
         H = hashtagnetwork(filename=filename,
                            giant_component=htn_giantcomponent,
+                           remove_nodes=htn_removenodes,
+                           threshold_remove=threshold_htn,
                            starttime=daterange[0],
                            endtime=daterange[1])
     if htn_louvain:

@@ -307,6 +307,8 @@ def convert_graph(G, savename):
 
 def hashtagnetwork(filename, 
                    giant_component=False,
+                   remove_nodes=False,
+                   threshold_remove=0,
                    starttime=None,
                    endtime=None):
     """Generate Hashtag Network from Twitter data collection.
@@ -347,7 +349,17 @@ def hashtagnetwork(filename,
 
     if giant_component == True:
         H = H.components().giant()
-        
+    
+    if remove_nodes == True:
+        t = threshold_remove
+        todel = []
+        for v in H.vs:
+            if H.degree(v) <= t:
+                todel.append(v.index)
+        H.delete_vertices(todel)        
+        if giant_component == True:
+            H = H.components().giant()
+
     H.es['weight'] = 1
     #H = H.simplify(combine_edges=dict(weight="sum"))
     
