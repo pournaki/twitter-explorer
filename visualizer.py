@@ -31,17 +31,21 @@ cf.set_config_file(offline=False, world_readable=True)
 
 # ------- UI --------- #
 # Some CSS changes
+st.markdown('<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;\
+            700&display=swap" rel="stylesheet"> ',
+            unsafe_allow_html=True)
 st.markdown(
     '<style>.reportview-container .markdown-text-container{font-family:\
-    -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica\
+    "Inter", -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica\
      Neue",Arial,sans-serif}\
-     #titlelink {color: white}\
+     #titlelink {color: white;\
+     text-decoration: none}\
      #titlelink:hover {color: #cccccc;\
      text-decoration: none}</style>', unsafe_allow_html=True)
-st.markdown('<style>.ae{font-family:-apple-system,system-ui,BlinkMacSystemFont,\
+st.markdown('<style>.ae{font-family:"Inter",-apple-system,system-ui,BlinkMacSystemFont,\
             "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}</style>',
             unsafe_allow_html=True)
-st.markdown('<style>body{font-family:-apple-system,system-ui,BlinkMacSystemFont,\
+st.markdown('<style>body{font-family:"Inter",-apple-system,system-ui,BlinkMacSystemFont,\
             "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}</style>',
             unsafe_allow_html=True)
 st.markdown('<style>code{color:black}</style>', unsafe_allow_html=True)
@@ -51,7 +55,8 @@ st.markdown('<head><title>twitter explorer</title></head>',
             unsafe_allow_html=True)
 st.markdown('<p style="font-size: 30pt; font-weight: bold; color: white; \
     background-color: #000">&nbsp;\
-    <a id="titlelink" href="https://twitterexplorer.org">twitter explorer</a>\
+    <a id="titlelink" href="https://twitterexplorer.org">twitter explorer\
+    <span style="font-size:10pt;">BETA</span></a>\
     </p>', unsafe_allow_html=True)
 st.title("Visualizer")
 
