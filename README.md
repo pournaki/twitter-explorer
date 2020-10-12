@@ -3,7 +3,7 @@
 [![python-version][python-img]][python-url]
 [![license][license-img]][license-url]
 
-An interface to explore Twitter data through interactive network visualizations, created by [Armin Pournaki](https://pournaki.com) in the context of the [Odycceus](https://odycceus.eu) project.
+An interface to explore Twitter data through interactive network visualizations.
 
 ## Features
 
@@ -54,7 +54,7 @@ Pournaki, A., Gaisbauer, F., Banisch, S., Olbrich, E., The twitter explorer: a f
   A CLI for Twitter search/streaming API
 
 ## About 
-The idea for the twitter explorer originated from fruitful discussions in the context of the Odycceus project between [Armin Pournaki](https://pournaki.com), Felix Gaisbauer, [Sven Banisch](http://universecity.de) and [Eckehard Olbrich](https://www.mis.mpg.de/jjost/members/eckehard-olbrich.html). The tool is designed and developed by Armin Pournaki. 
+The idea for the twitter explorer originated from fruitful discussions in the context of the [Odycceus](https://odycceus.eu) project between [Armin Pournaki](https://pournaki.com), [Felix Gaisbauer](https://www.researchgate.net/profile/Felix_Gaisbauer2), [Sven Banisch](http://universecity.de) and [Eckehard Olbrich](https://www.mis.mpg.de/jjost/members/eckehard-olbrich.html). The tool is designed and developed by Armin Pournaki. 
 
 ## Acknowledgements
 
@@ -77,7 +77,7 @@ The **twitter explorer** is licensed under the [GNU GPLV3](https://www.gnu.org/l
 <!-- logos and links -->
 [title-img]: ./doc/img/titlelogo.png
 [title-url]: https://twitterexplorer.org
-[version-img]:https://img.shields.io/badge/version-0.2-000?style=for-the-badge&?color=ffffff&?logoWidth=100
+[version-img]:https://img.shields.io/badge/version-0.3-000?style=for-the-badge&?color=ffffff&?logoWidth=100
 [version-url]:https://twitterexplorer.org
 [python-img]:https://img.shields.io/badge/python-%E2%89%A53.6-000?style=for-the-badge&?color=ffffff
 [python-url]:https://www.python.org/downloads/release/python-360/
