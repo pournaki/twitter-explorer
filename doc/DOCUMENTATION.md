@@ -44,7 +44,7 @@ python -V
 ```
 If your version is above 3.6, continue to the next step. Otherwise, please refer to the guides specific to your operating system to install Python ≥ 3.6. 
 
-Download the current release of the **twitter explorer** and extract it. Open a terminal again and change to the folder to which you downloaded the **twitter explorer** (typically `cd ~/Downloads/twitter-explorer-v010`). Now run the following command to install the necessary Python libraries:
+Download the current release of the **twitter explorer** and extract it. Open a terminal again and change to the folder to which you downloaded the **twitter explorer** (typically `cd ~/Downloads/twitter-explorer-vXXX`, where `XXX` is the current version number). Now run the following command to install the necessary Python libraries:
 ```
 pip install -r requirements.txt
 ```
