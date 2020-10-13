@@ -10,7 +10,7 @@ var nodescaling = 3;
       .nodeCanvasObject((node, ctx, globalScale) => {
           const label = node.name;
           const fontSize = Math.log(node.degree) * nodescaling
-          ctx.font = `${fontSize}px Sans-Serif`;
+          ctx.font = `${fontSize}px Inter`;
           const textWidth = ctx.measureText(label).width;
           const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.1); // some padding
 
@@ -64,7 +64,7 @@ var nodescaling = 3;
             Graph.nodeCanvasObject((node, ctx, globalScale) => {
                   const label = node.name;
                   const fontSize = Math.log(node.degree) * newscale
-                  ctx.font = `${fontSize}px Sans-Serif`;
+                  ctx.font = `${fontSize}px Inter`;
                   const textWidth = ctx.measureText(label).width;
                   const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.1); // some padding
 
@@ -96,7 +96,7 @@ var nodescaling = 3;
                 Graph.nodeCanvasObject((node, ctx, globalScale) => {
                   const label = node.name;
                   const fontSize = Math.log(node.degree) * newscale
-                  ctx.font = `${fontSize}px Sans-Serif`;
+                  ctx.font = `${fontSize}px Inter`;
                   const textWidth = ctx.measureText(label).width;
                   const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.1); // some padding
 
@@ -168,7 +168,7 @@ var newscale = nodescaleslider.value
 Graph.nodeCanvasObject((node, ctx, globalScale) => {
       const label = node.name;
       const fontSize = Math.log(node.degree) * newscale
-      ctx.font = `${fontSize}px Sans-Serif`;
+      ctx.font = `${fontSize}px Inter`;
       const textWidth = ctx.measureText(label).width;
       const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.1); // some padding
 
@@ -213,7 +213,7 @@ function rescalenodes(){
   Graph.nodeCanvasObject((node, ctx, globalScale) => {
     const label = node.name;
     const fontSize = Math.log(node.degree) * newscale
-    ctx.font = `${fontSize}px Sans-Serif`;
+    ctx.font = `${fontSize}px Inter`;
     const textWidth = ctx.measureText(label).width;
     const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.1); // some padding
 
