@@ -42,6 +42,13 @@ The **twitter explorer** facilitates the collection of data through the Twitter 
 - Incorporate dynamics of the retweet networks
 - Add different graph measures
 
+## Common errors
+**Error:** `StreamlitAPIException` due to an outdated version of Streamlit  
+**Fix:** `pip3 install streamlit --upgrade`
+
+**Error:** `AttributeError: module 'google.protobuf.descriptor' has no attribute '_internal_create_key'`  
+**Fix:** `pip3 install protobuf --upgrade`
+
 ## How to cite
 Please cite our paper if you use the **twitter explorer** in your research:  
 Pournaki, A., Gaisbauer, F., Banisch, S., Olbrich, E., The twitter explorer: a framework for observing Twitter through interactive networks.
