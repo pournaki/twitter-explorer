@@ -44,7 +44,7 @@ def plot(grouped_tweetdf):
         fold=['retweets', 'original tweets'], 
         as_=['variable', 'value']
     ).encode(
-        alt.X('datetime:T', title="date"),
+        alt.X('datetime:T', timeUnit='yearmonthdatehours', title="date"),
         alt.Y('value:Q', stack=None, title="tweet count"),
         color=alt.Color("variable:N",
                         legend=alt.Legend(title="tweet type"),
@@ -54,7 +54,7 @@ def plot(grouped_tweetdf):
 
     # plot total in background    
     C2 = alt.Chart(grouped_tweetdf).mark_area(opacity=0.15).encode(
-        alt.X(f'datetime:T', title='date'),
+        alt.X(f'datetime:T', timeUnit='yearmonthdatehours', title='date'),
         alt.Y('total:Q'),
         color=alt.value("black"))
 
