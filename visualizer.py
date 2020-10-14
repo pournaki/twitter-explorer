@@ -17,19 +17,18 @@ __license__ = "GPLv3"
 __version__ = "0.1"
 __email__ = "pournaki@mis.mpg.de"
 
+import json_lines
 import streamlit as st
 import os
+import numpy as np
+import altair as alt
 import pandas as pd
 from src.transformations import *
 from src.networks import *
-from src.utils import iso_to_string
+from src.utils import *
 from datetime import datetime
 import datetime as dt
 
-import cufflinks as cf
-import plotly.offline
-cf.go_offline()
-cf.set_config_file(offline=False, world_readable=True)
 
 # ------- UI --------- #
 # Some CSS changes
@@ -99,6 +98,7 @@ projectdir = outputdir + project
 st.write("---")
 
 st.header("Timeline of tweets")
+
 #st.write("Plot the amount of tweets over time.")
 if st.button("Plot tweet count over time"):
 
@@ -108,73 +108,28 @@ if st.button("Plot tweet count over time"):
                         dataset to jsonl and saving..."):
             json_to_jsonl(filename)
         filename += "l"
-
+    
     with st.spinner("Reading file..."):
-        alltweets = 0
-        retweets = 0
-        tweetlist = []
+        tweetdf = tweetjson_to_df(filename)
+        grouped_df = groupby_dates(tweetdf)
+        plots = plot(grouped_df)
+        st.altair_chart(plots, use_container_width=True)
+        
+        ot_count = int(sum(grouped_df["original tweets"]))
+        rt_count = int(sum(grouped_df["retweets"]))
+        tt_count = ot_count+rt_count
+        firstdate_str = str(list(tweetdf.iloc[[-1]]["time"])[0])[:16]
+        lastdate_str = str(list(tweetdf.iloc[[0]]["time"])[0])[:16]
 
-        # get first and last date and adjust resolution of time
-        with open(filename, "rb") as f:
-            firstline = f.readline()
-            f.seek(-2, os.SEEK_END)
-            while f.read(1) != b"\n":
-                f.seek(-2, os.SEEK_CUR)
-            lastline = f.readline()
+        st.write(f"The dataset contains {tt_count} tweets, from which {ot_count} are\
+                   original tweets and {rt_count} are retweets.")
+        st.write(f"The first tweet is from {firstdate_str}, the last tweet is from \
+        {lastdate_str} (UTC).")
 
-        firstdate = json.loads(lastline)["created_at"]
-        lastdate = json.loads(firstline)["created_at"]
+        if not os.path.exists(projectdir):
+            os.makedirs(projectdir)
 
-        if firstdate[:10] == lastdate[:10]:
-            timeres = 'minutes'
-        elif firstdate[:13] == lastdate[:13]:
-            timeres = 'seconds'
-        else:
-            timeres = 'hours'
-
-        with open(filename, 'rb') as f:
-            for tweet in json_lines.reader(f):
-                alltweets += 1
-                tweetdict = {}
-                tweetdict["id"] = tweet["id"]
-                time = tweet["created_at"]
-                tweetdict["time"] = datetime.strptime(
-                    time, '%a %b %d %X %z %Y').isoformat(sep='|',
-                                                         timespec=timeres)
-                tweetdict["text"] = tweet["full_text"]
-                if 'retweeted_status' in tweet:
-                    retweets += 1
-                    tweetdict["is_retweet"] = True
-                else:
-                    tweetdict["is_retweet"] = False
-                tweetlist.append(tweetdict)
-    st.write(f"The dataset contains {alltweets} tweets, from which {retweets} \
-        are retweets.")
-    st.write(f"The first tweet is from {firstdate[:16]}, the last tweet from \
-        {lastdate[:16]}.")
-    tweetdf = pd.DataFrame(tweetlist)
-
-    def plot_timeline(df):
-        figure = df.groupby('time')["id"].nunique().iplot(
-            kind='line', asFigure=True)
-        figure['layout']['title'].update({'text': 'Timeline of tweets'})
-        figure['layout']['xaxis'].update({'title': f'time (resolution: {timeres})'})
-        figure['layout']['yaxis'].update({'title': '# of tweets'})
-        # for line plots:
-        figure['data'][0]['line'].update({'color': 'rgb(0,0,0)'})
-        # for bar plots:
-        # figure['data'][0]['marker'].update({'color': 'rgb(0,0,0)'})
-        # figure['data'][0]['marker']["line"].update({'color': 'rgb(0,0,0)'})
-        return figure
-
-    if not os.path.exists(projectdir):
-        os.makedirs(projectdir)
-
-    tl = plot_timeline(tweetdf)
-    plotly.offline.plot(tl, filename=f"{projectdir}/{project}_timeline.html",
-                        auto_open=False)
-    st.plotly_chart(tl)
-
+        plots.save(f"{projectdir}/{project}_timeline.html")
 
 st.write("---")
 
