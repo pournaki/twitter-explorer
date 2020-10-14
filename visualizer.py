@@ -145,10 +145,10 @@ st.write("Create interaction networks (retweet networks) and semantic networks \
 # guess the default daterange from the filename
 try:
     today = dt.date.fromisoformat(filename[7:17])
-    lastweek = today + dt.timedelta(days=-7)
+    lastweek = today + dt.timedelta(days=-8)
 except Error:
     today = dt.date.today()
-    lastweek = today + dt.timedelta(days=-7)
+    lastweek = today + dt.timedelta(days=-8)
     
 daterange = st.date_input(label="Timerange for creating networks:",
                           value=[lastweek,
