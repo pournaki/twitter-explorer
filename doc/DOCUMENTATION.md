@@ -38,59 +38,62 @@ The *collector* (left), after having set up the credentials, allows for connecti
 # Installation
 
 ## Unix / macOS
-The **twitter explorer** requires Python ≥ 3.6 to run. You most likely already have Python installed. To check which Python version you have, open a terminal window and type:
-```
-python -V
-```
-If your version is above 3.6, continue to the next step. Otherwise, please refer to the guides specific to your operating system to install Python ≥ 3.6. 
+The twitter explorer requires Python ≥ 3.6 to run. You most likely already have Python installed. To check which Python version you have, open a terminal window and type:
 
-Download the current release of the **twitter explorer** and extract it. Open a terminal again and change to the folder to which you downloaded the **twitter explorer** (typically `cd ~/Downloads/twitter-explorer-vXXX`, where `XXX` is the current version number). Now run the following command to install the necessary Python libraries:
+```sh
+python -V
+OR
+python3 -V
 ```
+
+If your version is above 3.6, continue to the next step. Otherwise, please refer to the guides specific to your operating system to install Python ≥ 3.6.
+
+Download the [current release](https://github.com/pournaki/twitter-explorer/releases) of the twitter explorer and extract it. Open a terminal and change to the folder to which you downloaded the twitter explorer, replacing `XXX` by the release number:
+
+```sh
+cd ~/Downloads/twitter-explorer-vXXX
+```
+Now run the following command to install the necessary Python libraries (use `pip3` if you used `python3` before):
+
+```sh
 pip install -r requirements.txt
 ```
-You can now start the collector from the terminal:
-```
+
+You can now start the collector from within the same terminal window:
+```sh
 streamlit run collector.py
 ```
+You should see an error message that tells you to authenticate with your Twitter Developer credentials. Move on to the next section to generate the necessary keys.
+
+To close the streamlit interface, hit `CTRL` + `C` in the terminal.
+
 ## Windows
-1. Get the latest Python version
-https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe
+Download and install Python 3.8.2 from [here](https://www.python.org/ftp/python/3.8.2/python-3.8.2-amd64.exe), making sure to tick the option of adding Python to your PATH variable.
 
-2. Make sure to tick the option of adding Python to your PATH variable.
+Download the [current release](https://github.com/pournaki/twitter-explorer/releases) of the twitter explorer to your `Desktop` folder and extract it.
 
-3. Open a Powershell (Hit the Windows key and start typing "power")
+Open a Powershell (hit the `Windows key` ❖ and start typing "power" until you see the "Powershell" icon and click it).
 
-4. Type in the following command to install the necessary packages, followed by ENTER: 
+Type in the following command in the Powershell to go to the twitter explorer directory, followed by `ENTER ↵`, replacing `XXX` by the current release number: 
 
-```
-pip3 install streamlit tweepy pandas cufflinks plotly json-lines python-igraph
-
+```sh
+cd .\Desktop\twitter-explorer-vXXX
 ```
 
-5. Download the file `louvain‑0.6.1‑cp38‑cp38‑win_amd64.whl` from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#louvain-igraph) and save it to your Desktop.
+Now, type in the following command to install the necessary packages, followed by `ENTER` `↵`: 
 
-6. Go back to the Powershell window and type in:
-
-```
-cd Desktop
+```sh
+pip3 install -r requirements.txt
 ```
 
-7. Install the louvain package with: 
+After a while, all packages should be installed and you can start the collector with
 
-```
-pip3 install louvain‑0.6.1‑cp38‑cp38‑win_amd64.whl
-```
-
-8. You are good to go. You can now download the current release of the twitter explorer to your Downloads folder and extract it. Go back to the Powershell and type in 
-
-```
-cd .\Downloads\twitter-explorer-v010
-```
-
-9. Start the collector with
-```
+```sh
 streamlit run collector.py
 ```
+
+To close the streamlit interface, hit `CTRL` + `C` in the Powershell.
+
 # Data collection
 
 ## Authentication
