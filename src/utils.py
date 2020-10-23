@@ -34,14 +34,14 @@ def groupby_dates(tweetdf):
     result["total"] = result["original tweets"] + result["retweets"]
     return result
 
-def plot(grouped_tweetdf):
+def plot(grouped_tweetdf, order=["original tweets", "retweets"]):
     # set color range
     domain = ['retweets', 'original tweets','total']
     range_ = ['#1F77B4', '#D62728','grey']
 
     # plot original tweets and retweets
     C1 = alt.Chart(grouped_tweetdf).mark_area(opacity=0.6).transform_fold(
-        fold=['retweets', 'original tweets'], 
+        fold=order,
         as_=['variable', 'value']
     ).encode(
         alt.X('datetime:T', timeUnit='yearmonthdatehours', title="date"),

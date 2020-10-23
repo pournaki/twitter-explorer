@@ -112,12 +112,18 @@ if st.button("Plot tweet count over time"):
     with st.spinner("Reading file..."):
         tweetdf = tweetjson_to_df(filename)
         grouped_df = groupby_dates(tweetdf)
-        plots = plot(grouped_df)
-        st.altair_chart(plots, use_container_width=True)
         
         ot_count = int(sum(grouped_df["original tweets"]))
         rt_count = int(sum(grouped_df["retweets"]))
         tt_count = ot_count+rt_count
+        
+        if rt_count < ot_count:
+            plots = plot(grouped_df, ["original tweets", "retweets"])
+        else:
+            plots = plot(grouped_df, ["retweets", "original tweets"])
+
+        st.altair_chart(plots, use_container_width=True)
+        
         firstdate_str = str(list(tweetdf.iloc[[-1]]["time"])[0])[:16]
         lastdate_str = str(list(tweetdf.iloc[[0]]["time"])[0])[:16]
 
@@ -153,16 +159,6 @@ except Error:
 daterange = st.date_input(label="Timerange for creating networks:",
                           value=[lastweek,
                                  today])
-
-# st.write(f"You will create networks with tweets from {daterange[0]} to {daterange[1]}")
-
-# col1, col2 = st.beta_columns(2)
-# with col1:
-#     starttime_str = st.text_input(label="Start date in ISO format",
-#                                   value="2020-01-01")
-# with col2:
-#     endtime_str = st.text_input(label="End date in ISO format",
-#                                 value="2021-01-01")
 
 st.write("---")
 
@@ -216,20 +212,8 @@ if st.button("Generate Retweet Network"):
                         dataset to jsonl and saving..."):
             json_to_jsonl(filename)
         filename += "l"
-    # with st.spinner("Loading tweets..."):
-    #     with open(filename, "rb") as f:
-    #         firstline = f.readline()
-    #         f.seek(-2, os.SEEK_END)
-    #         while f.read(1) != b"\n":
-    #             f.seek(-2, os.SEEK_CUR)
-    #         lastline = f.readline()
-    # firstdate = json.loads(lastline)["created_at"]
-    # lastdate = json.loads(firstline)["created_at"]
-    # firstdate_str = firstdate[:16]
-    # lastdate_str = lastdate[:16]
-    # create the retweetnetwork
-    # return error when trying to choose both aggregations
     
+    # return error when trying to choose both aggregations
     if rtn_aggregation_soft is True and rtn_aggregation_hard is True:
         st.error("Please choose only one of the aggregations")
 
@@ -246,13 +230,13 @@ if st.button("Generate Retweet Network"):
 
     # get the first and last tweet    
     edgeslist = list(G.es)
-    st.write(len(edgeslist))
+    #st.write(len(edgeslist))
     firstdate_str = iso_to_string(edgeslist[-1]["time"])
     lastdate_str = iso_to_string(edgeslist[0]["time"])
 
-    if rtn_comdeclist == ['louvain']:
-        with st.spinner("Computing communities..."):
-            G, cgl = community_detection(G, methods=rtn_comdeclist)
+    if "louvain" in rtn_comdeclist:
+        with st.spinner("Computing Louvain communities..."):
+            G, cgl = compute_louvain(G)
             cgl_d3 = d3_cg_rtn(cgl)
             cgl_d3["graph"] = {}
             cgl_d3['graph']['type'] = "Retweet network <br> Louvain graph"
@@ -267,55 +251,9 @@ if st.button("Generate Retweet Network"):
                       encoding='utf-8') as f:
                 f.write(x)
 
-    elif rtn_comdeclist == ['infomap']:
-        with st.spinner("Computing communities..."):
-            G, cgi = community_detection(G, methods=rtn_comdeclist)
-            cgl_d3 = d3_cg_rtn(cgl)
-            cgi_d3["graph"] = {}
-            cgi_d3['graph']['type'] = "Retweet network <br> Infomap graph"
-            cgi_d3['graph']['keyword'] = subtitle
-            cgi_d3['graph']['collected_on'] = collectedon
-            cgi_d3['graph']['first_tweet'] = firstdate_str
-            cgi_d3['graph']['last_tweet'] = lastdate_str
-            cgi_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
-            cgi_d3['graph']['N_links'] = len(cgl_d3["links"])
-            x = cg_rtn_html(cgi_d3)
-            with open(f"{projectdir}/{project}_RTN_CG_infomap.html", "w",
-                      encoding='utf-8') as f:
-                f.write(x)
-
-    elif rtn_comdeclist == ['louvain', 'infomap']:
-        with st.spinner("Computing communities..."):
-            G, cgl, cgi = community_detection(G, methods=rtn_comdeclist)
-            cgl_d3 = d3_cg_rtn(cgl)
-            cgi_d3 = d3_cg_rtn(cgi)
-
-            cgl_d3["graph"] = {}
-            cgl_d3['graph']['type'] = "Retweet network <br> Louvain graph"
-            cgl_d3['graph']['keyword'] = subtitle
-            cgl_d3['graph']['collected_on'] = collectedon
-            cgl_d3['graph']['first_tweet'] = firstdate_str
-            cgl_d3['graph']['last_tweet'] = lastdate_str
-            cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
-            cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
-
-            cgi_d3["graph"] = {}
-            cgi_d3['graph']['type'] = "Retweet network <br> Infomap graph"
-            cgi_d3['graph']['keyword'] = subtitle
-            cgi_d3['graph']['collected_on'] = collectedon
-            cgi_d3['graph']['first_tweet'] = firstdate_str
-            cgi_d3['graph']['last_tweet'] = lastdate_str
-            cgi_d3['graph']['N_nodes'] = len(cgi_d3["nodes"])
-            cgi_d3['graph']['N_links'] = len(cgi_d3["links"])
-
-            x = cg_rtn_html(cgl_d3)
-            y = cg_rtn_html(cgi_d3)
-            with open(f"{projectdir}/{project}_RTN_CG_louvain.html", "w",
-                      encoding='utf-8') as f:
-                f.write(x)
-            with open(f"{projectdir}/{project}_RTN_CG_infomap.html", "w",
-                      encoding='utf-8') as f:
-                f.write(y)
+    if "infomap" in rtn_comdeclist:
+        with st.spinner("Computing InfoMap communities..."):
+            G = compute_infomap(G)
 
     # create d3-graph and fill it with info
     RTN = d3_rtn(G)
@@ -343,6 +281,14 @@ if st.button("Generate Retweet Network"):
         os.makedirs(exportname)
     convert_graph(G, exportname + project + "_RTN")
 
+    N_edges = len(RTN["links"])
+
+    if N_edges > 1e5:
+        st.warning("The network you are trying to visualize has \
+                  more than 10,000 links. Consider using a stronger\
+                  aggregation method if the interactive visualization is\
+                  unresponsive.")
+    
     st.success(f"`Saved the interactive retweet network to: {savename}.html`.")
     if len(rtn_comdeclist) != 0:
         st.success(f"`Saved the cluster graphs to: {savename}_CG.html`.")
