@@ -19,7 +19,6 @@ from datetime import datetime
 import json_lines
 from itertools import combinations
 import igraph as ig
-import louvain
 
 __author__    = "Armin Pournaki"
 __copyright__ = "Copyright 2020, Armin Pournaki"
@@ -72,8 +71,6 @@ def retweetnetwork(filename,
         edgelist = []
         d3graph = {"nodes": [], "links": []}
         
-        #print("Reading file...")
-
         for tweet in (json_lines.reader(f)):
             if 'retweeted_status' in tweet:
                 
@@ -240,7 +237,11 @@ def d3_rtn(G):
         try:
             ndict["infomap_com"] = v["infomap_com"]
         except KeyError:
-            pass        
+            pass
+        try:
+            ndict["sbm_com"] = v["sbm_com"]
+        except KeyError:
+            pass                
         d3graph['nodes'].append(ndict)
     for link in G.es:
         ldict = {}
@@ -433,46 +434,43 @@ def d3_htn(G):
 
 # --- COMMUNITY DETECTION ---
 
-def community_detection(G, methods=['louvain', 'infomap'], infomap_trials=100):
-    """Compute communities of an igraph network and generate cluster graphs.
+def compute_louvain(G):
+    """Compute Louvain communities of an igraph network and generate cluster graph.
 
     Parameters:
     G (igraph graph): retweet network or hashtag network
-    methods (list of str): preferred method of community detection
-    infomap_trials (int, default=100): amount of trials for infomap method
-
+    
     Returns:
-    G (igraph graph) with node attribute '{method}_com'
-    C (igraph graph): one cluster graph per method
-    """        
+    G (igraph graph) with node attribute 'louvain_com'
+    clustergraph (igraph graph): graph where every node is a community
+    """     
+
+    import louvain
+
     G.vs['weight'] = 1
-    #print("Computing communities...")
-    if 'louvain' in methods:            
-        #print("Louvain...")
-        Louvain = louvain.find_partition(G, louvain.ModularityVertexPartition)        
-        cg_louv = Louvain.cluster_graph(combine_vertices=dict(weight="sum", 
-                                                              followers="sum", 
-                                                              friends="sum"),
-                                        combine_edges=dict(weight=sum))        
-    if 'infomap' in methods:
-        #print("Infomap...")
-        Infomap = G.community_infomap(trials=infomap_trials)
-        cg_info = Infomap.cluster_graph(combine_vertices=dict(weight="sum", 
-                                                              followers="sum", 
-                                                              friends="sum"),
-                                        combine_edges=dict(weight=sum))        
+    partition = louvain.find_partition(G, louvain.ModularityVertexPartition)        
+    clustergraph = partition.cluster_graph(combine_vertices=dict(weight="sum", 
+                                                          followers="sum", 
+                                                          friends="sum"),
+                                         combine_edges=dict(weight=sum))
     del G.vs['weight']
     del G.es['weight']
-    if 'louvain' and 'infomap' in methods:
-        for v in G.vs:
-            v["louvain_com"]  = Louvain.membership[v.index]
-            v["infomap_com"]  = Infomap.membership[v.index] 
-        return G, cg_louv, cg_info
-    if 'louvain' in methods and 'infomap' not in methods:
-        for v in G.vs:
-            v["louvain_com"]  = Louvain.membership[v.index]
-        return G, cg_louv
-    if 'infomap' in methods and 'louvain' not in methods:
-        for v in G.vs:
-            v["infomap_com"]  = Infomap.membership[v.index] 
-        return G, cg_info
+    for v in G.vs:
+        v["louvain_com"]  = partition.membership[v.index]
+    return G, clustergraph
+
+def compute_infomap(G, trials=100):
+    """Compute Infomap communities of an igraph network.
+
+    Parameters:
+    G (igraph graph): retweet network or hashtag network
+    trials (int): number of trials for Infomap algorithm
+    
+    Returns:
+    G (igraph graph) with node attribute 'infomap_com'
+    """     
+
+    partition = G.community_infomap(trials=trials)        
+    for v in G.vs:
+        v["infomap_com"]  = partition.membership[v.index]
+    return G
