@@ -342,7 +342,7 @@ if st.button("Generate Hashtag Network"):
                            endtime=daterange[1])
     if htn_louvain:
         with st.spinner("Computing communities..."):
-            H, Hcg = community_detection(G=H, methods=['louvain'])
+            H, Hcg = compute_louvain(H)
             cgl_d3 = d3_cg_htn(Hcg)
             cgl_d3["graph"] = {}
             cgl_d3['graph']['type'] = "Hashtag network <br> Louvain graph"
