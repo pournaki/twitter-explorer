@@ -152,7 +152,7 @@ st.write("Create interaction networks (retweet networks) and semantic networks \
 try:
     today = dt.date.fromisoformat(filename[7:17])
     lastweek = today + dt.timedelta(days=-8)
-except Error:
+except ValueError:
     today = dt.date.today()
     lastweek = today + dt.timedelta(days=-8)
     
