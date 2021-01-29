@@ -308,8 +308,8 @@ def convert_graph(G, savename):
 
 def hashtagnetwork(filename, 
                    giant_component=False,
-                   remove_nodes=False,
-                   threshold_remove=0,
+                   node_threshold=0,
+                   link_threshold=0,
                    starttime=None,
                    endtime=None):
     """Generate Hashtag Network from Twitter data collection.
@@ -343,7 +343,7 @@ def hashtagnetwork(filename,
                         target = element[1]
                         time_str = time.isoformat(timespec='seconds')
                         edgelist.append((source, target, time_str))
-
+                        #edgelist.append((source, target))
     H = ig.Graph.DictList(edges=(dict(source=source, target=target, time=time, weight=1) for source, target, time in edgelist), 
                           vertices=None, 
                           directed=False)
@@ -351,18 +351,31 @@ def hashtagnetwork(filename,
     if giant_component == True:
         H = H.components().giant()
     
-    if remove_nodes == True:
-        t = threshold_remove
+    if node_threshold > 0:
         todel = []
         for v in H.vs:
-            if H.degree(v) <= t:
+            if H.degree(v) <= node_threshold:
                 todel.append(v.index)
         H.delete_vertices(todel)        
         if giant_component == True:
             H = H.components().giant()
 
-    H.es['weight'] = 1
-    #H = H.simplify(combine_edges=dict(weight="sum"))
+    # H.es['weight'] = 1
+    # H = H.simplify(combine_edges=dict(weight="sum"))
+    H = H.simplify(multiple=True,combine_edges=dict(source="first", 
+                                                    target="first", 
+                                                    time="first", 
+                                                    weight="sum"))
+
+    # remove links that have too low weight
+    if link_threshold > 0:
+        todel = []
+        for e in H.es:
+            if e['weight'] <= link_threshold:
+                todel.append(e)
+        H.delete_edges(todel)
+        if giant_component == True:
+            H = H.components().giant()
     
     return(H)
     

@@ -155,7 +155,7 @@ try:
 except ValueError:
     today = dt.date.today()
     lastweek = today + dt.timedelta(days=-8)
-    
+
 daterange = st.date_input(label="Timerange for creating networks:",
                           value=[lastweek,
                                  today])
@@ -226,7 +226,6 @@ if st.button("Generate Retweet Network"):
                            endtime=daterange[1])
         if privacy:
             G = makeprivate(G)
-
 
     # get the first and last tweet    
     edgeslist = list(G.es)
@@ -304,16 +303,20 @@ st.write("Undirected network in which nodes are hashtags. \
 st.write('<span style="text-decoration: underline;">Options</span>', 
          unsafe_allow_html=True)
 htn_giantcomponent = st.checkbox("Giant component", key='htn_giantcomponent')
-htn_removenodes = st.checkbox("Remove hashtags that appear less than t times", key='htn_removenodes')
-threshold_htn = 0
-if htn_removenodes:
-    thresh_htn = st.slider("threshold t", 0.0, 100.0, 1.0, 1.0, key='thresh_htn')
-    threshold_htn += thresh_htn
+
+advanced = st.checkbox("Advanced node / link removal thresholds")
+node_thresh_htn = 0
+link_thresh_htn = 0
+if advanced:
+    node_thresh_htn = st.slider("Remove hashtags that appear less than x times", 0.0, 100.0, 1.0, 1.0, key='n_thresh_htn')
+    link_thresh_htn = st.slider("Remove edges that link hashtags less than than x times", 0.0, 50.0, 1.0, 1.0, key='l_thresh_htn')
 
 st.write('<span style="text-decoration: underline;">Community detection</span>', 
          unsafe_allow_html=True)
 htn_louvain = st.checkbox("Louvain", key='htn_louvain')
 if st.button("Generate Hashtag Network"):
+    if not os.path.exists(projectdir):
+        os.makedirs(projectdir)
     # legacy dataset conversion
     if filename[-1] == "n":
         st.warning(
@@ -336,8 +339,8 @@ if st.button("Generate Hashtag Network"):
     with st.spinner("Creating hashtag network..."):
         H = hashtagnetwork(filename=filename,
                            giant_component=htn_giantcomponent,
-                           remove_nodes=htn_removenodes,
-                           threshold_remove=threshold_htn,
+                           node_threshold=node_thresh_htn,
+                           link_threshold=link_thresh_htn,
                            starttime=daterange[0],
                            endtime=daterange[1])
     if htn_louvain:
@@ -374,10 +377,10 @@ if st.button("Generate Hashtag Network"):
 
     x = htn_html(data=HTN)
     with st.spinner("Writing html..."):
-        with open(f"{projectdir}/{project}_HTN.html", "w", encoding='utf-8') as f:
+        with open(f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN.html", "w", encoding='utf-8') as f:
             f.write(x)
 
-    savename = f"{projectdir}/{project}_HTN"
+    savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN"
     exportname = f"{projectdir}/export/"
     if not os.path.exists(exportname):
         os.makedirs(exportname)
