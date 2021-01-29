@@ -107,23 +107,32 @@ datelastweek = datetoday - datetime.timedelta(weeks=1)
 count = 0
 advanced = st.checkbox("Advanced API settings")
 if advanced:
-    language = st.text_input("Restrict tweets to the given language, given by an ISO 639-1 code (leave empty for all languages)")
-    until_date = st.date_input("Collect tweets only until date:", value=datelastweek)
+    language = st.text_input("Restrict collected tweets to the given language, given by an ISO 639-1 code (leave empty for all languages)")
+    timerange = st.slider("Collect tweets in the following timerange",
+    		              value=(datelastweek, datetoday),
+    		              min_value=datelastweek,
+    		              max_value=datetoday)
+    since_date = timerange[0]
+    until_date = timerange[1] + datetime.timedelta(days=1)
     restype = st.radio(label="Type of result", options=["mixed (include both popular and real time results in the response)", "recent (return only the most recent results in the response)","popular (return only the most popular results in the response)"], index=0)
     restype = restype.split('(')[0]
 if st.button("Start collecting"):
     if advanced:
         st.write("Collecting...")
         c = tweepy.Cursor(api.search,q=keywords,rpp=100, tweet_mode='extended', lang=language, until=until_date, result_type=restype).items()
-
         while True:
             try:
                 tweet = c.next()
                 tweet = (tweet._json)
-                count += 1
-                with open (f"{datadir}/{datetoday}_tweets_{savename}.jsonl", "a", encoding = "utf-8") as f:
-                    json.dump(tweet, f, ensure_ascii=False)
-                    f.write("\n")
+                tweetdatetime = datetime.datetime.strptime(tweet['created_at'], '%a %b %d %H:%M:%S +0000 %Y')
+                if tweetdatetime.date() < since_date:
+                    print("Collected all the tweets in the desired timerange! Collected {count} tweets.")
+                    break
+                else:
+                    count += 1
+                    with open (f"{datadir}/{datetoday}_tweets_{savename}.jsonl", "a", encoding = "utf-8") as f:
+                        json.dump(tweet, f, ensure_ascii=False)
+                        f.write("\n")
 
             # when you attain the rate limit:
             except tweepy.TweepError:
