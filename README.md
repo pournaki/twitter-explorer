@@ -50,8 +50,7 @@ The **twitter explorer** facilitates the collection of data through the Twitter 
 **Fix:** `pip3 install protobuf --upgrade`
 
 ## How to cite
-Please cite our paper if you use the **twitter explorer** in your research:  
-Pournaki, A., Gaisbauer, F., Banisch, S., Olbrich, E., The twitter explorer: a framework for observing Twitter through interactive networks.
+Pournaki, A., Gaisbauer, F., Banisch, S., & Olbrich, E. (2021). The Twitter Explorer: A Framework for Observing Twitter through Interactive Networks. Journal of Digital Social Research, 3(1), 106–118. [https://doi.org/10.33621/jdsr.v3i1.64](https://doi.org/10.33621/jdsr.v3i1.64)
 
 ## Related software
 - [DMI-TCAT](https://github.com/digitalmethodsinitiative/dmi-tcat)  
