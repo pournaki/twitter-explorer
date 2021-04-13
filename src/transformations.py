@@ -120,7 +120,7 @@ def retweetnetwork(filename,
             
     #print("Importing to igraph...")
     # import to igraph
-    G = ig.Graph.DictList(edges=(dict(source=source, target=target, tweet=tweetid,time=time, weight=1) for source, target, tweet, time in edgelist), 
+    G = ig.Graph.DictList(edges=(dict(source=source, target=target, tweet=tweetid,time=time, weight=1) for source, target, tweetid, time in edgelist), 
                           vertices=None, 
                           directed=True)
    
