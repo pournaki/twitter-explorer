@@ -125,13 +125,13 @@ To use the **collector**, you need to apply for a [Twitter Developer Account](ht
 The **twitter explorer** is now ready to connect to the API using [OAuth 2.0](https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0/application-only).
 
 ## Collecting tweets
-The collector connects to the [Twitter Search API](https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets), which allows users to collect tweets from the last 7 days based on an advanced search. Please refer to @igorbrigadir's [documentation](https://github.com/igorbrigadir/twitter-advanced-search) of the Twitter Advanced Search or [try it out](https://twitter.com/search-advanced) in the browser to get a feeling for the possible options.
+The collector connects to the [Twitter Search API](https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction), which allows users to collect tweets from the last 7 days based on an advanced search. Please refer to @igorbrigadir's [documentation](https://github.com/igorbrigadir/twitter-advanced-search) of the Twitter Advanced Search or [try it out](https://twitter.com/search-advanced) in the browser to get a feeling for the possible options.
 
 Change to the folder where you downloaded streamlit, open a terminal and start the data collector by typing:
 ```
 streamlit run collector.py
 ```
-The collector interface will open in your browser. You can start a search based on a keyword. The tweets will be downloaded and continuously written into a new `CSV` file in `./data/{currentdate_keyword.csv}`. Note that there are [rate limits](https://developer.twitter.com/en/docs/basics/rate-limiting) in the free Search API. When the **twitter explorer** reaches a rate limit, it will sleep for 15mins and continue the search afterwards. From experience, this results to ~7500 tweets per 15mins. 
+The collector interface will open in your browser. You can start a search based on a keyword. The tweets will be downloaded and continuously written into a new `CSV` file in `./data/{currentdate_keyword}.csv`. Note that there are [rate limits](https://developer.twitter.com/en/docs/basics/rate-limiting) in the free Search API. When the **twitter explorer** reaches a rate limit, it will sleep for 15mins and continue the search afterwards. From experience, this results to ~7500 tweets per 15mins. 
 Also, keep in mind the following statement about the Twitter Search API:
 > Please note that Twitter's search service and, by extension, the Search API is not meant to be an exhaustive source of Tweets. Not all Tweets will be indexed or made available via the search interface.
 
