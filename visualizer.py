@@ -1,393 +1,378 @@
-#!/usr/bin/env python
+## =============================================================================
+## twitter explorer visualizer
+## =============================================================================
 
-"""Interactive interface for twitter explorer network generation.
-
-Returns plotly timeline of tweets over time.
-
-Transforms previously collected tweets into
-retweet networks (link from i to j if i retweets j),
-hashtag networks (link between i and j if i and j appear in
-the same tweet), clustergraphs (nodes as communities).
-"""
-
-__author__ = "Armin Pournaki"
-__copyright__ = "Copyright 2020, Armin Pournaki"
-__credits__ = ["Felix Gaisbauer", "Sven Banisch", "Eckehard Olbrich"]
-__license__ = "GPLv3"
-__version__ = "0.1"
-__email__ = "pournaki@mis.mpg.de"
-
-import json_lines
-import streamlit as st
 import os
+import pandas as pd
 import numpy as np
 import altair as alt
-import pandas as pd
-from src.transformations import *
-from src.networks import *
-from src.utils import *
-from datetime import datetime
+import streamlit as st
 import datetime as dt
 
+from twitterexplorer.legacy import *
+from twitterexplorer.helpers import *
+from twitterexplorer.streamlitutils import *
+from twitterexplorer.plotters import *
+from twitterexplorer.communitydetection import *
+from twitterexplorer.networks import *
+from twitterexplorer.d3networks import *
+from twitterexplorer.converters import twitterjsonl_to_twitwicsv
+from twitterexplorer.config import version_number
 
-# ------- UI --------- #
-# Some CSS changes
-st.markdown('<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;\
-            700&display=swap" rel="stylesheet"> ',
-            unsafe_allow_html=True)
-st.markdown(
-    '<style>.reportview-container .markdown-text-container{font-family:\
-    "Inter", -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica\
-     Neue",Arial,sans-serif}\
-     #titlelink {color: white;\
-     text-decoration: none}\
-     #titlelink:hover {color: #cccccc;\
-     text-decoration: none}</style>', unsafe_allow_html=True)
-st.markdown('<style>.ae{font-family:"Inter",-apple-system,system-ui,BlinkMacSystemFont,\
-            "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}</style>',
-            unsafe_allow_html=True)
-st.markdown('<style>body{font-family:"Inter",-apple-system,system-ui,BlinkMacSystemFont,\
-            "Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}</style>',
-            unsafe_allow_html=True)
-st.markdown('<style>code{color:black}</style>', unsafe_allow_html=True)
-st.markdown('<style>.reportview-container .markdown-text-container a{color:rgba\
-            (83,106,160,1)}</style>', unsafe_allow_html=True)
-st.markdown('<head><title>twitter explorer</title></head>',
-            unsafe_allow_html=True)
-st.markdown('<p style="font-size: 30pt; font-weight: bold; color: white; \
-    background-color: #000">&nbsp;\
-    <a id="titlelink" href="https://twitterexplorer.org">twitter explorer\
-    <span style="font-size:10pt;">BETA</span></a>\
-    </p>', unsafe_allow_html=True)
+ui_changes()
+
 st.title("Visualizer")
 
-def file_selector(folder_path='.'):
-    try:
-        filenames = os.listdir(folder_path)
-    except FileNotFoundError:
-        st.error("The `./data` folder does not exist. Please create it and insert \
-                your Twitter collections in jsonl format.")
-    if '.DS_Store' in filenames:
-        filenames.remove('.DS_Store')
-    filenames = list(reversed(filenames))
-    selected_filename = st.selectbox(
-        'Select a tweet collection inside ./data', filenames)
-    return os.path.join(folder_path, selected_filename)
-
 filename = file_selector('./data')
-filesize = os.path.getsize(filename) >> 20
 
-if filename[-1] == "l":
-    subtitlevalue = filename[25:][:-6]
-else:
-    subtitlevalue = filename[25:][:-5]
+if filename not in ["./data/---","./data\\---"]:
 
-collectedon = filename[7:17]
-subtitle = subtitlevalue
-project = st.text_input(label="Set a foldername for the project that will be \
-    created in ./output",
-                        value=f"{collectedon}_{subtitle}")
+    filesize = os.path.getsize(filename) >> 20
 
-st.write(f'`You selected {filename}.`<br>`\
-    The file size is about {filesize}MB.`', unsafe_allow_html=True)
-
-datadir = "./data/"
-outputdir = "./output/"
-projectdir = outputdir + project
-
-st.write("---")
-
-st.header("Timeline of tweets")
-
-#st.write("Plot the amount of tweets over time.")
-if st.button("Plot tweet count over time"):
-
-    # legacy dataset conversion
-    if filename[-1] == "n":
-        with st.spinner("You are trying to load a legacy dataset. Converting \
-                        dataset to jsonl and saving..."):
-            json_to_jsonl(filename)
-        filename += "l"
-    
-    with st.spinner("Reading file..."):
-        tweetdf = tweetjson_to_df(filename)
-        grouped_df = groupby_dates(tweetdf)
-        
-        ot_count = int(sum(grouped_df["original tweets"]))
-        rt_count = int(sum(grouped_df["retweets"]))
-        tt_count = ot_count+rt_count
-        
-        if rt_count < ot_count:
-            plots = plot(grouped_df, ["original tweets", "retweets"])
-        else:
-            plots = plot(grouped_df, ["retweets", "original tweets"])
-
-        st.altair_chart(plots, use_container_width=True)
-        
-        firstdate_str = str(list(tweetdf.iloc[[-1]]["time"])[0])[:16]
-        lastdate_str = str(list(tweetdf.iloc[[0]]["time"])[0])[:16]
-
-        st.write(f"The dataset contains {tt_count} tweets, from which {ot_count} are\
-                   original tweets and {rt_count} are retweets.")
-        st.write(f"The first tweet is from {firstdate_str}, the last tweet is from \
-        {lastdate_str} (UTC).")
-
-        if not os.path.exists(projectdir):
-            os.makedirs(projectdir)
-
-        plots.save(f"{projectdir}/{project}_timeline.html")
-
-st.write("---")
-
-# -------------------------------------------------------------------
-
-st.header("Interactive networks")
-
-st.write("Create interaction networks (retweet networks) and semantic networks \
-    (hashtag networks). Only retweets from this time range will be used to create\
-     the networks.")
-
-
-# guess the default daterange from the filename
-try:
-    today = dt.date.fromisoformat(filename[7:17])
-    lastweek = today + dt.timedelta(days=-8)
-except ValueError:
-    today = dt.date.today()
-    lastweek = today + dt.timedelta(days=-8)
-
-daterange = st.date_input(label="Timerange for creating networks:",
-                          value=[lastweek,
-                                 today])
-
-st.write("---")
-
-st.subheader("Retweet Network")
-st.write()
-st.write("Directed network in which nodes are users. A link is drawn from \
-    `i` to `j` if `i` retweets `j`.")
-st.write('<span style="text-decoration: underline;">Options</span>', 
-         unsafe_allow_html=True)
-rtn_giantcomponent = st.checkbox("Giant component", key='rtn_giantcomponent')
-privacy = st.checkbox(
-    "Remove metadata of nodes that are not public figures \
-     (less than 5000 followers)")
-st.write('<span style="text-decoration: underline;">Aggregation method</span>', 
-         unsafe_allow_html=True)
-
-rtn_aggregation_soft = st.checkbox(
-    "Soft aggregate (remove nodes with in-degree 0 and only one neighbor)",
-    key='rtn_aggregation_soft')
-rtn_aggregation_hard = st.checkbox(
-    "Hard aggregate (remove nodes with in-degree ≤ threshold)",
-    key='rtn_aggregation_hard')
-threshold = 0
-if rtn_aggregation_hard:
-    thresh_rtn = st.slider("threshold", 0.0, 20.0, 1.0, 1.0, key='thresh_rtn')
-    threshold += thresh_rtn
-if rtn_aggregation_soft:
-    aggregationmethod = 'soft'
-elif rtn_aggregation_hard:
-    aggregationmethod = 'hard'
-else:
-    aggregationmethod = None
-
-rtn_comdeclist = []
-st.write('<span style="text-decoration: underline;">Community detection</span>', 
-         unsafe_allow_html=True)
-rtn_louvain = st.checkbox("Louvain", key='rtn_louvain')
-if rtn_louvain:
-    rtn_comdeclist.append("louvain")
-rtn_infomap = st.checkbox("Infomap", key='rtn_infomap')
-if rtn_infomap:
-    rtn_comdeclist.append("infomap")
-
-if st.button("Generate Retweet Network"):
-    if not os.path.exists(projectdir):
-        os.makedirs(projectdir)
-    # load the tweets
-    # legacy dataset conversion
-    if filename[-1] == "n":
-        with st.spinner("You are trying to load a legacy dataset. Converting \
-                        dataset to jsonl and saving..."):
-            json_to_jsonl(filename)
-        filename += "l"
-    
-    # return error when trying to choose both aggregations
-    if rtn_aggregation_soft is True and rtn_aggregation_hard is True:
-        st.error("Please choose only one of the aggregations")
-
-    with st.spinner("Creating retweet network..."):
-        G = retweetnetwork(filename=filename,
-                           giant_component=rtn_giantcomponent,
-                           aggregation=aggregationmethod,
-                           t=threshold,
-                           starttime=daterange[0],
-                           endtime=daterange[1])
-        if privacy:
-            G = makeprivate(G)
-
-    # get the first and last tweet    
-    edgeslist = list(G.es)
-    #st.write(len(edgeslist))
-    firstdate_str = iso_to_string(edgeslist[-1]["time"])
-    lastdate_str = iso_to_string(edgeslist[0]["time"])
-
-    if "louvain" in rtn_comdeclist:
-        with st.spinner("Computing Louvain communities..."):
-            G, cgl = compute_louvain(G)
-            cgl_d3 = d3_cg_rtn(cgl)
-            cgl_d3["graph"] = {}
-            cgl_d3['graph']['type'] = "Retweet network <br> Louvain graph"
-            cgl_d3['graph']['keyword'] = subtitle
-            cgl_d3['graph']['collected_on'] = collectedon
-            cgl_d3['graph']['first_tweet'] = firstdate_str
-            cgl_d3['graph']['last_tweet'] = lastdate_str
-            cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
-            cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
-            x = cg_rtn_html(cgl_d3)
-            with open(f"{projectdir}/{project}_RTN_CG_louvain.html", "w",
-                      encoding='utf-8') as f:
-                f.write(x)
-
-    if "infomap" in rtn_comdeclist:
-        with st.spinner("Computing InfoMap communities..."):
-            G = compute_infomap(G)
-
-    # create d3-graph and fill it with info
-    RTN = d3_rtn(G)
-    RTN['graph'] = {}
-    RTN['graph']['type'] = "Retweet network"
-    RTN['graph']['N_nodes'] = len(RTN["nodes"])
-    RTN['graph']['N_links'] = len(RTN["links"])
-    RTN['graph']['keyword'] = subtitle
-    RTN['graph']['collected_on'] = collectedon
-    RTN['graph']['first_tweet'] = firstdate_str
-    RTN['graph']['last_tweet'] = lastdate_str
-
-    if privacy:
-        x = rtn_html_p(data=RTN)
+    if filename[-1] == "l":
+        subtitlevalue = filename[25:][:-6]
     else:
-        x = rtn_html(data=RTN)
-    with st.spinner("Writing html..."):
-        with open(f"{projectdir}/{project}_RTN.html", "w",
-                  encoding='utf-8') as f:
-            f.write(x)
+        subtitlevalue = filename[25:][:-4]
 
-    savename = f"{projectdir}/{project}_RTN"
-    exportname = f"{projectdir}/export/"
-    if not os.path.exists(exportname):
-        os.makedirs(exportname)
-    convert_graph(G, exportname + project + "_RTN")
+    collectedon = filename[7:17]
+    subtitle = subtitlevalue
+    project = st.text_input(label="Set a foldername for the project that will be \
+        created in ./output",
+                            value=f"{collectedon}_{subtitle}")
 
-    N_edges = len(RTN["links"])
+    st.write(f'`You selected {filename}.`<br>\
+        `The file size is about {filesize}MB.`', unsafe_allow_html=True)
 
-    if N_edges > 1e5:
-        st.warning("The network you are trying to visualize has \
-                  more than 10,000 links. Consider using a stronger\
-                  aggregation method if the interactive visualization is\
-                  unresponsive.")
+    datadir = "./data/"
+    outputdir = "./output/"
+    projectdir = outputdir + project
+
+    @st.cache
+    def load_data(path):
+        ## pandas does strange things to IDs, like importing them as ints and using
+        ## scientific notation, so we need to make sure they are read as strings
+        df = pd.read_csv(path,
+                         dtype={"id":str,
+                                "user_id":str,
+                                "to_userid":str,
+                                "to_tweetid":str,
+                                "retweeted_id":str,
+                                "retweeted_user_id":str,
+                                "quoted_id":str,
+                                "quoted_user_id":str,
+                                "mentioned_ids":str,
+                                "mentioned_names":str,
+                                "hashtags":str
+                                },
+                        low_memory=False,
+                     )
+        ## remove possible duplicates, even though the collector
+        ## should not collect doubles
+        df = df.drop_duplicates('id')
+        return df
+
+    if filename[-3:] == "csv":
+        df = load_data(filename)
+    elif filename[-5:] == "jsonl":
+        ## convert to twitwi csv
+        with st.spinner("Converting to twitwi csv..."):
+            twitterjsonl_to_twitwicsv(filename)
+        filename = filename.replace("jsonl","csv")
+        df = load_data(filename)
     
-    st.success(f"`Saved the interactive retweet network to: {savename}.html`.")
-    if len(rtn_comdeclist) != 0:
-        st.success(f"`Saved the cluster graphs to: {savename}_CG.html`.")
-    st.success(f"`Exported the network as gml (.gml), edgelist (.csv) and\
-               dot (.gv) to: \n {exportname}`.")
+    ## when you convert an old jsonl-format, there is no meaningful
+    ## 'collected_via' field    
+    try:        
+        tweet_count_chart = plot_tweetcounts(groupby_type(df[df['collected_via'].isna()]))
+    except ValueError:
+        tweet_count_chart = plot_tweetcounts(groupby_type(df))
+    st.altair_chart(tweet_count_chart, use_container_width=True)
 
-# ------------------------------------------------------------------
-st.write("---")
+    langbars = plot_tweetlanguages(df)
+    st.altair_chart(langbars, use_container_width=True)
 
-st.subheader("Hashtag Network")
-st.write("Undirected network in which nodes are hashtags. \
-    A link is drawn between `i` and `j` if they appear in the same tweet.")
-st.write('<span style="text-decoration: underline;">Options</span>', 
-         unsafe_allow_html=True)
-htn_giantcomponent = st.checkbox("Giant component", key='htn_giantcomponent')
+    st.write("---")
 
-advanced = st.checkbox("Advanced node / link removal thresholds")
-node_thresh_htn = 0
-link_thresh_htn = 0
-if advanced:
-    node_thresh_htn = st.slider("Remove hashtags that appear less than x times", 0.0, 100.0, 1.0, 1.0, key='n_thresh_htn')
-    link_thresh_htn = st.slider("Remove edges that link hashtags less than than x times", 0.0, 50.0, 1.0, 1.0, key='l_thresh_htn')
+    # -------------------------------------------------------------------
 
-st.write('<span style="text-decoration: underline;">Community detection</span>', 
-         unsafe_allow_html=True)
-htn_louvain = st.checkbox("Louvain", key='htn_louvain')
-if st.button("Generate Hashtag Network"):
-    if not os.path.exists(projectdir):
-        os.makedirs(projectdir)
-    # legacy dataset conversion
-    if filename[-1] == "n":
-        st.warning(
-            "You are trying to load a legacy dataset. \
-            Converting dataset to jsonl and saving...")
-        json_to_jsonl(filename)
-        filename += "l"
-    # load the tweets
-    with st.spinner("Loading tweets..."):
-        with open(filename, "rb") as f:
-            firstline = f.readline()
-            f.seek(-2, os.SEEK_END)
-            while f.read(1) != b"\n":
-                f.seek(-2, os.SEEK_CUR)
-            lastline = f.readline()
-        firstdate = json.loads(lastline)["created_at"]
-        lastdate = json.loads(firstline)["created_at"]
-        firstdate_str = firstdate[:16]
-        lastdate_str = lastdate[:16]
-    with st.spinner("Creating hashtag network..."):
-        H = hashtagnetwork(filename=filename,
-                           giant_component=htn_giantcomponent,
-                           node_threshold=node_thresh_htn,
-                           link_threshold=link_thresh_htn,
-                           starttime=daterange[0],
-                           endtime=daterange[1])
-    if htn_louvain:
-        with st.spinner("Computing communities..."):
-            H, Hcg = compute_louvain(H)
-            cgl_d3 = d3_cg_htn(Hcg)
-            cgl_d3["graph"] = {}
-            cgl_d3['graph']['type'] = "Hashtag network <br> Louvain graph"
-            cgl_d3['graph']['keyword'] = subtitle
-            cgl_d3['graph']['collected_on'] = collectedon
-            cgl_d3['graph']['first_tweet'] = firstdate_str
-            cgl_d3['graph']['last_tweet'] = lastdate_str
-            cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
-            cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
-            x = cg_htn_html(cgl_d3)
-            with open(f"{projectdir}/{project}_HTN_CG_louvain.html",
-                      "w", encoding='utf-8') as f:
-                f.write(x)
+    st.header("Interactive networks")
 
-    # get the first and last tweet    
-    edgeslist = list(H.es)
-    firstdate_str = iso_to_string(edgeslist[-1]["time"])
-    lastdate_str = iso_to_string(edgeslist[0]["time"])
+    st.write("Create interaction networks and semantic networks.")
 
-    HTN = d3_htn(H)
-    HTN['graph'] = {}
-    HTN['graph']['type'] = "Hashtag network"
-    HTN['graph']['N_nodes'] = len(HTN["nodes"])
-    HTN['graph']['N_links'] = len(HTN["links"])
-    HTN['graph']['keyword'] = subtitle
-    HTN['graph']['collected_on'] = collectedon
-    HTN['graph']['first_tweet'] = firstdate_str
-    HTN['graph']['last_tweet'] = lastdate_str
+    if st.checkbox("Custom timerange"):
+        # guess the default daterange from the filename
+        try:
+            today = dt.date.fromisoformat(filename[7:17])
+            lastweek = today + dt.timedelta(days=-8)
+        except ValueError:
+            today = dt.date.today()
+            lastweek = today + dt.timedelta(days=-8)
 
-    x = htn_html(data=HTN)
-    with st.spinner("Writing html..."):
-        with open(f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN.html", "w", encoding='utf-8') as f:
-            f.write(x)
+        daterange = st.date_input(label="Timerange for creating networks:",
+                                  value=[lastweek,
+                                         today])
+        d0 = daterange[0]
+        d1 = daterange[1]
+        ts0 = int(date_to_datetime(daterange[0]).timestamp())
+        ts1 = int(date_to_datetime(daterange[1]).timestamp())
+        ts1 += 86399 # to use the whole day
+    else:
+        ts0 = None
+        ts1 = None
 
-    savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN"
-    exportname = f"{projectdir}/export/"
-    if not os.path.exists(exportname):
-        os.makedirs(exportname)
-    convert_graph(H, exportname + project + "_HTN")
+    if st.checkbox("Language filter"):
+        with open ('./twitterexplorer/languages.json', 'r', encoding='utf-8') as f:
+            iso_to_language = json.load(f)
+        language_to_iso = {v: k for k, v in iso_to_language.items()}        
+        langcounts = pd.DataFrame(df.groupby('lang')["id"].count()).reset_index().rename(columns={'id':'count'}).sort_values(by='count', ascending=False)
+        langcounts['lang_name'] = langcounts['lang'].map(iso_to_language)
+        langselector = st.multiselect(label='Select languages to filter', 
+                     options=langcounts['lang_name'],
+                     # format_func=lambda x: f"{x['language']} / {x['count']}"
+                     )        
+        langselector_iso = []
+        for lang in langselector:
+            iso = language_to_iso[lang]
+            langselector_iso.append(iso)
+    else:
+        langselector = "None"
+    
+    with st.expander("INTERACTION NETWORK"):
+        st.write()
+        interaction_type = st.selectbox(label='Interaction type',
+                                        options=['retweet','reply','quote','mention'])
+        if interaction_type == 'retweet':
+            st.write("Directed network in which nodes are users. A link is drawn from \
+                `i` to `j` if `i` retweets `j`.")
+        elif interaction_type == 'reply':
+            st.write("Directed network in which nodes are users. A link is drawn from \
+                `i` to `j` if `i` replies to `j`.")
+        elif interaction_type == 'quote':
+            st.write("Directed network in which nodes are users. A link is drawn from \
+                `i` to `j` if `i` quotes `j`.")
+        elif interaction_type == 'mention':
+            st.write("Directed network in which nodes are users. A link is drawn from \
+                `i` to `j` if `i` mentions `j`.")
 
-    st.success(f"`Saved the interactive hashtag network as to: {savename}.html`.")
-    if htn_louvain:
-        st.success(f"`Saved the cluster graph to: {savename}_CG.html`.")
-    st.success(f"`Exported the network as graphml (.gml), edgelist (.csv) and\
-               dot (.gv) to: \n {exportname}`.")
+        st.write('<span style="text-decoration: underline;">Options</span>', 
+                 unsafe_allow_html=True)
+        rtn_giantcomponent = st.checkbox("Giant component", key='rtn_giantcomponent', help="Reduce the network to its largest connected component.")
+        privacy = st.checkbox(
+            "Remove metadata of nodes that are not public figures \
+             (less than 5000 followers)")
+        
+        st.write('<span style="text-decoration: underline;">Aggregation method</span>', 
+                 unsafe_allow_html=True)
+        rtn_aggregation_soft = st.checkbox(
+            "Soft aggregate (remove nodes with in-degree 0 and only one neighbor)",
+            key='rtn_aggregation_soft')
+        rtn_aggregation_hard = st.checkbox(
+            "Hard aggregate (remove nodes with in-degree < threshold)",
+            key='rtn_aggregation_hard')
+        hard_aggregation_threshold = 0
+        if rtn_aggregation_hard:
+            thresh_rtn = st.slider("Hard aggregation threshold", 0, 20, 1, 1, key='thresh_rtn')
+            hard_aggregation_threshold += thresh_rtn
+        if rtn_aggregation_soft:
+            aggregationmethod = 'soft'
+        elif rtn_aggregation_hard:
+            aggregationmethod = 'hard'
+        else:
+            aggregationmethod = None
+        if rtn_aggregation_soft is True and rtn_aggregation_hard is True:
+            st.error("Please choose only one of the aggregations")
+
+        st.write('<span style="text-decoration: underline;">Community detection</span>', 
+                 unsafe_allow_html=True)
+        rtn_louvain = st.checkbox("Louvain", key='rtn_louvain', help="Requires the installation of the 'louvain' package, currently not working on M1 machines.")
+        rtn_leiden = st.checkbox("Leiden", key='rtn_leiden')
+
+        if st.button("Generate Interaction Network"):
+            if not os.path.exists(projectdir):
+                os.makedirs(projectdir)
+
+            with st.spinner("Creating interaction network..."):
+                if langselector != "None" and langselector != []:
+                    G = twitter_df_to_interactionnetwork(df=df[df['lang'].isin(langselector_iso)],
+                                                         starttime=ts0,
+                                                         endtime=ts1,
+                                                         interaction_type=interaction_type)
+                else:
+                    G = twitter_df_to_interactionnetwork(df=df,
+                                                         starttime=ts0,
+                                                         endtime=ts1,
+                                                         interaction_type=interaction_type)
+            # reduce the network
+            G = reduce_network(G,
+                               giant_component=rtn_giantcomponent,
+                               aggregation=aggregationmethod,
+                               hard_agg_threshold=hard_aggregation_threshold)
+
+            # get the first and last tweet    
+            edgeslist = list(G.es)
+            try:
+                firstdate_str = str(dt.datetime.fromtimestamp(edgeslist[-1]["timestamp"]))
+                lastdate_str = str(dt.datetime.fromtimestamp(edgeslist[0]["timestamp"]))
+            except IndexError:
+                st.error(f"There seem to be no collected {interaction_type} interactions in the dataset!")
+        
+            if rtn_louvain == True:
+                with st.spinner("Computing Louvain communities..."):
+                    G, cgl = compute_louvain(G)        
+                    cgl_d3 = d3_cg_rtn(cgl)
+                    cgl_d3["graph"] = {}
+                    cgl_d3['graph']['type'] = f"{interaction_type.capitalize()} network <br> Louvain graph"
+                    cgl_d3['graph']['keyword'] = subtitle
+                    cgl_d3['graph']['collected_on'] = collectedon
+                    cgl_d3['graph']['first_tweet'] = firstdate_str
+                    cgl_d3['graph']['last_tweet'] = lastdate_str
+                    cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
+                    cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
+                    cgl_d3['version_number'] = version_number
+                    x = cg_rtn_html(cgl_d3)
+                    with open(f"{projectdir}/{project}_{interaction_type}_CG_louvain.html", "w",
+                              encoding='utf-8') as f:
+                        f.write(x)
+
+            if rtn_leiden == True:
+                with st.spinner("Computing Leiden communities..."):
+                    G, cgl = compute_leiden(G)        
+                    cgl_d3 = d3_cg_rtn(cgl)
+                    cgl_d3["graph"] = {}
+                    cgl_d3['graph']['type'] = f"{interaction_type.capitalize()} network <br> Leiden graph"
+                    cgl_d3['graph']['keyword'] = subtitle
+                    cgl_d3['graph']['collected_on'] = collectedon
+                    cgl_d3['graph']['first_tweet'] = firstdate_str
+                    cgl_d3['graph']['last_tweet'] = lastdate_str
+                    cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
+                    cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
+                    cgl_d3['version_number'] = version_number
+                    x = cg_rtn_html(cgl_d3)
+                    with open(f"{projectdir}/{project}_{interaction_type}_CG_leiden.html", "w",
+                              encoding='utf-8') as f:
+                        f.write(x)
+                
+            # create d3-graph and fill it with info
+            RTN = d3_rtn(G,private=privacy)
+            RTN['graph'] = {}
+            RTN['graph']['type'] = f"{interaction_type.capitalize()} network"
+            RTN['graph']['N_nodes'] = len(RTN["nodes"])
+            RTN['graph']['N_links'] = len(RTN["links"])
+            RTN['graph']['keyword'] = subtitle
+            RTN['graph']['collected_on'] = collectedon
+            RTN['graph']['first_tweet'] = firstdate_str
+            RTN['graph']['last_tweet'] = lastdate_str
+            RTN['version_number'] = version_number
+
+            if privacy:
+                x = rtn_html_p(data=RTN)
+            else:
+                x = rtn_html(data=RTN)
+
+            with st.spinner("Writing html..."):
+                if langselector != "None" and langselector != []:
+                    language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","|").replace(" ","").replace("'","")
+                    savename = f"{projectdir}/{project}_{interaction_type}network_{language_savesuffix}"
+                    savename_export = f"{interaction_type}network_{language_savesuffix}"
+                else:
+                    savename = f"{projectdir}/{project}_{interaction_type}network"
+                    savename_export = f"{interaction_type}network"
+                with open(f"{savename}.html", "w",
+                              encoding='utf-8') as f:
+                    f.write(x)
+            
+            exportpath = f"{projectdir}/export/"
+            if not os.path.exists(exportpath):
+                os.makedirs(exportpath)                
+            convert_graph(G, exportpath + project + savename_export)
+
+            N_edges = len(RTN["links"])
+
+            if N_edges > 1e5:
+                st.warning("The network you are trying to visualize has \
+                          more than 10,000 links. Consider using a stronger\
+                          aggregation method if the interactive visualization is\
+                          unresponsive.")
+            
+            st.success(f"`Saved the interactive {interaction_type} network to: {savename}.html`.")
+            if rtn_louvain == True:
+                st.success(f"`Saved the Louvain cluster graph to: {savename}_CG.html`.")
+            st.success(f"`Exported the network as gml (.gml), edgelist (.csv) and\
+                       dot (.gv) to the export folder.`")
+
+    with st.expander("HASHTAG NETWORK"):
+        st.write("Undirected network in which nodes are hashtags. \
+                  A link is drawn between `i` and `j` if they appear in the same tweet.")
+        st.write('<span style="text-decoration: underline;">Options</span>', 
+                 unsafe_allow_html=True)
+        htn_giantcomponent = st.checkbox("Giant component", key='htn_giantcomponent', help="Reduce the network to its largest connected component.")
+        node_thresh_htn = 0
+        link_thresh_htn = 0
+        node_thresh_htn = st.slider("Remove hashtags that appear less than x times", 
+                                    0, 100, 1, 1, 
+                                    key='n_thresh_htn')
+        link_thresh_htn = st.slider("Remove edges that link hashtags less than than x times", 
+                                    0, 50, 1, 1, 
+                                    key='l_thresh_htn')
+        st.write('<span style="text-decoration: underline;">Community detection</span>', 
+                 unsafe_allow_html=True)
+        htn_louvain = st.checkbox("Louvain", key='htn_louvain', help="Requires the installation of the 'louvain' package, currently not working on M1 machines.")
+        htn_leiden = st.checkbox("Leiden", key='htn_leiden')
+
+        if st.button("Generate Hashtag Network"):
+            if not os.path.exists(projectdir):
+                os.makedirs(projectdir)
+            with st.spinner("Creating hashtag network..."):
+                if langselector != "None":
+
+                    H = twitter_df_to_hashtagnetwork(df=df[df['lang'].isin(langselector_iso)],
+                                                     starttime=ts0,
+                                                     endtime=ts1)
+                else:
+                    H = twitter_df_to_hashtagnetwork(df=df,
+                                                     starttime=ts0,
+                                                     endtime=ts1)
+                H = reduce_semanticnetwork(H,
+                                           giant_component=htn_giantcomponent,
+                                           node_threshold=node_thresh_htn,
+                                           link_threshold=link_thresh_htn)
+                if htn_louvain:
+                    with st.spinner("Computing communities..."):
+                        H, Hcg = compute_louvain(H)
+                if htn_leiden:
+                    with st.spinner("Computing communities..."):
+                        H, Hcg = compute_leiden(H)
+            # get the first and last tweet    
+            edgeslist = list(H.es)
+            firstdate_str = str(dt.datetime.fromtimestamp(edgeslist[-1]["time"]))
+            lastdate_str = str(dt.datetime.fromtimestamp(edgeslist[0]["time"]))
+            HTN = d3_htn(H)
+            HTN['graph'] = {}
+            HTN['graph']['type'] = "Hashtag network"
+            HTN['graph']['N_nodes'] = len(HTN["nodes"])
+            HTN['graph']['N_links'] = len(HTN["links"])
+            HTN['graph']['keyword'] = subtitle
+            HTN['graph']['collected_on'] = collectedon
+            HTN['graph']['first_tweet'] = firstdate_str
+            HTN['graph']['last_tweet'] = lastdate_str
+            HTN['version_number'] = version_number
+
+            x = htn_html(data=HTN)
+            if langselector != "None" and langselector != []:
+                language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","|").replace(" ","").replace("'","")
+                savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN_{language_savesuffix}"
+                exportname = f"{projectdir}/export/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN_{language_savesuffix}"
+            else:
+                savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN"
+                exportname = f"{projectdir}/export/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN"                
+            with st.spinner("Writing html..."):
+                with open(savename + ".html", "w", encoding='utf-8') as f:
+                    f.write(x)                
+            exportdir = f"{projectdir}/export/"
+            if not os.path.exists(exportdir):
+                os.makedirs(exportdir)
+            convert_graph(H, exportname)
+
+            st.success(f"`Saved the interactive hashtag network as to: {savename}.html`.")
+            st.success(f"`Exported the network as graphml (.gml), edgelist (.csv) and\
+                       dot (.gv) to: \n {exportname}`.")
