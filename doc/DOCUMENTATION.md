@@ -110,12 +110,12 @@ Go to your new app and enter the `Keys and tokens` section. Copy the Consumer AP
  -->
 
 To use the **collector**, you need to apply for a [Twitter Developer Account](https://developer.twitter.com/en/use-cases/academic-researchers). Follow the instructions [here](https://developer.twitter.com/en/docs/tutorials/step-by-step-guide-to-making-your-first-request-to-the-twitter-api-v2) to generate your access tokens. 
-*API v2* Create a new file in the **twitter explorer** folder called `twitter_bearertoken.txt` with the following content:
+**API v2**: Create a new file in the **twitter explorer** folder called `twitter_bearertoken.txt` with the following content:
 ```
 # bearer_token
 <insert bearer_token here>
 ```
-*API v1.1* Create a new file in the **twitter explorer** folder called `twitter_apikeys.txt` with the following content:
+**API v1.1**: Create a new file in the **twitter explorer** folder called `twitter_apikeys.txt` with the following content:
 ```
 # api_key
 <insert api_key here>
