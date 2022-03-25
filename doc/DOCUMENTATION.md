@@ -33,7 +33,7 @@ Table of Contents
 [![twitter explorer][arch-img]][title-url]<br/>
 
 The **twitter explorer** is an open framework that consists of three components: 
-The *collector* (left), after having set up the credentials, allows for connection to the Twitter Search API and saves the collected tweets in `jsonl` format. They are then passed on to the *visualizer* (middle), where the user can get an overview of the content and then create retweet and hashtag networks. The interactive networks are generated as html files that can be explored in the web browser. The modular structure of the three components facilitates the development of new features which are suggested by the light grey boxes.
+The *collector* (left), after having set up the credentials, allows for connection to the Twitter Search API and saves the collected tweets in `CSV` according to the [twitwi](https://github.com/medialab/twitwi) standard. They are then passed on to the *visualizer* (middle), where the user can get an overview of the content and then create retweet and hashtag networks. The interactive networks are generated as html files that can be explored in the web browser. The modular structure of the three components facilitates the development of new features which are suggested by the light grey boxes.
 
 # Installation
 
@@ -97,7 +97,7 @@ To close the streamlit interface, hit `CTRL` + `C` in the Powershell.
 # Data collection
 
 ## Authentication
-To use the **twitter explorer**, you need to apply for a [Twitter Developer Account](https://developer.twitter.com/en/use-cases/academic-researchers). Follow the steps on the link to create a new research account or to transform an existing account into one. Now, go to the [Apps section](https://developer.twitter.com/en/apps) of your Twitter account and click on `Create an app` in the upper right corner:
+<!-- To use the **twitter explorer**, you need to apply for a [Twitter Developer Account](https://developer.twitter.com/en/use-cases/academic-researchers). Follow the steps on the link to create a new research account or to transform an existing account into one. Now, go to the [Apps section](https://developer.twitter.com/en/apps) of your Twitter account and click on `Create an app` in the upper right corner:
 
 
 ![createapp][createapp]
@@ -107,9 +107,15 @@ Enter `twitter explorer` as the name and a description of the research you want 
 
 Go to your new app and enter the `Keys and tokens` section. Copy the Consumer API keys:
 ![apikeys][apikeys]
+ -->
 
-
-Create a new file in the **twitter explorer** folder called `twitter_apikeys.txt` with the following content:
+To use the **collector**, you need to apply for a [Twitter Developer Account](https://developer.twitter.com/en/use-cases/academic-researchers). Follow the instructions [here](https://developer.twitter.com/en/docs/tutorials/step-by-step-guide-to-making-your-first-request-to-the-twitter-api-v2) to generate your access tokens. 
+*API v2* Create a new file in the **twitter explorer** folder called `twitter_bearertoken.txt` with the following content:
+```
+# bearer_token
+<insert bearer_token here>
+```
+*API v1.1* Create a new file in the **twitter explorer** folder called `twitter_apikeys.txt` with the following content:
 ```
 # api_key
 <insert api_key here>
@@ -125,7 +131,7 @@ Change to the folder where you downloaded streamlit, open a terminal and start t
 ```
 streamlit run collector.py
 ```
-The collector interface will open in your browser. You can start a search based on a keyword. The tweets will be downloaded and continuously written into a new [json-lines](http://jsonlines.org/) file in `./data/{currentdate_keyword.jsonl}`. Each line of this file contains one tweet object. Note that there are [rate limits](https://developer.twitter.com/en/docs/basics/rate-limiting) in the free Search API. When the **twitter explorer** reaches a rate limit, it will sleep for 15mins and continue the search afterwards. From experience, this results to ~7500 tweets per 15mins. 
+The collector interface will open in your browser. You can start a search based on a keyword. The tweets will be downloaded and continuously written into a new `CSV` file in `./data/{currentdate_keyword.csv}`. Note that there are [rate limits](https://developer.twitter.com/en/docs/basics/rate-limiting) in the free Search API. When the **twitter explorer** reaches a rate limit, it will sleep for 15mins and continue the search afterwards. From experience, this results to ~7500 tweets per 15mins. 
 Also, keep in mind the following statement about the Twitter Search API:
 > Please note that Twitter's search service and, by extension, the Search API is not meant to be an exhaustive source of Tweets. Not all Tweets will be indexed or made available via the search interface.
 
@@ -134,31 +140,31 @@ Start the visualizer, which will open the second interface in a browser window:
 ```
 streamlit run visualizer.py
 ```
-You can select a previously collected dataset for further analysis from a drop-down menu. If you have your own Twitter dataset, please convert it to the `json-lines` format (every tweet dictionary in one line) and copy it to the `./data` folder. 
+You can select a previously collected dataset for further analysis from a drop-down menu. If you have your own Twitter dataset, please convert it to the [twitwi csv format](https://github.com/medialab/twitwi) and copy it to the `./data` folder. 
 
 The visualizer will create a new folder for every collection you make in the `output` folder. Refer to [File structure](#file-structure) for a detailed list of files generated by the **twitter explorer**.
 
 ## Timeline of tweets
-As a first step, the visualizer creates a timeseries showing the amount of tweets in the dataset over time, which will be saved in the project folder. 
+As a first step, the visualizer creates a timeseries showing the amount of tweets in the dataset over time.
 
 ## Retweet networks
-The **twitter explorer** can generate retweet networks in which nodes are users. A link is drawn from node `i` to `j` if `i` retweets `j`. The following methods are available:
+The **twitter explorer** can generate different types of interaction networks (retweet, mention, quote, reply) in which nodes are users. A link is drawn from node `i` to `j` if `i` interactions with `j`. The following graph operations are:
 
 ### Giant Component
 When enabled, the graph will be reduced to its largest connected component. 
 
 ### Aggregation methods
 - "Soft" aggregation
-  Removes all users that are never retweeted and only retweet one other user (and can therefore not be bridges in the network)
+  Removes all users that are never interacted with and only interact with one other user (and can therefore not be bridges in the network)
   
 - "Hard" aggregation
-  Removes all users from the network that are retweeted less than `t` times.
+  Removes all users from the network that are interacted with less than `t` times.
 
 ### Privacy option
 Removes all accessible metadata of users that have less than 5000 followers (no public figures) from the interactive visualization in order to comply with current privacy standards. The nodes are visible and their links are taken into account, but they cannot be personally identified in the interface.
 
 ### Community detection
-The **twitter explorer** currently supports Louvain [[1]](#louvain) and InfoMap [[2]](#infomap) algorithms for community detection. The community assignments are saved as node metadata. Note that the Louvain community detection does not take into account link direction.
+The **twitter explorer** currently supports Louvain [[1]](#louvain) and Leiden [[2]](#leiden) algorithms for community detection. The community assignments are saved as node metadata. Note that these community detection algorithms do not take into account link direction.
 
 ## Hashtag networks
 The **twitter explorer** can generate hashtag networks in which nodes are hashtags. A link is drawn between node `i` and `j` if `i` and `j` appear in the same tweet. The following methods are available:
@@ -183,23 +189,21 @@ A summary of the file structure is found below:
 ```
 COLLECTED DATA (created by the collector)
 .data/
-.data/{date}_tweets_{keyword}.jsonl <-- collected dataset
+.data/{date}_tweets_{keyword}.csv <-- collected dataset
 
 INTERACTIVE NETWORKS (created by the visualizer)
 ./output/
 
-./output/{date}_{keyword}/{date}_{keyword}_timeline.html <-- timeline of tweets
-
-./output/{date}_{keyword}/{date}_{keyword}_RTN.html <-- retweet network
+./output/{date}_{keyword}/{date}_{keyword}{interaction_type}.html <-- interaction network
 ./output/{date}_{keyword}/{date}_{keyword}_HTN.html <-- hashtag network
-./output/{date}_{keyword}/{date}_{keyword}_RTN_CG_{comdec_method}.html <-- retweet network clustergraph
+./output/{date}_{keyword}/{date}_{keyword}_{interaction_type}_CG_{comdec_method}.html <-- interaction network clustergraph
 ./output/{date}_{keyword}/{date}_{keyword}_HTN_CG_{comdec_method}.html <-- hashtag network clustergraph
 
 EXPORTED NETWORKS (created by the visualizer)
 ./output/{date}_{keyword}/export/
-./output/{date}_{keyword}/export/RTN.csv <-- retweet network as edgelist
-./output/{date}_{keyword}/export/RTN.gml <-- retweet network as gml
-./output/{date}_{keyword}/export/RTN.gv  <-- retweet network as dot for graphviz
+./output/{date}_{keyword}/export/{interaction_type}.csv <-- interaction network as edgelist
+./output/{date}_{keyword}/export/{interaction_type}.gml <-- interaction network as gml
+./output/{date}_{keyword}/export/{interaction_type}.gv  <-- interaction network as dot for graphviz
 ./output/{date}_{keyword}/export/HTN.csv <-- hashtag network as edgelist
 ./output/{date}_{keyword}/export/HTN.gml <-- hashtag network as gml
 ./output/{date}_{keyword}/export/HTN.gv  <-- hashtag network as dot for graphviz
@@ -212,15 +216,18 @@ Open the generated `html` files to explore the generated networks (we recommend 
 - show number of nodes and links
 - recolor nodes according to community assignment
 - change node size according to metadata values
-- change node scaling (experimental)
+- change node scaling 
 - display user metadata on click
 - search for users / hashtags
 - show user tweets in dataset
 - show current user timeline
+- take a screenshot of the current graph view
+- export the graph as GML for Gephi
+- export the user metadata as a CSV
 
 # References
 <a name="louvain">[1]</a> Blondel, Vincent D., et al. "Fast unfolding of communities in large networks." Journal of statistical mechanics: theory and experiment 2008.10 (2008): P10008.  
-<a name="infomap">[2]</a> Rosvall, Martin, Daniel Axelsson, and Carl T. Bergstrom. "The map equation." The European Physical Journal Special Topics 178.1 (2009): 13-23.  
+<a name="leiden">[2]</a> Traag, Vincent A., Ludo Waltman, and Nees Jan Van Eck. "From Louvain to Leiden: guaranteeing well-connected communities." Scientific reports 9.1 (2019): 1-12.  
 
 [title-img]: ./img/doc.png
 [title-url]: https://twitterexplorer.org
