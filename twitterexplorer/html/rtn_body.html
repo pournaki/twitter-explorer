@@ -1,0 +1,101 @@
+<body>
+<div id="totalborder">
+<div style="display:flex">
+<div style="padding-left: 10px;" class="svgbutton00">
+<svg onclick='toggle_darkmode()' height='100px' width='100px'  fill="#000000" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 100 100" x="0px" y="0px"><title>Toggle dark mode</title><path d="M50,2.5A47.5,47.5,0,1,0,97.5,50,47.5,47.5,0,0,0,50,2.5Zm0,90.56A43.06,43.06,0,1,1,93.06,50,43.11,43.11,0,0,1,50,93.06ZM14.93,49.56A35.51,35.51,0,0,0,50.44,85.07V14A35.51,35.51,0,0,0,14.93,49.56Z"></path></svg>
+</div>
+<div style="padding-left: 250px;" class="svgbutton01" title='Make a screenshot of the current graph view'>
+<a id='camera'></a>    
+<svg onclick='make_screenshot()' height='100px' width='100px'  fill="#000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path d="M92.5,27.5H35V20c0-1.4-1.1-2.5-2.5-2.5h-15c-1.4,0-2.5,1.1-2.5,2.5v7.5H7.5C6.1,27.5,5,28.6,5,30v50c0,1.4,1.1,2.5,2.5,2.5  h85c1.4,0,2.5-1.1,2.5-2.5V30C95,28.6,93.9,27.5,92.5,27.5z M20,22.5h10v5H20V22.5z M90,77.5H10v-45h80V77.5z"></path><path d="M50,72.5c9.6,0,17.5-7.9,17.5-17.5S59.6,37.5,50,37.5S32.5,45.4,32.5,55S40.4,72.5,50,72.5z M50,42.5  c6.9,0,12.5,5.6,12.5,12.5S56.9,67.5,50,67.5S37.5,61.9,37.5,55S43.1,42.5,50,42.5z"></path></svg>
+</div>
+</div>
+<div class="borders" id="titleborder" style="margin-top:0">
+<div id="title">twitter explorer <span id="version_number" style="font-size:8pt"></span></div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel00"></div>
+<div class = "content" id="content00" style="padding-top:0px">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel01">VISUALIZATION OPTIONS</div>
+<div class = "content" id="content01">
+    <div id="mainselection" class="element">
+        <div class="description">Auto-color nodes by</div>
+            <select id = "nodecolor">
+                <option value = "none" style="font-weight: bold"></option>
+                <option value = "louvain_com">Louvain community</option>
+                <option value = "leiden_com">Leiden community</option>
+            </select>
+        <br> <br>
+        <div class="description">Node size (variable scale)</div>
+            <select id = "nodesize">
+                <option value = "none">None</option>
+                <option value = "in_degree" id="indegreeoption">In-Degree (number of times the user got retweeted)</option>
+                <option value = "out_degree" id="outdegreeoption">Out-Degree (number of times the user retweeted someone)</option>
+                <option value = "followers">Number of followers</option>
+                <option value = "friends">Number of followed accounts</option>
+            </select>
+        </div>
+        <div class="description" id="scale">Size scale</div>
+        <div class="slidecontainer">
+          <input type="range" min="0.2" max="20" value="2" id="slido">
+        </div>
+        <a href="javascript:void(0);" onclick="toggle_linkvisibility()" class="button2">Toggle link visibility</a>                
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel02">NETWORK MEASURES</div>
+<div class = "content" id="content02">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel03">ACCOUNT INFORMATION</div>
+<div class = "content" id="content03">
+    <div class="description"> Search user</div>
+    <input id="searchuser" type="search"/>
+        <br>
+        <a href="javascript:void(0);" onclick="zoomonuser()" class="button1">Zoom on node</a>
+        <a href="javascript:void(0);" onclick="drawortweets()" class="button1" id="fetch_originaltweet">Fetch tweets</a><br>        
+        <a href="javascript:void(0);" onclick="drawretweets()" class="button1" id="fetch_interaction"></a>
+        <a href="javascript:void(0);" onclick="drawtimeline()" class="button1">Fetch timeline</a> 
+    <br><br>
+    <div id="userinfostring"></div>
+    <div class="borders_small" id="originaltweetsborders">
+        <div class= "subsubtitle" id="panel04A">ORIGINAL TWEETS IN DATASET</div>
+        <div class = "content" id="content04A">
+            <div id="user_originaltweets">
+                <div class="loader"></div>
+                <a id="useroriginaltweets" class="useroriginaltweets"></a>
+            </div>
+        </div>
+    </div>  
+    <div class="borders_small">
+        <div class= "subsubtitle" id="panel04"></div>
+        <div class = "content" id="content04">
+            <div id="user_retweets">
+                <a id="userretweets" class="userretweets"></a>
+            </div>
+        </div>
+    </div>   
+    <div class="borders_small">
+        <div class= "subsubtitle" id="panel05">TWITTER TIMELINE</div>
+        <div class = "content" id="content05">
+            <div id="twittertimeline">
+                <a id="twitter_timeline" class="twitter-timeline"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel06">EXPORT OPTIONS</div>
+<div class = "content" id="content06">
+<a href="javascript:void(0);" onclick="export_nodes_as_csv()" class="button1" style="margin-top:0">Export nodes and metadata as CSV</a>   
+<a href="javascript:void(0);" onclick="d3graph_to_gml()" class="button1" style="margin-top:0">Export graph as GML (for Gephi)</a>     
+</div>
+</div>
+<!-- <div id="footer">Created with the <a href="https://twitterexplorer.org">twitter explorer</a></div></div> -->
+</div>
+
+<div id="graph" style="width:100%;height: 100%;position: absolute;"></div>

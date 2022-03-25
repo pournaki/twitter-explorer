@@ -206,6 +206,28 @@
             position:relative;
             top:1px;
           }
+        .button2 {
+            background-color:transparent;
+            border-radius:4px;
+            margin-top: 20px;
+            border:1px solid;
+            display:inline-block;
+            cursor:pointer;
+            color:var(--color_text);
+            width: 140px;
+            font-size:10pt;
+            padding:5px 5px;
+            /*padding:6px 36px;*/
+            text-decoration:none;
+            margin-right: 5px
+          }
+          .button2:hover {
+            background-color: var(--backg_buttons);
+          }
+          .button2:active {
+            position:relative;
+            top:1px;
+          }                    
         /* ---------------------------- */  
         /* ---------- Checkbox ---------- */
         .checkbox {
@@ -279,15 +301,78 @@
         #slido{width: 270px;}
         #slido_links{width: 270px;}        
         #scale{margin-top: 20px}
-        #user_tweets{
+        #user_retweets{
           overflow-y: scroll;
           scrollbar-width: none; /* Firefox */
           -ms-overflow-style: none;  /* Internet Explorer 10+ */          
           height: 300px;
         }
-        #user_tweets::-webkit-scrollbar { /* WebKit */
+        #user_retweets::-webkit-scrollbar { /* WebKit */
         width: 0;
         height: 0;
         }
+        #user_originaltweets{
+          overflow-y: scroll;
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* Internet Explorer 10+ */          
+          height: 300px;
+        }
+        #user_originaltweets::-webkit-scrollbar { /* WebKit */
+        width: 0;
+        height: 0;
+        }        
+        .loader {
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #444444;
+            width: 35px;
+            height: 35px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .svgbutton00 {
+          padding-top: 6px;
+          padding-bottom: 0px;
+          }
+          .svgbutton00:hover{
+            cursor: pointer;
+          }
+        .svgbutton00 svg {
+          width: 24px;
+          height: 24px;
+          stroke: var(--color_text);
+          stroke-width: 4;
+          stroke-linecap: square;
+          stroke-linejoin: miter;
+          fill: var(--color_text);
+        }
+        .svgbutton00 svg:hover{
+            stroke: magenta;
+        }             
+        .svgbutton01 {
+          /*border-radius: 4px;*/
+          padding-top: 3px;          
+          /*float: right;*/
+          }
+          .svgbutton01:hover{
+            cursor: pointer;
+          }
+        .svgbutton01 svg {
+          width: 30px;
+          height: 30px;
+          stroke: var(--color_text);
+          stroke-width: 4;
+          stroke-linecap: square;
+          stroke-linejoin: miter;
+          fill: none;
+        }
+        .svgbutton01 svg:hover{
+            stroke: magenta;
+        }          
 </style>
 </head>

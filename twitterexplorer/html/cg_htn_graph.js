@@ -183,6 +183,7 @@ var netmeasures = `
 document.getElementById('panel00').innerHTML = data.graph.type
 document.getElementById('content00').innerHTML = netinfo
 document.getElementById('content02').innerHTML = netmeasures
+document.getElementById('version_number').innerHTML = data.version_number
 
 </script>
 

@@ -1,19 +1,9 @@
-#!/usr/bin/env python
+## =============================================================================
+## twitter explorer 
+## html file builders
+## =============================================================================
 
-"""Generates interactive interface for Twitter exploration.
-
-Returns twitter explorer interactive interface html based on 
-d3js networks (retweet networks, hashtag networks, clustergraphs).
-"""
-
-__author__    = "Armin Pournaki"
-__copyright__ = "Copyright 2020, Armin Pournaki"
-__credits__   = ["Felix Gaisbauer", "Sven Banisch", "Eckehard Olbrich"]
-__license__   = "GPLv3"
-__version__   = "0.1"
-__email__     = "pournaki@mis.mpg.de"
-
-folder = './src/html/'
+folder = './twitterexplorer/html/'
 
 with open(f'{folder}head.html', 'r') as f:
     head = f.read()
