@@ -147,7 +147,7 @@ The visualizer will create a new folder for every collection you make in the `ou
 ## Timeline of tweets
 As a first step, the visualizer creates a timeseries showing the amount of tweets in the dataset over time.
 
-## Retweet networks
+## Interaction networks
 The **twitter explorer** can generate different types of interaction networks (retweet, mention, quote, reply) in which nodes are users. A link is drawn from node `i` to `j` if `i` interactions with `j`. The following graph operations are:
 
 ### Giant Component
