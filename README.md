@@ -76,7 +76,7 @@ The **twitter explorer** stands on the shoulders of giants:
   All the graph operations in the **twitter explorer** are handled by the Python version of igraph.
 - [twarc](https://github.com/DocNow/twarc) and [tweepy](http://www.tweepy.org/)  
   Easy-to-use Python wrappers for Twitter APIs.
-- [twitwi](https://github.com/medialab/twitwi)
+- [twitwi](https://github.com/medialab/twitwi)  
   A collection of Twitter-related helper functions for Python.
 
 ## Funding
