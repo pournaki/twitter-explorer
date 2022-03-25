@@ -9,7 +9,7 @@ An interface to explore Twitter data through interactive network visualizations.
 
 The **twitter explorer** helps computational social scientists to:
 
-- *Collect* Twitter data by providing a visual interface for the Twitter Search API.
+- *Collect* Twitter data by providing a visual interface for the Twitter Search API (v2 Standard, v2 Academic Research, v1.1 Standard).
 
 - *Transform* the collected data into networks: retweet/quote/mention/reply networks capturing different interactions between users and hashtag networks revealing the semantic layer of the debate. 
 
