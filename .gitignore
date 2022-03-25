@@ -1,6 +1,7 @@
 # output
 /data
 /output
+/releases
 
 # API keys
 twitter_apikeys.txt
