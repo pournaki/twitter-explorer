@@ -380,7 +380,7 @@ link.click()
 function export_nodes_as_csv(){
     var csv_string = ""
     var options = Object.keys(data.nodes[0])
-    var to_disregard = ['otweets','interactions','__indexColor','x','y','vx','vy','index']
+    var to_disregard = ['otweets','interactions','vx','vy','index']
     var filtered_options = options.filter(function(e) { return !to_disregard.includes(e)})
     for (option of filtered_options)
         {csv_string += option;csv_string += ","}
@@ -406,7 +406,7 @@ function export_nodes_as_csv(){
 function d3graph_to_gml(){
   var gml_string = "graph\n[\n"
   var options = Object.keys(data.nodes[0])
-  var to_disregard = ['otweets','interactions']
+  var to_disregard = ['otweets','interactions','vx','vy','index']
   var filtered_options = options.filter(function(e) { return !to_disregard.includes(e)})
   for (var i = 0; i < data.nodes.length; ++i){
     node = data.nodes[i]
