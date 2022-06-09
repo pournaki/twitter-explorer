@@ -5,6 +5,7 @@
 
 # API keys
 twitter_apikeys.txt
+twitter_bearertoken.txt
 
 # dev
 dev.ipynb
