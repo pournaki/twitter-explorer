@@ -51,24 +51,45 @@ if filename not in ["./data/---","./data\\---"]:
     def load_data(path):
         ## pandas does strange things to IDs, like importing them as ints and using
         ## scientific notation, so we need to make sure they are read as strings
-        df = pd.read_csv(path,
-                         dtype={"id":str,
-                                "user_id":str,
-                                "to_userid":str,
-                                "to_tweetid":str,
-                                "retweeted_id":str,
-                                "retweeted_user_id":str,
-                                "quoted_id":str,
-                                "quoted_user_id":str,
-                                "mentioned_ids":str,
-                                "mentioned_names":str,
-                                "hashtags":str
-                                },
-                        low_memory=False,
-                     )
+        try:
+            df = pd.read_csv(path,
+                             dtype={"id":str,
+                                    "user_id":str,
+                                    "to_userid":str,
+                                    "to_tweetid":str,
+                                    "retweeted_id":str,
+                                    "retweeted_user_id":str,
+                                    "quoted_id":str,
+                                    "quoted_user_id":str,
+                                    "mentioned_ids":str,
+                                    "mentioned_names":str,
+                                    "hashtags":str
+                                    },
+                            low_memory=False,
+                            # lineterminator='\n'
+                         )
+        except pd.errors.ParserError:
+        ## https://stackoverflow.com/a/48187106
+            df = pd.read_csv(path,
+                             dtype={"id":str,
+                                    "user_id":str,
+                                    "to_userid":str,
+                                    "to_tweetid":str,
+                                    "retweeted_id":str,
+                                    "retweeted_user_id":str,
+                                    "quoted_id":str,
+                                    "quoted_user_id":str,
+                                    "mentioned_ids":str,
+                                    "mentioned_names":str,
+                                    "hashtags":str
+                                    },
+                            low_memory=False,
+                            lineterminator='\n'
+                         )            
         ## remove possible duplicates, even though the collector
         ## should not collect doubles
         df = df.drop_duplicates('id')
+        df = df.drop_duplicates('id',keep='last')
         return df
 
     if filename[-3:] == "csv":
