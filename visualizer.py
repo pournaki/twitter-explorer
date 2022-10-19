@@ -292,7 +292,10 @@ if filename not in ["./data/---","./data\\---"]:
 
             with st.spinner("Writing html..."):
                 if langselector != "None" and langselector != []:
-                    language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","|").replace(" ","").replace("'","")
+                    if os.name == 'nt': # windows does not accept "|" in filenames
+                        language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","-").replace(" ","").replace("'","")
+                    else:
+                        language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","|").replace(" ","").replace("'","")
                     savename = f"{projectdir}/{project}_{interaction_type}network_{language_savesuffix}"
                     savename_export = f"{interaction_type}network_{language_savesuffix}"
                 else:
@@ -380,7 +383,10 @@ if filename not in ["./data/---","./data\\---"]:
 
             x = htn_html(data=HTN)
             if langselector != "None" and langselector != []:
-                language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","|").replace(" ","").replace("'","")
+                if os.name == 'nt': # windows does not accept "|" in filenames
+                    language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","-").replace(" ","").replace("'","")
+                else:
+                    language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","|").replace(" ","").replace("'","")
                 savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN_{language_savesuffix}"
                 exportname = f"{projectdir}/export/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN_{language_savesuffix}"
             else:
