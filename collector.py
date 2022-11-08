@@ -77,7 +77,7 @@ if api_type in ['Standard API v2','Academic Research API v2']:
         timerange = st.date_input(label="DATE_RANGE/ Return tweets created in the given time range (including the first and last day).",
                                   help="Keep in mind that the search index has a 7-day limit if you are not using the academic research API: choosing a date earlier than one week past will return no tweets.",
                                   value=[datelastweek,datetoday],
-                                  min_value=datetime.date(2016,7,15), # day Twitter was launched
+                                  min_value=datetime.date(2006,7,15), # day Twitter was launched
                                   max_value=datetoday
                                   )    
         since_date = timerange[0]
