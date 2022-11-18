@@ -339,6 +339,9 @@ if filename not in ["./data/---","./data\\---"]:
         link_thresh_htn = st.slider("Remove edges that link hashtags less than than x times", 
                                     0, 50, 1, 1, 
                                     key='l_thresh_htn')
+        ht_to_remove = st.text_input(label="Hashtags to be removed from the graph, separated by '|'",
+                                     help="It is recommended to remove the hashtag used for the query.")
+
         st.write('<span style="text-decoration: underline;">Community detection</span>', 
                  unsafe_allow_html=True)
         htn_louvain = st.checkbox("Louvain", key='htn_louvain', help="Requires the installation of the 'louvain' package, currently not working on M1 machines.")
@@ -357,6 +360,17 @@ if filename not in ["./data/---","./data\\---"]:
                     H = twitter_df_to_hashtagnetwork(df=df,
                                                      starttime=ts0,
                                                      endtime=ts1)
+                
+                ## add the option of removing a node
+                if ht_to_remove != "":
+                    ht_to_remove_list = ht_to_remove.split("|")
+                    nodes_to_remove = []
+                    for ht in ht_to_remove_list:                        
+                        ht = ht.replace("#","")
+                        idx_of_ht = np.where(np.array(H.vs['name']) == ht)[0][0]
+                        nodes_to_remove.append(idx_of_ht)
+                    H.delete_vertices(nodes_to_remove)
+
                 H = reduce_semanticnetwork(H,
                                            giant_component=htn_giantcomponent,
                                            node_threshold=node_thresh_htn,
