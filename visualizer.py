@@ -241,38 +241,40 @@ if filename not in ["./data/---","./data\\---"]:
             if rtn_louvain == True:
                 with st.spinner("Computing Louvain communities..."):
                     G, cgl = compute_louvain(G)        
-                    cgl_d3 = d3_cg_rtn(cgl)
-                    cgl_d3["graph"] = {}
-                    cgl_d3['graph']['type'] = f"{interaction_type.capitalize()} network <br> Louvain graph"
-                    cgl_d3['graph']['keyword'] = subtitle
-                    cgl_d3['graph']['collected_on'] = collectedon
-                    cgl_d3['graph']['first_tweet'] = firstdate_str
-                    cgl_d3['graph']['last_tweet'] = lastdate_str
-                    cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
-                    cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
-                    cgl_d3['version_number'] = version_number
-                    x = cg_rtn_html(cgl_d3)
-                    with open(f"{projectdir}/{project}_{interaction_type}_CG_louvain.html", "w",
-                              encoding='utf-8') as f:
-                        f.write(x)
+                    ## CLUSTER-GRAPHS DEPRECATED
+                    # cgl_d3 = d3_cg_rtn(cgl)
+                    # cgl_d3["graph"] = {}
+                    # cgl_d3['graph']['type'] = f"{interaction_type.capitalize()} network <br> Louvain graph"
+                    # cgl_d3['graph']['keyword'] = subtitle
+                    # cgl_d3['graph']['collected_on'] = collectedon
+                    # cgl_d3['graph']['first_tweet'] = firstdate_str
+                    # cgl_d3['graph']['last_tweet'] = lastdate_str
+                    # cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
+                    # cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
+                    # cgl_d3['version_number'] = version_number
+                    # x = cg_rtn_html(cgl_d3)
+                    # with open(f"{projectdir}/{project}_{interaction_type}_CG_louvain.html", "w",
+                    #           encoding='utf-8') as f:
+                    #     f.write(x)
 
             if rtn_leiden == True:
                 with st.spinner("Computing Leiden communities..."):
                     G, cgl = compute_leiden(G)        
-                    cgl_d3 = d3_cg_rtn(cgl)
-                    cgl_d3["graph"] = {}
-                    cgl_d3['graph']['type'] = f"{interaction_type.capitalize()} network <br> Leiden graph"
-                    cgl_d3['graph']['keyword'] = subtitle
-                    cgl_d3['graph']['collected_on'] = collectedon
-                    cgl_d3['graph']['first_tweet'] = firstdate_str
-                    cgl_d3['graph']['last_tweet'] = lastdate_str
-                    cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
-                    cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
-                    cgl_d3['version_number'] = version_number
-                    x = cg_rtn_html(cgl_d3)
-                    with open(f"{projectdir}/{project}_{interaction_type}_CG_leiden.html", "w",
-                              encoding='utf-8') as f:
-                        f.write(x)
+                    ## CLUSTER-GRAPHS DEPRECATED
+                    # cgl_d3 = d3_cg_rtn(cgl)
+                    # cgl_d3["graph"] = {}
+                    # cgl_d3['graph']['type'] = f"{interaction_type.capitalize()} network <br> Leiden graph"
+                    # cgl_d3['graph']['keyword'] = subtitle
+                    # cgl_d3['graph']['collected_on'] = collectedon
+                    # cgl_d3['graph']['first_tweet'] = firstdate_str
+                    # cgl_d3['graph']['last_tweet'] = lastdate_str
+                    # cgl_d3['graph']['N_nodes'] = len(cgl_d3["nodes"])
+                    # cgl_d3['graph']['N_links'] = len(cgl_d3["links"])
+                    # cgl_d3['version_number'] = version_number
+                    # x = cg_rtn_html(cgl_d3)
+                    # with open(f"{projectdir}/{project}_{interaction_type}_CG_leiden.html", "w",
+                    #           encoding='utf-8') as f:
+                    #     f.write(x)
                 
             # create d3-graph and fill it with info
             RTN = d3_rtn(G,private=privacy)
@@ -320,8 +322,9 @@ if filename not in ["./data/---","./data\\---"]:
                           unresponsive.")
             
             st.success(f"`Saved the interactive {interaction_type} network to: {savename}.html`.")
-            if rtn_louvain == True:
-                st.success(f"`Saved the Louvain cluster graph to: {savename}_CG.html`.")
+            ## CLUSTER-GRAPHS DEPRECATED
+            # if rtn_louvain == True:
+            #     st.success(f"`Saved the Louvain cluster graph to: {savename}_CG.html`.")
             st.success(f"`Exported the network as gml (.gml), edgelist (.csv) and\
                        dot (.gv) to the export folder.`")
 
