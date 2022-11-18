@@ -63,12 +63,13 @@ if filename not in ["./data/---","./data\\---"]:
                                     "quoted_user_id":str,
                                     "mentioned_ids":str,
                                     "mentioned_names":str,
-                                    "hashtags":str
+                                    "hashtags":str,
+                                    "timestamp_utc":int,
                                     },
                             low_memory=False,
                             # lineterminator='\n'
                          )
-        except pd.errors.ParserError:
+        except (pd.errors.ParserError,ValueError) as e:
         ## https://stackoverflow.com/a/48187106
             df = pd.read_csv(path,
                              dtype={"id":str,
@@ -81,14 +82,14 @@ if filename not in ["./data/---","./data\\---"]:
                                     "quoted_user_id":str,
                                     "mentioned_ids":str,
                                     "mentioned_names":str,
-                                    "hashtags":str
+                                    "hashtags":str,
+                                    "timestamp_utc":int
                                     },
                             low_memory=False,
                             lineterminator='\n'
                          )            
         ## remove possible duplicates, even though the collector
         ## should not collect doubles
-        df = df.drop_duplicates('id')
         df = df.drop_duplicates('id',keep='last')
         return df
 
