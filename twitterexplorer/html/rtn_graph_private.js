@@ -6,6 +6,11 @@ var nodescaling = 0.05;
 var nodecolor = colorselector.options[colorselector.selectedIndex].value;
 var darkmode = false
 
+// get node color options
+ms = document.getElementById('nodecolor')
+if ('louvain_com' in data.nodes[0]){ms.innerHTML+=`<option value = "louvain_com">Louvain community</option>\n`}
+if ('leiden_com' in data.nodes[0]){ms.innerHTML+=`<option value = "leiden_com">Leiden community</option>\n`}
+
 // hide links by default if there are more than 10.000
 if (data.links.length > 10000) {var init_linkvis = false}
 else {var init_linkvis = true}

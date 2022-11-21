@@ -3,6 +3,11 @@ var colorselector = document.getElementById("nodecolor");
 var nodescaling = 3;
 var darkmode = false
 
+// get node color options
+ms = document.getElementById('nodecolor')
+if ('louvain_com' in data.nodes[0]){ms.innerHTML+=`<option value = "louvain_com">Louvain community</option>\n`}
+if ('leiden_com' in data.nodes[0]){ms.innerHTML+=`<option value = "leiden_com">Leiden community</option>\n`}
+
 var nodecolor = colorselector.options[colorselector.selectedIndex].value;
 const elem = document.getElementById('graph');
 const Graph = ForceGraph()(elem)
