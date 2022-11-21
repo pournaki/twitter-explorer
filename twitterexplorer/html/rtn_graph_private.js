@@ -328,8 +328,14 @@ userinfostring = `<ul>
 <li> Followers: ${node.followers}
 <li> Followed accounts: ${node.friends}
 <li> Times the user ${interaction_type_past.split(' ')[0]}: ${node.out_degree}
-<li> Times the user got ${interaction_type_past}: ${node.in_degree}
-</ul>`
+<li> Times the user got ${interaction_type_past}: ${node.in_degree}`
+if ("louvain_com" in node){
+    userinfostring += `<li> Louvain community: ${node.louvain_com}`
+}
+if ("leiden_com" in node){
+    userinfostring += `<li> Leiden community: ${node.leiden_com}`
+}
+userinfostring += `</ul>`
 document.getElementById('userinfostring').innerHTML = userinfostring
 document.getElementById("searchuser").value = node.screen_name
 }
@@ -447,7 +453,111 @@ function d3graph_to_gml(){
       { type: "text/plain;charset=utf-8" });
   saveAs(blob, "network.gml");
 }
+    function monthDiff(d1, d2) {
+        var months;
+        months = (d2.getFullYear() - d1.getFullYear()) * 12;
+        months -= d1.getMonth();
+        months += d2.getMonth();
+        return months <= 0 ? 0 : months;
+    }        
+    function dayDiff(d1, d2) {
+        const oneDay = 24 * 60 * 60 * 1000;
+        var days;
+        var diffDays = Math.round(Math.abs((d1 - d2) / oneDay));
+        return diffDays
+    }        
 
+    function padStr(i) {
+        return (i < 10) ? "0" + i : "" + i;
+    }
+    function addMonths(date, months) {
+        var d = date.getDate();
+        date.setMonth(date.getMonth() + +months);
+        if (date.getDate() != d) {
+          date.setDate(0);
+        }
+        return date;
+    }
+    function addDays(date, days) {
+        var d = date.getDate();
+        date.setDate(date.getDate() + +days);
+        // if (date.getDate() != d) {
+        //   date.setDate(0);
+        // }
+        return date;
+    }
+
+    // FILTER EDGES BY DATE SECTION
+    var all_dates = []
+    for (link of data.links){all_dates.push(new Date(link.ts * 1000))}
+    all_dates.sort((date1, date2) => date1 - date2)
+
+    // get the number of elements in the slider
+    var n_days = dayDiff(all_dates[0],all_dates[all_dates.length-1]) + 1
+
+    var first_year = all_dates[0].getFullYear()
+    var first_month = all_dates[0].getMonth()+1
+    var first_day = all_dates[0].getDay()+1
+    var idx_to_date = {} 
+    var idx_to_timestamp = {} 
+
+    for (let i = 0; i < n_days; i++){
+        var newdate = new Date(all_dates[0].getTime());        
+        newdate = addDays(newdate,i)
+        // console.log(i)
+        // idx_to_date[i] = `${first_year}-${first_month}+${i}`
+        newdate.setHours(0,0,0,0);
+        idx_to_date[i] = padStr(newdate.getFullYear())+"-"+padStr(1 + newdate.getMonth())+"-"+padStr(newdate.getDate())
+        idx_to_timestamp[i] = newdate.getTime() / 1000
+        }
+// console.log(all_dates)
+// console.log(idx_to_date)
+
+document.getElementById("time_slider").max = n_days-1;
+document.getElementById("time_slider").addEventListener("change", filter_edges_by_time);
+
+function filter_edges_by_time(){        
+    var timeslider = document.getElementById("time_slider").value;
+    // console.log(idx_to_date[timeslider])
+    var show_this_date = idx_to_date[timeslider]
+    var compute_this_date = idx_to_timestamp[timeslider]
+    // console.log(new Date(compute_this_date * 1000))
+    document.getElementById("current_time_filter").innerHTML = show_this_date        
+
+    // USE THIS IF YOU ONLY WANT TO ALTER THE LINKS
+    // for (link of data.links){    
+    //     if (link.ts > compute_this_date && link.ts < compute_this_date+(60*60*24)) {link.show=true;temporal_nodes.push(link.source);temporal_nodes.push(link.target) }
+    //     else {link.show=false}}
+
+    for (link of data.links){
+        link.source.show=false
+        link.target.show=false
+    }
+    for (link of data.links){
+        if (link.ts >= compute_this_date && link.ts <= compute_this_date+(60*60*24)) 
+            {link.show=true;
+             link.source.show=true;
+             link.target.show=true;}
+        else {link.show=false}}
+
+
+    Graph.linkVisibility(link => link.show)
+
+    var colorselector = document.getElementById("nodecolor");
+    var selectedoption = colorselector.options[colorselector.selectedIndex].value
+    if (selectedoption != "none"){
+    Graph.nodeColor(node => {if (node.show == true) {return colorscale[node[selectedoption]]} 
+                             else {return 'rgba(0,0,0,0.07)'}   })
+                                 }            
+    else { 
+    var bodyelement = document.querySelector('body')
+    var bodystyle = window.getComputedStyle(bodyelement)
+    var bg = bodystyle.getPropertyValue('color')
+    if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
+    if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
+    Graph.nodeColor(node => {if (node.show == true) {return nodecol} 
+                             else {return 'rgba(0,0,0,0.07)'}   })}
+    // Graph.nodeVisibility(node => node.show)
+    }
 </script>
-
 </body>

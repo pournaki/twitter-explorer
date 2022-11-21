@@ -83,6 +83,8 @@ def twitter_df_to_interactionnetwork(df,
     
     idf = df.copy()
     
+    # idf = idf[idf['user_id'].notna()]
+
     # reduce to the desired timerange
     if starttime != None and endtime != None:
         idf = idf[(idf['timestamp_utc'] >= starttime) & (idf['timestamp_utc']<= endtime)]    
@@ -117,7 +119,10 @@ def twitter_df_to_interactionnetwork(df,
             v['followers'] = id2info[user_id_str]['user_followers']
             v['friends'] = id2info[user_id_str]['user_friends']
         except KeyError:
-            v['screen_name'] = id2info2[user_id_str]['user_screen_name']     
+            try:
+                v['screen_name'] = id2info2[user_id_str]['user_screen_name']
+            except KeyError:
+                v['screen_name'] = 0
             v['followers'] = 0
             v['friends'] = 0   
         try:
@@ -250,9 +255,11 @@ def d3_rtn(G,private=False):
         source = link.source
         target = link.target
         tweetid = link['tweetid']
+        timestamp = link['timestamp']
         ldict = {'source': source, 
                  'target': target,
-                 'tweet': tweetid}
+                 'tweet': tweetid,
+                 'ts':timestamp}
         d3graph['links'].append(ldict)
     return d3graph
     
@@ -327,6 +334,7 @@ def twitter_df_to_hashtagnetwork(df,
     H = ig.Graph.DictList(edges=(dict(source=source, target=target, time=time, weight=1) for source, target, time in edgelist), 
                           vertices=None, 
                           directed=False)
+
     return H
 
 def reduce_semanticnetwork(H,
