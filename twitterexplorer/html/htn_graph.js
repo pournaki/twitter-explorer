@@ -317,5 +317,14 @@ document.getElementById('content00').innerHTML = netinfo
 document.getElementById('content02').innerHTML = netmeasures
 document.getElementById('version_number').innerHTML = data.version_number
 
+// NODE REPULSION
+document.getElementById("repulsion_slider").addEventListener("change", rescale_repulsion);
+function rescale_repulsion(){
+  var repulsion_slider = document.getElementById("repulsion_slider");
+  var newscale_repulsion = repulsion_slider.value 
+  Graph.d3ReheatSimulation() 
+  Graph.d3Force('charge').strength(-newscale_repulsion)
+}
+
 </script>
 </body>
