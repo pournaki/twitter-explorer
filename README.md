@@ -1,7 +1,4 @@
 [![twitter explorer][title-img]][title-url]<br/>
-[![version][version-img]][version-url]
-[![python-version][python-img]][python-url]
-[![license][license-img]][license-url]
 
 An interface to explore Twitter data through interactive network visualizations.
 
@@ -16,17 +13,17 @@ The **twitter explorer** helps computational social scientists to:
 - *Explore* these networks interactively by using state-of-the-art graph visualizations. 
 
 ## Quick start
-The **twitter explorer** requires Python ≥ 3.6. If you meet this requirement, open a terminal in your preferred folder to clone the repo and install the required libraries:
+The **twitter explorer** requires Python ≥ 3.7. If you meet this requirement, open a terminal and run:
+<!-- in your preferred folder to clone the repo and install the required libraries: -->
 ```
-$ git clone https://github.com/pournaki/twitter-explorer.git
-$ pip3 install -r requirements.txt
+$ pip install twitterexplorer
 ```
-You can now run the collector and the visualizer:
+You can now run the collector and the visualizer that will open in a new browser tab:
 ```
-$ streamlit run collector.py
-$ streamlit run visualizer.py
+$ twitterexplorer collector
+$ twitterexplorer visualizer
 ```
-They will open in a new window and instructions follow.
+Since v.0.6.0, the twitter-explorer can also be used as a Python package. Please have a look at the examples [here](./examples/).
 
 ## Getting started
 Please refer to the [documentation](./doc/DOCUMENTATION.md) for detailed installation instructions and how to use the **twitter explorer**.
@@ -86,7 +83,7 @@ This project has received funding from the European Union’s Horizon 2020 resea
 The **twitter explorer** is licensed under the [GNU GPLV3](https://www.gnu.org/licenses/gpl-3.0.en.html) license.
 
 <!-- logos and links -->
-[title-img]: ./doc/img/titlelogo.png
+[title-img]: https://raw.githubusercontent.com/pournaki/twitter-explorer/master/doc/img/titlelogo.png
 [title-url]: https://twitterexplorer.org
 [version-img]:https://img.shields.io/badge/version-0.4-000?style=for-the-badge&?color=ffffff&?logoWidth=100
 [version-url]:https://twitterexplorer.org
@@ -94,4 +91,4 @@ The **twitter explorer** is licensed under the [GNU GPLV3](https://www.gnu.org/l
 [python-url]:https://www.python.org/downloads/release/python-360/
 [license-img]:https://img.shields.io/badge/license-GNU%20GPLv3-000?style=for-the-badge&?color=ffffff
 [license-url]:https://www.gnu.org/licenses/gpl-3.0.en.html
-[explorer-img]:./doc/img/explorer.png
+[explorer-img]:https://raw.githubusercontent.com/pournaki/twitter-explorer/master/doc/img/explorer.png
