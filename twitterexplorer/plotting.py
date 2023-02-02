@@ -11,8 +11,7 @@ import streamlit as st
 import math
 import json
 
-def date_to_datetime(d):
-    return dt.datetime(d.year,d.month,d.day)
+from twitterexplorer.defaults import *
 
 def find_out_tweet_type(row):
     if type(row['retweeted_id']) == str:
@@ -24,22 +23,26 @@ def find_out_tweet_type(row):
     else:
         return 'regulartweet'    
 
-def groupby_type(df):
+def tweetdf_to_timeseries(df,frequency='1H'):
     dfc = df.copy()
+    ## don't plot the referenced tweets, they might go back centuries!
+    if "collected_via" in dfc.columns and dfc['collected_via'].isna().sum() > 0:
+        dfc = dfc[dfc['collected_via'].isna()]
     dfc['type'] = dfc.apply(lambda row: find_out_tweet_type(row), axis=1)
     dfc['ts_dt'] = pd.to_datetime(dfc['timestamp_utc'], unit= 's')    
     dfc = dfc.set_index("ts_dt")
-    grouper = dfc.groupby([pd.Grouper(freq='1H'), 'type'])
+    grouper = dfc.groupby([pd.Grouper(freq=frequency), 'type'])
     result = grouper['type'].count().unstack('type').fillna(0)
     existing_tweettypes = list(result.columns)
     result['total'] = 0
     for tweettype in existing_tweettypes:
         result['total'] += result[tweettype]
-    result["datetime"] = result.index
     return result
 
-def plot_tweetcounts(grouped_tweetdf):
+def plot_timeseries(grouped_tweetdf):
     
+    grouped_tweetdf["datetime"] = grouped_tweetdf.index
+
     # get the right order for color plotting
     types = list(grouped_tweetdf.columns)[:-2]
     counts = []
@@ -59,7 +62,7 @@ def plot_tweetcounts(grouped_tweetdf):
         as_=['variable', 'value']
     ).encode(
         alt.X('datetime:T', timeUnit='yearmonthdatehours', title="date"),
-        alt.Y('value:Q', stack=None, title="tweet count"),
+        alt.Y('value:Q', stack=None, title="tweet count (hourly)"),
         color=alt.Color("variable:N",
                         legend=alt.Legend(title="tweet type"),
                         scale=alt.Scale(domain=domain, range=range_),
@@ -78,15 +81,10 @@ def plot_tweetcounts(grouped_tweetdf):
 ).configure_legend(titleFontSize=12,labelFontSize=12)
 
 def plot_tweetlanguages(df):
-    with open ('./twitterexplorer/languages.json', 'r', encoding='utf-8') as f:
+    with open (PACKAGE_DIR+'/languages.json', 'r', encoding='utf-8') as f:
         iso_to_language = json.load(f)
     language_to_iso = {v: k for k, v in iso_to_language.items()}
-    ## when you convert an old jsonl-format, there is no meaningful
-    ## 'collected_via' field
-    if len(df[df['collected_via'].isna()]) != 0:
-        langcounts = pd.DataFrame(df[df['collected_via'].isna()].groupby('lang')["id"].count()).reset_index().rename(columns={'id':'tweet count','lang':'language_code'}).sort_values(by='tweet count', ascending=False)
-    else:
-        langcounts = pd.DataFrame(df.groupby('lang')["id"].count()).reset_index().rename(columns={'id':'tweet count','lang':'language_code'}).sort_values(by='tweet count', ascending=False)        
+    langcounts = pd.DataFrame(df.groupby('lang')["id"].count()).reset_index().rename(columns={'id':'tweet count','lang':'language_code'}).sort_values(by='tweet count', ascending=False)        
     langcounts['language'] = langcounts['language_code'].apply(lambda x: iso_to_language[x])
     langcounts_plot = langcounts.copy()
     langcounts_plot = langcounts_plot[:10].rename(columns={'language':'language (top 10)'})

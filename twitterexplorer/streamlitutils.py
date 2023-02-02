@@ -3,7 +3,7 @@
 ## streamlit-related functions
 ## =============================================================================
 
-from twitterexplorer.config import version_number
+from twitterexplorer.__version__ import __version__
 import streamlit as st
 import os
 
@@ -47,7 +47,7 @@ def ui_changes():
     st.markdown(f'<p style="font-size: 30pt; font-weight: bold; color: white; \
         background-color: #000">&nbsp;\
         <a id="titlelink" href="https://twitterexplorer.org">twitter explorer\
-        <span style="font-size:10pt;">{version_number}</span></a>\
+        <span style="font-size:10pt;">{__version__}</span></a>\
         </p>', unsafe_allow_html=True)
 
 def file_selector(folder_path='.'):

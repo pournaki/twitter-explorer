@@ -1,3 +1,8 @@
+## =============================================================================
+## twitter explorer
+## legacy support
+## =============================================================================
+
 renamedict = {'created_at_ts':'timestamp_utc',
              'user_id_str':'user_id',
              'user_followers_count':'user_followers',

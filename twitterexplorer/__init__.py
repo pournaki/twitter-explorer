@@ -1,0 +1,1 @@
+from twitterexplorer.__version__ import __version__

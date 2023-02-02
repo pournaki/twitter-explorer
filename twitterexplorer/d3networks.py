@@ -3,7 +3,9 @@
 ## html file builders
 ## =============================================================================
 
-folder = './twitterexplorer/html/'
+from twitterexplorer.defaults import *
+
+folder = PACKAGE_DIR+"/html/"
 
 with open(f'{folder}head.html', 'r') as f:
     head = f.read()
@@ -22,15 +24,15 @@ with open(f'{folder}htn_body.html', 'r') as f:
 with open(f'{folder}htn_graph.js', 'r') as f:
     htn_graph = f.read()
 
-with open(f'{folder}cg_rtn_body.html', 'r') as f:
-    cg_rtn_body = f.read()
-with open(f'{folder}cg_rtn_graph.js', 'r') as f:
-    cg_rtn_graph = f.read()
+# with open(f'{folder}cg_rtn_body.html', 'r') as f:
+#     cg_rtn_body = f.read()
+# with open(f'{folder}cg_rtn_graph.js', 'r') as f:
+#     cg_rtn_graph = f.read()
 
-with open(f'{folder}cg_htn_body.html', 'r') as f:
-    cg_htn_body = f.read()
-with open(f'{folder}cg_htn_graph.js', 'r') as f:
-    cg_htn_graph = f.read()
+# with open(f'{folder}cg_htn_body.html', 'r') as f:
+#     cg_htn_body = f.read()
+# with open(f'{folder}cg_htn_graph.js', 'r') as f:
+#     cg_htn_graph = f.read()
 
 def graphdata(data):
     string = \
@@ -66,18 +68,18 @@ def htn_html(data):
              htn_graph
     return string
 
-def cg_rtn_html(data):
-    string = head + "\n" + \
-             style + "\n" + \
-             cg_rtn_body + "\n" + \
-             graphdata(data) + "\n" + \
-             cg_rtn_graph
-    return string
+# def cg_rtn_html(data):
+#     string = head + "\n" + \
+#              style + "\n" + \
+#              cg_rtn_body + "\n" + \
+#              graphdata(data) + "\n" + \
+#              cg_rtn_graph
+#     return string
 
-def cg_htn_html(data):
-    string = head + "\n" + \
-             style + "\n" + \
-             cg_htn_body + "\n" + \
-             graphdata(data) + "\n" + \
-             cg_htn_graph
-    return string
+# def cg_htn_html(data):
+#     string = head + "\n" + \
+#              style + "\n" + \
+#              cg_htn_body + "\n" + \
+#              graphdata(data) + "\n" + \
+#              cg_htn_graph
+#     return string
