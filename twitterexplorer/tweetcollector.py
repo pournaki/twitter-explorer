@@ -418,7 +418,7 @@ class Collector():
                     print(message)
                 break            
 
-            if self._tweet_limit != None:
+            if self._tweet_limit != None and self._tweet_limit != 0:
                 if tweet_count >= self._tweet_limit:
                     message =  f"Collected the desired maximum of `{tweet_count}` tweets!"
                     if self._streamlit_interface == True:
