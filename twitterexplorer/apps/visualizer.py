@@ -202,7 +202,7 @@ if filename not in [datapath+"---",datapath+"\\---"]:
                 G = InteractionNetwork()
                 G.build_network(pandas_dataframe=df,
                                 language_filter=langselector_iso,
-                                interaction_type='retweet',
+                                interaction_type=interaction_type,
                                 starttime=ts0,
                                 endtime=ts1)
                 G.reduce_network(giant_component=True,
