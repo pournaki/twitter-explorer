@@ -317,10 +317,10 @@ class Collector():
                     break
 
         message = f"Done. Collected {tweet_count} tweets."
-            if self._streamlit_interface == True:
-                st.write(message)
-            else:
-                print(message)
+        if self._streamlit_interface == True:
+            st.write(message)
+        else:
+            print(message)
 
     def run_v1(self):
 
