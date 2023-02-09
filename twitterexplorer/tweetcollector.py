@@ -3,7 +3,6 @@
 ## tweet collector
 ## =============================================================================
 
-import streamlit as st
 import tweepy
 import json
 import os
@@ -158,6 +157,9 @@ class Collector():
         else:
             savename = self._custom_save_name
 
+        if self._streamlit_interface == True:
+            import streamlit as st
+
         output_path = self._output_directory + "/" + savename
         output_path = output_path.replace("//","/")
         self._output_path = output_path
@@ -177,7 +179,11 @@ class Collector():
             else:
                 print(message)
 
-        st.write("Collecting...")        
+        message = "Collecting..."
+        if self._streamlit_interface == True:
+            st.write(message)        
+        else:
+            print(message)
 
         if self._api_version in ["v2_standard","v2_academic_research"]:
             Collector.run_v2(self)
