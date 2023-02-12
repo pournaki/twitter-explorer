@@ -17,11 +17,13 @@ import csv
 
 class Collector():
 
-    def __init__(self,streamlit_interface=False):
+    def __init__(self,streamlit_interface):
         self._api_version = None
         self._search_query = None        
         self._client = None
         self._streamlit_interface = streamlit_interface
+        if self._streamlit_interface == True:
+            import streamlit as st
 
     def authenticate(self,
                      api_version,
@@ -148,7 +150,9 @@ class Collector():
     def start(self):
         """Start the Search
         """
-        
+        if self._streamlit_interface == True:
+            import streamlit as st
+
         ## define the name of the output file
         if self._custom_save_name == None:
             datetoday = datetime.date.today()
@@ -156,9 +160,6 @@ class Collector():
             savename = f"{datetoday}_tweets_{savesuffix}"
         else:
             savename = self._custom_save_name
-
-        if self._streamlit_interface == True:
-            import streamlit as st
 
         output_path = self._output_directory + "/" + savename
         output_path = output_path.replace("//","/")
@@ -194,6 +195,7 @@ class Collector():
         tweet_count = 0
         ## create stopbutton
         if self._streamlit_interface == True:
+            import streamlit as st
             stopbutton = st.button("Stop collecting")
 
         ## we also collect referenced tweets in the CSV
@@ -218,24 +220,6 @@ class Collector():
                                              start_time=self._start_time,
                                              end_time=self._end_time,                                       
                                              )        
-
-        # if self._save_csv == True:
-        #     message = f"Writing tweets to `{self._output_path}.csv`..."
-        #     if self._streamlit_interface == True:            
-        #         st.write(message)
-        #     else:
-        #         print(message)
-        # if self._save_full_api_response == True:
-        #     message = f"Writing full response of the Twitter API to `{self._output_path}.jsonl`..."
-        #     if self._streamlit_interface == True:
-        #         st.write(message)
-        #     else:
-        #         print(message)
-        # message = "Collecting..."
-        # if self._streamlit_interface == True:
-        #     st.write("Collecting...")        
-        # else:
-        #     print(message)
 
         ## initialize CSV
         if self._save_csv == True:
@@ -281,7 +265,7 @@ class Collector():
             ## stop it if the user selected a page limit
             if self._page_limit != 0:
                 if page_idx + 1 == self._page_limit:
-                    message = f"Hit the page limit. Collected `{tweet_count}` tweets."
+                    message = f"Hit the page limit. Collected {tweet_count} tweets."
                     if self._streamlit_interface == True:
                         st.write(message)
                         st.stop()
@@ -293,14 +277,14 @@ class Collector():
             if self._streamlit_interface == True:
                 if stopbutton:
                     st.write("Halting the collection process...")
-                    st.write(f"Collected `{tweet_count}` tweets...")
+                    st.write(f"Collected {tweet_count} tweets...")
                     ## st.stop does not work with twarc, so we need to kill the process on the system level...
                     # os.kill(pid, signal.SIGKILL)
                     st.stop()
 
             ## write how many tweets we have so far
             if page_idx != 0 and page_idx % 50 == 0:
-                message = f"Collected `{tweet_count}` tweets so far..."
+                message = f"Collected {tweet_count} tweets so far..."
                 if self._streamlit_interface == True:
                     st.write(message)
                 else:
@@ -308,7 +292,7 @@ class Collector():
 
             if self._tweet_limit != None and self._tweet_limit != 0:
                 if tweet_count >= self._tweet_limit:
-                    message =  f"Collected the desired maximum of `{tweet_count}` tweets!"
+                    message =  f"Collected the desired maximum of {tweet_count} tweets!"
                     if self._streamlit_interface == True:
                         st.write(message)
                         st.stop()
@@ -327,6 +311,7 @@ class Collector():
         tweet_count = 0
         ## create stopbutton
         if self._streamlit_interface == True:
+            import streamlit as st
             stopbutton = st.button("Stop collecting")
 
         cursor = tweepy.Cursor(self._client.search_tweets,
@@ -431,7 +416,7 @@ class Collector():
 
             if self._tweet_limit != None and self._tweet_limit != 0:
                 if tweet_count >= self._tweet_limit:
-                    message =  f"Collected the desired maximum of `{tweet_count}` tweets!"
+                    message =  f"Collected the desired maximum of {tweet_count} tweets!"
                     if self._streamlit_interface == True:
                         st.write(message)
                         st.stop()
