@@ -80,7 +80,13 @@ class InteractionNetwork():
         elif interaction_type == 'reply':
             id2info2 = pandas_dataframe[['to_userid','to_username']].rename(columns={'to_userid':'user_id','to_username':'user_screen_name'}).groupby('user_id').agg('last').to_dict(orient='index')
         elif interaction_type == 'mention':
-            id2info2 = pandas_dataframe[['mentioned_ids','mentioned_names']].rename(columns={'mentioned_ids':'user_id','mentioned_names':'user_screen_name'}).groupby('user_id').agg('last').to_dict(orient='index')
+            pdexp = pandas_dataframe.copy()
+            pdexp = pdexp[(pdexp['mentioned_ids'].notna())&(pdexp['mentioned_names'].notna())]
+            pdexp = pdexp[['mentioned_ids','mentioned_names']]
+            pdexp['mentioned_ids'] = pdexp['mentioned_ids'].apply(string_to_list)
+            pdexp['mentioned_names'] = pdexp['mentioned_names'].apply(string_to_list)        
+            pdexp = pdexp.explode(['mentioned_ids','mentioned_names'])            
+            id2info2 = pdexp.rename(columns={'mentioned_ids':'user_id','mentioned_names':'user_screen_name'}).groupby('user_id').agg('last').to_dict(orient='index')
 
         originaltweetids_dict = originaltweets[['user_id','id']].groupby('user_id')['id'].apply(list)
         interactiontweetids_dict = interactions[['user_id','id']].groupby('user_id')['id'].apply(list)        
@@ -537,4 +543,4 @@ class SemanticNetwork():
         htmlstring = htn_html(data=self._d3dict)
         with open(output_path, "w",encoding='utf-8') as f:
             f.write(htmlstring)
-        
+            
