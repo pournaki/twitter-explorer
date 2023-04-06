@@ -275,7 +275,8 @@ function rescalenodes(){
   if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.000005 * newscale)}            
   else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001 * newscale)}
   else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}
-  else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}              
+  else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}
+  else if (selectedoption === "pagerank"){Graph.nodeVal(node => node[selectedoption] * 10 * newscale)}              
 }
 
 document.getElementById("nodesize").addEventListener("change", changenodesize);
@@ -285,7 +286,8 @@ var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
 if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.00005)}            
 else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001)}
 else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}
-else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}              
+else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}    
+else if (selectedoption === "pagerank"){Graph.nodeVal(node => node[selectedoption] * 10)}          
 else { Graph.nodeVal(node => 1.0)} 
 }
 

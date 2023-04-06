@@ -247,6 +247,7 @@ class InteractionNetwork():
         """    
         G = self._graph
         d3graph = {'nodes': [], 'links': []}
+        pr = G.pagerank()
         for v in G.vs:
             ndict = {}
             node_id = v.index
@@ -258,7 +259,8 @@ class InteractionNetwork():
             ndict["interactions"] = v["interactions"]
             ndict["otweets"] = v["originaltweets"]        
             ndict["in_degree"] = G.degree(v, mode='in')
-            ndict["out_degree"] = G.degree(v, mode='out')            
+            ndict["out_degree"] = G.degree(v, mode='out')
+            ndict["pagerank"] = pr[node_id]            
             try:
                 ndict["in_degree_pa"] = v['in-degree-preagg']
                 ndict["out_degree_pa"] = v['out-degree-preagg']            
