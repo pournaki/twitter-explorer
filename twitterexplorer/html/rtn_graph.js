@@ -17,21 +17,89 @@ else {var init_linkvis = true}
 
 // initialize graph
 var elem = document.getElementById("graph")
-const Graph = ForceGraph3D()
-Graph(elem).graphData(data)
+var is3D = false;
 
-// const elem = document.getElementById('graph');
-// const Graph = ForceGraph()(elem)
-// .graphData({nodes: data.nodes, links: data.links})
-// .nodeId('id')
-// .nodeLabel(node => node.screen_name)
-// .nodeColor(node => "black")
-// .nodeVal(node => node.in_degree * nodescaling)
-// .linkDirectionalParticleColor(() => 'red')
-// .linkHoverPrecision(10)
-// .linkVisibility(init_linkvis)
-// .onNodeRightClick(node => { Graph.centerAt(node.x, node.y, 1000);Graph.zoom(8, 2000);})
-// Graph.onLinkClick(Graph.emitParticle); // emit particles on link click
+// 2D force graph
+function init2DGraph() {
+  return ForceGraph()(elem)
+    .graphData({ nodes: data.nodes, links: data.links })
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeId('id')
+    .nodeLabel(node => node.screen_name)
+    .nodeColor(node => "black")
+    .nodeVal(node => node.in_degree * nodescaling)
+    .linkDirectionalParticleColor(() => 'red')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+
+// 3D force graph(node.in_degree * nodescaling);
+function init3DGraph() {
+  return ForceGraph3D()(elem)
+    .graphData({ nodes: data.nodes, links: data.links })
+    .nodeId('id')
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeLabel(node => node.screen_name)
+    .nodeColor(node => "black")
+    .nodeVal(node => {
+      const sphereGeometry = new THREE.SphereGeometry(node.in_degree * nodescaling);
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 'black' });
+      return new THREE.Mesh(sphereGeometry, sphereMaterial);
+    })
+    .linkDirectionalParticleColor(() => 'red')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, node.z, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+
+// Initialize the default graph (2D in this case)
+Graph = init2DGraph();
+// function switchGraph(){
+document.getElementById('switchGraph').addEventListener('click', () => {
+  // Remove current graph
+  // Graph.resetProps();
+
+  if (is3D) {
+    Graph = init2DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 3D';
+  } else {
+    Graph = init3DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 2D';
+  }
+  
+  // Toggle the is3D flag
+  is3D = !is3D;
+  rescalenodes();
+  // USER INFO ON CLICK
+  Graph.onNodeClick((node => {
+    pastenodeinfo(node);
+    $("#content03").slideDown(300)
+    $("#content01").slideUp(300)
+    highlight(node)
+  }))
+
+  Graph.linkDirectionalParticles(link => {
+    if (link.colorthat == 1) {
+      return 1}
+      else {
+        return 0
+      }})
+  
+  Graph.onBackgroundClick(() => resetcolors())
+});
 
 // get list of all users for autocomplete
 var users = []
