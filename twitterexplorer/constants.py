@@ -23,7 +23,8 @@ cols_to_load = ['id',
                 'hashtags',
                 'mentioned_names',
                 'mentioned_ids',
-                'collected_via'
+                'collected_via', 
+                'text'
                ]
 
 twitwi_schema = {"id":str,
