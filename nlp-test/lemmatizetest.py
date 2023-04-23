@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/felix/Documents/bif/inno2/twitter-explorer/")
+sys.path.append("/home/nicholas/Documents/twitter-explorer/")
 
 import os
 import pandas as pd
@@ -71,30 +71,30 @@ def load_data_old(path):
         return df
 
 #example text from wikipedia
-df = load_data_old("/home/felix/twitterexplorer/data/wurst.csv")
+df = load_data_old("/home/nicholas/twitterexplorer/data/wurst.csv")
 print(df)
 df_new = df[['user_screen_name', 'text']]
 df_new2 = df_new.groupby(['user_screen_name']).agg("\n".join)
 corpus_original = df_new2['text'].values.tolist()
 
-print("The text: \n", corpus_original)
+print("The text original: \n", corpus_original)
 
 #lower-casing the text
 corpus = list(map(lambda x: x.lower(), corpus_original))
-print("The text: \n", corpus)
+print("The text lower case: \n", corpus)
 
 
-corpus = list(map(lambda x: re.sub(r'^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$', '', x), corpus))
-print("The text: \n", corpus)
+corpus = list(map(lambda x: re.sub(r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/\/=]*)', '', x), corpus))
+print("The text without links: \n", corpus)
 
 #removing digits from the text
 corpus = list(map(lambda x: re.sub(r'\d+', '', x), corpus))
-print("The text: \n", corpus)
+print("The text without digits: \n", corpus)
 
 #removing punctuation marks
 for x in corpus:
     x = x.translate(str.maketrans('', '', string.punctuation))
-print("The text: \n", corpus)
+print("The text without punctuation marks: \n", corpus)
 
 #removing trailing whitespaces
 #corpus = ' '.join([token for token in corpus.split()])
