@@ -16,18 +16,22 @@ if (data.links.length > 10000) {var init_linkvis = false}
 else {var init_linkvis = true}
 
 // initialize graph
-const elem = document.getElementById('graph');
-const Graph = ForceGraph()(elem)
-.graphData({nodes: data.nodes, links: data.links})
-.nodeId('id')
-.nodeLabel(node => node.screen_name)
-.nodeColor(node => "black")
-.nodeVal(node => node.in_degree * nodescaling)
-.linkDirectionalParticleColor(() => 'red')
-.linkHoverPrecision(10)
-.linkVisibility(init_linkvis)
-.onNodeRightClick(node => { Graph.centerAt(node.x, node.y, 1000);Graph.zoom(8, 2000);})
-Graph.onLinkClick(Graph.emitParticle); // emit particles on link click
+var elem = document.getElementById("graph")
+const Graph = ForceGraph3D()
+Graph(elem).graphData(data)
+
+// const elem = document.getElementById('graph');
+// const Graph = ForceGraph()(elem)
+// .graphData({nodes: data.nodes, links: data.links})
+// .nodeId('id')
+// .nodeLabel(node => node.screen_name)
+// .nodeColor(node => "black")
+// .nodeVal(node => node.in_degree * nodescaling)
+// .linkDirectionalParticleColor(() => 'red')
+// .linkHoverPrecision(10)
+// .linkVisibility(init_linkvis)
+// .onNodeRightClick(node => { Graph.centerAt(node.x, node.y, 1000);Graph.zoom(8, 2000);})
+// Graph.onLinkClick(Graph.emitParticle); // emit particles on link click
 
 // get list of all users for autocomplete
 var users = []

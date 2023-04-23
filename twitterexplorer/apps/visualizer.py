@@ -4,7 +4,7 @@
 ## =============================================================================
 
 import sys
-sys.path.append("/Users/ap/git/twitter-explorer/")
+sys.path.append("/home/paul/Documents/twitter-explorer/")
 
 import os
 import pandas as pd
@@ -24,6 +24,7 @@ from twitterexplorer.constants import *
 from twitterexplorer.__version__ import __version__
 from twitterexplorer.networks import InteractionNetwork
 from twitterexplorer.networks import SemanticNetwork
+
 
 ui_changes()
 
