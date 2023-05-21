@@ -1,4 +1,4 @@
-<script>
+//<script>
 
 // initialize variables
 var colorselector = document.getElementById("nodecolor");
@@ -18,7 +18,9 @@ else {var init_linkvis = true}
 // initialize graph
 var elem = document.getElementById("graph")
 var is3D = false;
+var isCluster = false;
 
+//console.log(data.links)
 // 2D force graph
 function init2DGraph() {
   return ForceGraph()(elem)
@@ -65,6 +67,76 @@ function init3DGraph() {
     });
 }
 
+function initClusterGraph() {
+  let cluster_graph = {
+      "nodes": [],
+      "links": []
+  }
+  for(let i = 0; i< data.graph.communities; i++) {
+    cluster_graph.nodes.push({
+      "id": i,
+      "leiden_com": i,
+      "followers": 0,
+      "friends": 0,
+      "out_degree": 0,
+      "in_degree": 0
+    })
+  }
+  data.nodes.forEach(node => {
+    if(node.leiden_com <= data.graph.communities)
+    {
+      cluster_graph.nodes[node.leiden_com].followers += node.followers
+      cluster_graph.nodes[node.leiden_com].friends += node.friends
+      cluster_graph.nodes[node.leiden_com].out_degree += node.out_degree
+      cluster_graph.nodes[node.leiden_com].in_degree += node.in_degree
+    }
+  })
+  let linkMap = new Map();
+  //console.log(data.links)
+
+  data.links.forEach((lnk) => {
+    //console.log(lnk)
+
+    if(lnk.source.leiden_com <= data.graph.communities && lnk.target.leiden_com <= data.graph.communities)
+    {
+      let linkId = `${lnk.source.leiden_com}-${lnk.target.leiden_com}`; // Generate a unique identifier for the community link
+      if(linkMap.has(linkId)) {
+        linkMap.get(linkId).weight += 1; // If the link already exists, increment its weight
+      } else {
+        // Otherwise, create a new link with a weight of 1
+        linkMap.set(linkId, {
+          "source": lnk.source.leiden_com, 
+          "target": lnk.target.leiden_com,
+          "weight": 1
+        });
+      }
+    }
+  
+    
+  });
+  cluster_graph.links = Array.from(linkMap.values());
+  console.log(cluster_graph)
+
+  
+  return ForceGraph()(elem)
+    .graphData({ nodes: cluster_graph.nodes, links: cluster_graph.links })
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeId('id')
+    .nodeLabel(node => node.leiden_com)
+    .nodeColor(node => "black")
+    .nodeVal(node => node.in_degree * nodescaling * 0.2)
+    .linkDirectionalParticleColor(() => 'red')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .linkWidth(link => link.weight)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
 // Initialize the default graph (2D in this case)
 Graph = init2DGraph();
 // function switchGraph(){
@@ -101,6 +173,20 @@ document.getElementById('switchGraph').addEventListener('click', () => {
   Graph.onBackgroundClick(() => resetcolors())
 });
 
+document.getElementById('clusterGraph').addEventListener('click', () => {
+  // Remove current graph
+  // Graph.resetProps();
+
+  if (isCluster) {
+    Graph = init2DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 3D';
+  } else {
+    Graph = initClusterGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 2D';
+    Graph.zoom(5, 2000);
+  }
+  isCluster = !isCluster;
+});
 // get list of all users for autocomplete
 var users = []
 for(var i in data.nodes)

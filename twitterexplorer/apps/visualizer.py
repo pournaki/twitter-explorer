@@ -4,7 +4,7 @@
 ## =============================================================================
 
 import sys
-sys.path.append("/home/pg/Documents/twitter-explorer/")
+sys.path.append("/home/felix/Documents/bif/inno2/twitter-explorer/")
 
 import os
 import pandas as pd
@@ -215,6 +215,7 @@ if filename not in [datapath+"---",datapath+"\\---"]:
                 G.build_d3dict(private=privacy,
                                search_query=subtitle,
                                collected_on=collectedon)
+                
 
             with st.spinner("Writing html..."):
                 if langselector != None and langselector != []:
