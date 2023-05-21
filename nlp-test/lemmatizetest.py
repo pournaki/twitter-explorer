@@ -13,6 +13,7 @@ import time
 from HanTa import HanoverTagger as ht
 from sklearn.decomposition import PCA
 from sklearn.manifold import MDS
+from sklearn.metrics import silhouette_score
 
 from twitterexplorer.legacy import *
 from twitterexplorer.helpers import *
@@ -31,11 +32,60 @@ import nltk #Natural Language ToolKit is a library for NLP from Steven Bird, Ewa
 import re #to deal with regular expressions
 import string #A collection of string constants
 
+
+
+def load_data_old(path):
+        ## pandas does strange things to IDs, like importing them as ints and using
+        ## scientific notation, so we need to make sure they are read as strings
+        try:
+            df = pd.read_csv(path,
+                             dtype={"id":str,
+                                    "user_id":str,
+                                    "to_userid":str,
+                                    "to_tweetid":str,
+                                    "retweeted_id":str,
+                                    "retweeted_user_id":str,
+                                    "quoted_id":str,
+                                    "quoted_user_id":str,
+                                    "mentioned_ids":str,
+                                    "mentioned_names":str,
+                                    "hashtags":str
+                                    },
+                            low_memory=False,
+                            # lineterminator='\n'
+                         )
+        except pd.errors.ParserError:
+        ## https://stackoverflow.com/a/48187106
+            df = pd.read_csv(path,
+                             dtype={"id":str,
+                                    "user_id":str,
+                                    "to_userid":str,
+                                    "to_tweetid":str,
+                                    "retweeted_id":str,
+                                    "retweeted_user_id":str,
+                                    "quoted_id":str,
+                                    "quoted_user_id":str,
+                                    "mentioned_ids":str,
+                                    "mentioned_names":str,
+                                    "hashtags":str
+                                    },
+                            low_memory=False,
+                            lineterminator='\n'
+                         )            
+        ## remove possible duplicates, even though the collector
+        ## should not collect doubles
+        df = df.drop_duplicates('id')
+        df = df.drop_duplicates('id',keep='last')
+        return df
+
+
+
+
 start = time.time()
 #example text from wikipedia
-df = load_data("/home/felix/twitterexplorer/data/wurst.csv")
-df_new = df[['user_screen_name', 'text']]
-df_new2 = df_new.groupby(['user_screen_name']).agg("\n".join)
+df = load_data_old("/home/felix/twitterexplorer/data/salzburg.csv")
+df_new = df[['user_id', 'text']]
+df_new2 = df_new.groupby(['user_id']).agg("\n".join)
 
 corpus_original = df_new2['text'].values.tolist()
 
@@ -99,7 +149,7 @@ tokenized = [[word for word in x if word not in stopwords_twitter] for x in toke
 tagger_de = ht.HanoverTagger('morphmodel_ger.pgz')
 tagger_en = ht.HanoverTagger('morphmodel_en.pgz')
 
-lemmatized = [[tagger_de.analyze(word)[0].lower() for word in x] for x in tokenized]
+lemmatized = [[tagger_en.analyze(word)[0].lower() for word in x] for x in tokenized]
 #print("After Lemmatization: \n", lemmatized)
 
 final = list(zip(list(df_new2["text"].keys()), lemmatized))
@@ -111,22 +161,90 @@ tfidf = TfidfVectorizer(tokenizer=lambda i:i, lowercase=False)
 
 result = tfidf.fit_transform(lemmatized)
 
+final2 = list(zip(list(df_new2["text"].keys()), result))
+#print(final2)
+
+print("halfway\n")
 pca = PCA(n_components=2)
 
 pca.fit(result.toarray())
+#print(pca.explained_variance_ratio_)
+print("pca")
+# mds = MDS(n_components=2)
+# mds2D = mds.fit_transform(result.toarray())
 
-mds = MDS(n_components=2)
-
-mds2D = mds.fit_transform(result.toarray())
-
-print(mds2D)
+# print("mds")
+#print(mds2D)
 
 
 
 import matplotlib.pyplot as plt
 data2Dpca = pca.transform(result.toarray())
 plt.scatter(data2Dpca[:,0], data2Dpca[:,1], color="b")
-plt.scatter(mds2D[:,0], mds2D[:,1], color="r")
+#plt.scatter(mds2D[:,0], mds2D[:,1], color="r")
+
+plt.show()
+
+df = load_data("/home/felix/twitterexplorer/data/salzburg.csv")
+G = InteractionNetwork()
+G.build_network(pandas_dataframe=df,
+                language_filter=None,
+                interaction_type="retweet",
+                starttime=None,
+                endtime=None)
+G.reduce_network(giant_component=True,
+                    aggregation="soft",
+                    hard_agg_threshold=0)
+
+G.community_detection(louvain=False,leiden=True)
+
+G_comdec = G._graph.copy()
+G_comdec.vs['weight'] = 1
+if 'weight' not in G_comdec.edge_attributes():
+    G_comdec.es['weight'] = 1
+G_comdec = G_comdec.simplify(multiple=True,
+                                loops=True,
+                                combine_edges={'tweetid':'ignore',
+                                            'timestamp':'ignore',
+                                            'weight':'sum'})    
+G_comdec.to_undirected(mode='collapse',combine_edges={'weight':'sum'})
+partition_leiden = G_comdec.community_leiden(objective_function='modularity') 
+
+print(partition_leiden.membership)
+
+#print(type(final2[1]))
+
+final3 = [list(t) for t in final2]
+for x in final3:
+    try:
+        x.append(partition_leiden.membership[final3.index(x)])
+    except:
+        x.append(None)
+
+# print(final3)
+
+# features = np.array([item[1].toarray()[0] for item in final3]) 
+# labels = np.array([item[2] for item in final3 if item[2] is not None])
+
+final4 = [item for item in final3 if item[2] is not None]
+
+#print(final4)
+
+features = np.array([item[1].toarray()[0] for item in final4]) 
+labels = np.array([item[2] for item in final4 if item[2] is not None])
+
+#print(features)
+#print(labels)
+
+score = silhouette_score(features, labels, metric="euclidean")
+
+print(score)
+
+#print(list(result[:])[0])
+#for user in final2
+
+
+#silhouette_score(list(result[:]), )
+
 end = time.time()
 print("time: ", end-start)
-plt.show()
