@@ -30,7 +30,7 @@ from twitterexplorer.networks import SemanticNetwork
 
 import nltk #Natural Language ToolKit is a library for NLP from Steven Bird, Ewan Klein, and Edward Loper (2009).
 import re #to deal with regular expressions
-import string #A collection of string constants
+import string #A collection of string constants       
 
 
 
@@ -164,26 +164,33 @@ result = tfidf.fit_transform(lemmatized)
 final2 = list(zip(list(df_new2["text"].keys()), result))
 #print(final2)
 
-print("halfway\n")
-pca = PCA(n_components=2)
+# print("halfway\n")
+# pca = PCA(n_components=2)
 
-pca.fit(result.toarray())
-#print(pca.explained_variance_ratio_)
-print("pca")
-# mds = MDS(n_components=2)
-# mds2D = mds.fit_transform(result.toarray())
+# pca.fit(result.toarray())
+# # #print(pca.explained_variance_ratio_)
+# # print("pca")
+# #klassisch mds lineare dimensionsreduktion, umap noch probieren
+# # mds = MDS(n_components=2)
+# # mds2D = mds.fit_transform(result.toarray())
 
-# print("mds")
-#print(mds2D)
+# # print("mds")
+# #print(mds2D)
+
+# import umap
+# from umap.umap_ import UMAP
+
+# reducer = UMAP(n_components=2, metric="cosine")
+# umap2d = reducer.fit_transform(result.toarray())
 
 
+# import matplotlib.pyplot as plt
+# data2Dpca = pca.transform(result.toarray())
+# plt.scatter(data2Dpca[:,0], data2Dpca[:,1], color="b")
+# #plt.scatter(mds2D[:,0], mds2D[:,1], color="r")
+# plt.scatter(umap2d[:,0], umap2d[:,1], color="green")
 
-import matplotlib.pyplot as plt
-data2Dpca = pca.transform(result.toarray())
-plt.scatter(data2Dpca[:,0], data2Dpca[:,1], color="b")
-#plt.scatter(mds2D[:,0], mds2D[:,1], color="r")
-
-plt.show()
+# plt.show()
 
 df = load_data("/home/felix/twitterexplorer/data/salzburg.csv")
 G = InteractionNetwork()
@@ -195,8 +202,6 @@ G.build_network(pandas_dataframe=df,
 G.reduce_network(giant_component=True,
                     aggregation="soft",
                     hard_agg_threshold=0)
-
-G.community_detection(louvain=False,leiden=True)
 
 G_comdec = G._graph.copy()
 G_comdec.vs['weight'] = 1
@@ -210,7 +215,7 @@ G_comdec = G_comdec.simplify(multiple=True,
 G_comdec.to_undirected(mode='collapse',combine_edges={'weight':'sum'})
 partition_leiden = G_comdec.community_leiden(objective_function='modularity') 
 
-print(partition_leiden.membership)
+#print(partition_leiden.membership)
 
 #print(type(final2[1]))
 
@@ -236,15 +241,15 @@ labels = np.array([item[2] for item in final4 if item[2] is not None])
 #print(features)
 #print(labels)
 
-score = silhouette_score(features, labels, metric="euclidean")
+score = silhouette_score(features, labels, metric="cosine")
+#cosine similarity verwenden
+
 
 print(score)
 
 #print(list(result[:])[0])
 #for user in final2
 
-
-#silhouette_score(list(result[:]), )
 
 end = time.time()
 print("time: ", end-start)

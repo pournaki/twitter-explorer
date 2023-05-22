@@ -231,6 +231,8 @@ class InteractionNetwork():
 
         self._graph = G
 
+        
+
     def build_d3dict(self,
                      search_query="",
                      collected_on="",
