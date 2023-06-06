@@ -8,7 +8,7 @@ from twitterexplorer.tweetcollector import Collector
 collector = Collector()
 
 collector.authenticate(api_version="v2_standard",
-                       bearer_token="AAAAAAAAAAAAAAAAAAAAAIUYhwEAAAAARjwmAvci%2Fhtt7LqVuE%2BbeZmmzM4%3DcVguV3OepBHYhB1MOqTpy76CU4EiPNcR8YwfvtGTxN0NMyf3F4")
+                       bearer_token="")
 
 collector.set_parameters_v2(search_query="#zib2",
                             sinceid=None,
