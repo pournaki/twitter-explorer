@@ -1,11 +1,19 @@
 import json
 import numpy as np
+import tkinter as tk
+from tkinter import filedialog
 from sklearn.metrics import silhouette_score, silhouette_samples
 
-with open("trump2D.json", "r") as f:
+root = tk.Tk()
+root.withdraw()
+
+filepath = filedialog.askdirectory()
+
+
+with open(filepath + "/pos2d.json", "r") as f:
     data2d = json.load(f)
 
-with open("trump3D.json", "r") as f:
+with open(filepath + "/pos3d.json", "r") as f:
     data3d = json.load(f)
 
 #print(data2d[0]["screen_name"])
