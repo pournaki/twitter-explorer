@@ -1,4 +1,4 @@
-<script>
+//<script>
 
 // initialize variables
 var colorselector = document.getElementById("nodecolor");
@@ -16,19 +16,177 @@ if (data.links.length > 10000) {var init_linkvis = false}
 else {var init_linkvis = true}
 
 // initialize graph
-const elem = document.getElementById('graph');
-const Graph = ForceGraph()(elem)
-.graphData({nodes: data.nodes, links: data.links})
-.nodeId('id')
-.nodeLabel(node => node.screen_name)
-.nodeColor(node => "black")
-.nodeVal(node => node.in_degree * nodescaling)
-.linkDirectionalParticleColor(() => 'red')
-.linkHoverPrecision(10)
-.linkVisibility(init_linkvis)
-.onNodeRightClick(node => { Graph.centerAt(node.x, node.y, 1000);Graph.zoom(8, 2000);})
-Graph.onLinkClick(Graph.emitParticle); // emit particles on link click
+var elem = document.getElementById("graph")
+var is3D = false;
+var isCluster = false;
 
+//console.log(data.links)
+// 2D force graph
+function init2DGraph() {
+  return ForceGraph()(elem)
+    .graphData({ nodes: data.nodes, links: data.links })
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeId('id')
+    .nodeLabel(node => node.screen_name)
+    .nodeColor(node => "black")
+    .nodeVal(node => node.in_degree * nodescaling)
+    .linkDirectionalParticleColor(() => 'red')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+
+// 3D force graph(node.in_degree * nodescaling);
+function init3DGraph() {
+  return ForceGraph3D()(elem)
+    .graphData({ nodes: data.nodes, links: data.links })
+    .nodeId('id')
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeLabel(node => node.screen_name)
+    .nodeColor(node => "black")
+    .nodeVal(node => {
+      const sphereGeometry = new THREE.SphereGeometry(node.in_degree * nodescaling);
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 'black' });
+      return new THREE.Mesh(sphereGeometry, sphereMaterial);
+    })
+    .linkDirectionalParticleColor(() => 'red')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, node.z, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+
+function initClusterGraph() {
+  let cluster_graph = {
+      "nodes": [],
+      "links": []
+  }
+  for(let i = 0; i< data.graph.communities; i++) {
+    cluster_graph.nodes.push({
+      "id": i,
+      "leiden_com": i,
+      "followers": 0,
+      "friends": 0,
+      "out_degree": 0,
+      "in_degree": 0
+    })
+  }
+  data.nodes.forEach(node => {
+    if(node.leiden_com <= data.graph.communities)
+    {
+      cluster_graph.nodes[node.leiden_com].followers += node.followers
+      cluster_graph.nodes[node.leiden_com].friends += node.friends
+      cluster_graph.nodes[node.leiden_com].out_degree += node.out_degree
+      cluster_graph.nodes[node.leiden_com].in_degree += node.in_degree
+    }
+  })
+  let linkMap = new Map();
+  //console.log(data.links)
+
+  data.links.forEach((lnk) => {
+    //console.log(lnk)
+
+    if(lnk.source.leiden_com <= data.graph.communities && lnk.target.leiden_com <= data.graph.communities)
+    {
+      let linkId = `${lnk.source.leiden_com}-${lnk.target.leiden_com}`; // Generate a unique identifier for the community link
+      if(linkMap.has(linkId)) {
+        linkMap.get(linkId).weight += 1; // If the link already exists, increment its weight
+      } else {
+        // Otherwise, create a new link with a weight of 1
+        linkMap.set(linkId, {
+          "source": lnk.source.leiden_com, 
+          "target": lnk.target.leiden_com,
+          "weight": 1
+        });
+      }
+    }
+  
+    
+  });
+  cluster_graph.links = Array.from(linkMap.values());
+  console.log(cluster_graph)
+
+  
+  return ForceGraph()(elem)
+    .graphData({ nodes: cluster_graph.nodes, links: cluster_graph.links })
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeId('id')
+    .nodeLabel(node => node.leiden_com)
+    .nodeColor(node => "black")
+    .nodeVal(node => node.in_degree * nodescaling * 0.2)
+    .linkDirectionalParticleColor(() => 'red')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .linkWidth(link => link.weight)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+// Initialize the default graph (2D in this case)
+Graph = init2DGraph();
+// function switchGraph(){
+document.getElementById('switchGraph').addEventListener('click', () => {
+  // Remove current graph
+  // Graph.resetProps();
+
+  if (is3D) {
+    Graph = init2DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 3D';
+  } else {
+    Graph = init3DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 2D';
+  }
+  
+  // Toggle the is3D flag
+  is3D = !is3D;
+  rescalenodes();
+  // USER INFO ON CLICK
+  Graph.onNodeClick((node => {
+    pastenodeinfo(node);
+    $("#content03").slideDown(300)
+    $("#content01").slideUp(300)
+    highlight(node)
+  }))
+
+  Graph.linkDirectionalParticles(link => {
+    if (link.colorthat == 1) {
+      return 1}
+      else {
+        return 0
+      }})
+  
+  Graph.onBackgroundClick(() => resetcolors())
+});
+
+document.getElementById('clusterGraph').addEventListener('click', () => {
+  // Remove current graph
+  // Graph.resetProps();
+
+  if (isCluster) {
+    Graph = init2DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 3D';
+  } else {
+    Graph = initClusterGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 2D';
+    Graph.zoom(5, 2000);
+  }
+  isCluster = !isCluster;
+});
 // get list of all users for autocomplete
 var users = []
 for(var i in data.nodes)
@@ -446,6 +604,23 @@ function d3graph_to_gml(){
       { type: "text/plain;charset=utf-8" });
   saveAs(blob, "network.gml");
 }
+
+function export_coordinates(){
+  if(!is3D && !isCluster){
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, leiden: d.leiden_com, louvain: d.louvain_com }; });
+    var jsonPostition = JSON.stringify(positions);
+    var blob = new Blob([jsonPostition], {type: "application/json"});
+    saveAs(blob, "positions.json")
+  }
+  if(is3D && !isCluster){
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, z:d.z, leiden: d.leiden_com, louvain: d.louvain_com }; });
+    var jsonPostition = JSON.stringify(positions);
+    var blob = new Blob([jsonPostition], {type: "application/json"});
+    saveAs(blob, "positions3D.json")
+  }
+}
+
+
     function monthDiff(d1, d2) {
         var months;
         months = (d2.getFullYear() - d1.getFullYear()) * 12;
