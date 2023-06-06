@@ -604,6 +604,23 @@ function d3graph_to_gml(){
       { type: "text/plain;charset=utf-8" });
   saveAs(blob, "network.gml");
 }
+
+function export_coordinates(){
+  if(!is3D && !isCluster){
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, leiden: d.leiden_com, }; });
+    var jsonPostition = JSON.stringify(positions);
+    var blob = new Blob([jsonPostition], {type: "application/json"});
+    saveAs(blob, "positions.json")
+  }
+  if(is3D && !isCluster){
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, z:d.z, leiden: d.leiden_com, }; });
+    var jsonPostition = JSON.stringify(positions);
+    var blob = new Blob([jsonPostition], {type: "application/json"});
+    saveAs(blob, "positions3D.json")
+  }
+}
+
+
     function monthDiff(d1, d2) {
         var months;
         months = (d2.getFullYear() - d1.getFullYear()) * 12;
