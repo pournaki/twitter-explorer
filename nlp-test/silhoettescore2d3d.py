@@ -81,8 +81,8 @@ final2d = [item for item in data2d if item["leiden"] is not None]
 features2d = np.array([[item["x"], item["y"]] for item in final2d]) 
 labels2d = np.array([item["leiden"] for item in final2d])
 
-print(len(features2d), features2d)
-print(len(labels2d), labels2d)
+#print(len(features2d), features2d)
+#print(len(labels2d), labels2d)
 
 
 

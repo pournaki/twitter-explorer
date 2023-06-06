@@ -28,6 +28,8 @@ from twitterexplorer.networks import InteractionNetwork
 from twitterexplorer.networks import SemanticNetwork
 
 
+
+
 import nltk #Natural Language ToolKit is a library for NLP from Steven Bird, Ewan Klein, and Edward Loper (2009).
 import re #to deal with regular expressions
 import string #A collection of string constants       
@@ -87,12 +89,17 @@ df = load_data_old("/home/felix/twitterexplorer/data/salzburg.csv")
 df_new = df[['user_id', 'text']]
 df_new2 = df_new.groupby(['user_id']).agg("\n".join)
 
+
 corpus_original = df_new2['text'].values.tolist()
+
+
 
 #print("The text original: \n", corpus_original)
 
 #lower-casing the text
 corpus = list(map(lambda x: x.lower(), corpus_original))
+
+
 #print("The text lower case: \n", corpus)
 
 
@@ -119,6 +126,8 @@ corpus = list(map(lambda x: ' '.join([token for token in x.split()]), corpus))
 #We are ready to start tokenizing the text using spaCy (and nltk)
 #Run in UNIX shell: python3 -m spacy download en_core_web_sm
 
+
+
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -130,6 +139,7 @@ stopwords_twitter.append("rt")
 stopwords_twitter.append(stopwords.words("english"))
 #print("stopwords: \n", stopwords_twitter)
 tokenized = list(map(lambda x: word_tokenize(x), corpus))
+
 #print("Tokenized Corpus: \n", tokenized)
 #remove stopwords
 tokenized = [[word for word in x if word not in stopwords_twitter] for x in tokenized]
@@ -149,7 +159,9 @@ tokenized = [[word for word in x if word not in stopwords_twitter] for x in toke
 tagger_de = ht.HanoverTagger('morphmodel_ger.pgz')
 tagger_en = ht.HanoverTagger('morphmodel_en.pgz')
 
-lemmatized = [[tagger_en.analyze(word)[0].lower() for word in x] for x in tokenized]
+
+
+lemmatized = [[tagger_de.analyze(word)[0].lower() for word in x] for x in tokenized]
 #print("After Lemmatization: \n", lemmatized)
 
 final = list(zip(list(df_new2["text"].keys()), lemmatized))
@@ -157,11 +169,28 @@ final = list(zip(list(df_new2["text"].keys()), lemmatized))
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-tfidf = TfidfVectorizer(tokenizer=lambda i:i, lowercase=False)
+#tfidf = TfidfVectorizer(tokenizer=lambda i:i, lowercase=False)
+#result = tfidf.fit_transform(lemmatized)
 
-result = tfidf.fit_transform(lemmatized)
 
-final2 = list(zip(list(df_new2["text"].keys()), result))
+import gensim.downloader as api
+from gensim.models import KeyedVectors
+
+glove_model = api.load("glove-twitter-25")
+
+def aggregate_vector(words):
+    word_vectors = [glove_model[word] for word in words if word in glove_model]
+    return np.mean(word_vectors, axis=0)
+
+#print(lemmatized)
+
+user_vectors = [aggregate_vector(user_tweets) for user_tweets in lemmatized]
+
+#print(final)
+#print(user_vectors)
+
+
+final2 = list(zip(list(df_new2["text"].keys()), user_vectors))
 #print(final2)
 
 # print("halfway\n")
@@ -235,13 +264,14 @@ final4 = [item for item in final3 if item[2] is not None]
 
 #print(final4)
 
-features = np.array([item[1].toarray()[0] for item in final4]) 
+
+features = np.array([item[1] for item in final4]) 
 labels = np.array([item[2] for item in final4 if item[2] is not None])
 
-#print(features)
+#print("this", features)
 #print(labels)
 
-score = silhouette_score(features, labels, metric="cosine")
+score = silhouette_score(features, labels, metric="euclidean")
 #cosine similarity verwenden
 
 
