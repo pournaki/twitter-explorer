@@ -4,7 +4,7 @@
 ## =============================================================================
 
 import sys
-sys.path.append("/home/felix/Documents/bif/inno2/twitter-explorer/")
+sys.path.append("/home/nicholas/Documents/twitter-explorer/")
 
 import os
 import pandas as pd
