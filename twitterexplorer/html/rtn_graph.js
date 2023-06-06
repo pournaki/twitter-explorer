@@ -607,13 +607,13 @@ function d3graph_to_gml(){
 
 function export_coordinates(){
   if(!is3D && !isCluster){
-    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, leiden: d.leiden_com, }; });
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, leiden: d.leiden_com, louvain: d.louvain_com }; });
     var jsonPostition = JSON.stringify(positions);
     var blob = new Blob([jsonPostition], {type: "application/json"});
     saveAs(blob, "positions.json")
   }
   if(is3D && !isCluster){
-    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, z:d.z, leiden: d.leiden_com, }; });
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, z:d.z, leiden: d.leiden_com, louvain: d.louvain_com }; });
     var jsonPostition = JSON.stringify(positions);
     var blob = new Blob([jsonPostition], {type: "application/json"});
     saveAs(blob, "positions3D.json")
