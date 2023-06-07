@@ -31,6 +31,7 @@ function init2DGraph() {
     .nodeColor(node => "black")
     .nodeVal(node => node.in_degree * nodescaling)
     .linkDirectionalParticleColor(() => 'red')
+    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
     .linkHoverPrecision(10)
     .linkVisibility(init_linkvis)
     .onNodeRightClick(node => {
@@ -50,14 +51,17 @@ function init3DGraph() {
     .backgroundColor("rgba(0,0,0,0)")
     .nodeLabel(node => node.screen_name)
     .nodeColor(node => "black")
+    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
     .nodeVal(node => {
       const sphereGeometry = new THREE.SphereGeometry(node.in_degree * nodescaling);
-      const sphereMaterial = new THREE.MeshBasicMaterial({ color: 'black' });
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: "black"});
       return new THREE.Mesh(sphereGeometry, sphereMaterial);
     })
     .linkDirectionalParticleColor(() => 'red')
     .linkHoverPrecision(10)
     .linkVisibility(init_linkvis)
+    //.linkWidth(1)
+    .linkOpacity(1)
     .onNodeRightClick(node => {
       Graph.centerAt(node.x, node.y, node.z, 1000);
       Graph.zoom(8, 2000);
@@ -126,6 +130,7 @@ function initClusterGraph() {
     .nodeColor(node => "black")
     .nodeVal(node => node.in_degree * nodescaling * 0.2)
     .linkDirectionalParticleColor(() => 'red')
+    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
     .linkHoverPrecision(10)
     .linkVisibility(init_linkvis)
     .linkWidth(link => link.weight)
@@ -155,6 +160,7 @@ document.getElementById('switchGraph').addEventListener('click', () => {
   // Toggle the is3D flag
   is3D = !is3D;
   rescalenodes();
+  recolornodes();
   // USER INFO ON CLICK
   Graph.onNodeClick((node => {
     pastenodeinfo(node);
@@ -186,6 +192,7 @@ document.getElementById('clusterGraph').addEventListener('click', () => {
     Graph.zoom(5, 2000);
   }
   isCluster = !isCluster;
+  recolornodes();
 });
 // get list of all users for autocomplete
 var users = []
