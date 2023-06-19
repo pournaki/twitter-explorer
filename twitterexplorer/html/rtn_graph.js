@@ -188,6 +188,7 @@ document.getElementById('clusterGraph').addEventListener('click', () => {
     document.getElementById('switchGraph').textContent = 'Switch to 3D';
   } else {
     Graph = initClusterGraph();
+    rescalenodes();
     document.getElementById('switchGraph').textContent = 'Switch to 2D';
     Graph.zoom(5, 2000);
   }
@@ -430,27 +431,43 @@ if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
 if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
 Graph.nodeColor(node => nodecol)} }
 
+let follower_scale = 0.000005
+let friends_scale = 0.001
+let out_degree_scale = 0.1
+let in_degree_scale = 0.1
+
+
+
 // NODE SIZE
 document.getElementById("slido").addEventListener("change", rescalenodes);
 function rescalenodes(){
+  if(isCluster){
+    follower_scale = 0.000001
+    friends_scale = 0.000005
+    out_degree_scale = 0.01
+    in_degree_scale = 0.01
+
+  }  
+
   var nodescaleslider = document.getElementById("slido");
   var newscale = nodescaleslider.value  
   var sizeselector = document.getElementById("nodesize");
   var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
-  if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.000005 * newscale)}            
-  else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001 * newscale)}
-  else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}
-  else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}              
+  if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * follower_scale * newscale)}            
+  else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * friends_scale * newscale)}
+  else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * out_degree_scale * newscale)}
+  else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * in_degree_scale * newscale)}    
+            
 }
 
 document.getElementById("nodesize").addEventListener("change", changenodesize);
 function changenodesize(){
 var sizeselector = document.getElementById("nodesize");
 var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
-if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.00005)}            
-else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001)}
-else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}
-else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}              
+if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * follower_scale)}            
+else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * follower_scale)}
+else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * out_degree_scale)}
+else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * in_degree_scale)}              
 else { Graph.nodeVal(node => 1.0)} 
 }
 
