@@ -20,8 +20,8 @@ var elem = document.getElementById("graph")
 var is3D = false;
 var isCluster = false;
 
-//console.log(data.links)
-// 2D force graph
+
+//Initializes a 2D force graph using the ForceGraph library
 function init2DGraph() {
   return ForceGraph()(elem)
     .graphData({ nodes: data.nodes, links: data.links })
@@ -43,7 +43,7 @@ function init2DGraph() {
     });
 }
 
-// 3D force graph(node.in_degree * nodescaling);
+//Initializes a 3D force graph using the ForceGraph3D library
 function init3DGraph() {
   return ForceGraph3D()(elem)
     .graphData({ nodes: data.nodes, links: data.links })
@@ -60,7 +60,6 @@ function init3DGraph() {
     .linkDirectionalParticleColor(() => 'red')
     .linkHoverPrecision(10)
     .linkVisibility(init_linkvis)
-    //.linkWidth(1)
     .linkOpacity(1)
     .onNodeRightClick(node => {
       Graph.centerAt(node.x, node.y, node.z, 1000);
@@ -70,7 +69,7 @@ function init3DGraph() {
       Graph.emitParticle(link);
     });
 }
-
+//Initializes a clustered force graph by creating a new graph data structure based on community information
 function initClusterGraph() {
   let cluster_graph = {
       "nodes": [],
@@ -144,7 +143,6 @@ function initClusterGraph() {
 }
 // Initialize the default graph (2D in this case)
 Graph = init2DGraph();
-// function switchGraph(){
 document.getElementById('switchGraph').addEventListener('click', () => {
   // Remove current graph
   // Graph.resetProps();
@@ -199,7 +197,7 @@ var users = []
 for(var i in data.nodes)
 {users.push(data.nodes[i].screen_name)};
 
-// draw tweets
+// Retrieves and displays original tweets by a selected user
 function drawortweets (){
     if (darkmode === false) {var themecol = 'light'}
     else {var themecol = 'dark'} 
@@ -228,6 +226,7 @@ $("#content05").slideUp(300)
 $("#content04A").slideDown(300);  
 }
 
+//Retrieves and displays retweets by a selected user
 function drawretweets (){
     if (darkmode === false) {var themecol = 'light'}
     else {var themecol = 'dark'} 
@@ -259,7 +258,7 @@ $("#content04").slideDown(300);
 }
 
 
-// DRAW TWITTER TIMELINE
+// Retrieves and displays the Twitter timeline of a selected user
 function drawtimeline(){
 if (darkmode === false) {var themecol = 'light'}
 else {var themecol = 'dark'}        
