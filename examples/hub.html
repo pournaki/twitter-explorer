@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Twitter Explorer Example Hub</title>
+  <style>
+    /* Add your desired Streamlit-like styling here */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      /* center the main heading */
+    }
+    h3 {
+      text-align: center;
+      /* center the main heading */
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      /* stack day-sections vertically */
+      align-items: stretch;
+      /* make day-sections take full available width */
+      margin: 0 auto;
+      width: 40%;
+    }
+
+    .day-section {
+      margin: 10px;
+    }
+
+    .day-header {
+      cursor: pointer;
+      background-color: #f0f0f0;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      width: 100%;
+      /* make the day-header take full available width */
+      text-align: center;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .trending-topic {
+      padding: 5px;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: none;
+      background-color: #fff;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .trending-topic:hover {
+      background-color: #f0f0f0;
+    }
+
+    .trending-topic:active {
+      background-color: #ccc;
+    }
+
+    #branding {
+      width: 100%;
+      max-width: 280px;
+      justify-content: center;
+      overflow: hidden;
+      background: #000000;
+      color: #FFFFFF;
+      padding: auto;
+    }
+
+    #branding a {
+      color: #fff;
+      text-transform: lowercase;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+    }
+
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      /* justify-content: space-between; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header-container">
+    <div>
+      <img src="fhtw-logo.svg" alt="fhtw-logo" height="100px">
+    </div>
+
+    <div id="branding">
+      <h1><a id="titlelink" href="https://twitterexplorer.org/index.html">twitter explorer</a>
+      </h1>
+    </div>
+  </div>
+
+  <h1>Twitter Explorer Example Hub</h1>
+  <h3>Top 3 trending in austria 24-30.04.2023</h3>
+  <div class="container">
+    <div class="day-section">
+      <div class="day-header" onclick="toggleTrendingTopics('Monday')">Monday</div>
+      <div class="trending-topic" id="monday-topic-1"
+        onclick="openWebsite('24_04_2023/2023-04-26_tweets_%23EGU23/2023-04-26_tweets_%23EGU23_retweetnetwork')">#EGU23
+      </div>
+      <div class="trending-topic" id="monday-topic-2"
+        onclick="openWebsite('24_04_2023/2023-04-26_tweets_%23ltwSalzburg/2023-04-26_tweets_%23ltwSalzburg_retweetnetwork')">
+        #ltwSalzburg</div>
+      <div class="trending-topic" id="monday-topic-3"
+        onclick="openWebsite('24_04_2023/2023-04-26_tweets_Kommunisten/2023-04-26_tweets_Kommunisten_retweetnetwork')">
+        Kommunisten</div>
+    </div>
+    <div class="day-section">
+      <div class="day-header" onclick="toggleTrendingTopics('Tuesday')">Tuesday</div>
+      <div class="trending-topic" id="tuesday-topic-1"
+        onclick="openWebsite('25_04_2023/2023-04-25_tweets_%23EGU23/2023-04-26_tweets_%23EGU23_retweetnetwork')">#EGU23
+      </div>
+      <div class="trending-topic" id="tuesday-topic-2"
+        onclick="openWebsite('25_04_2023/2023-04-25_tweets_Kommunismus/2023-04-26_tweets_Kommunismus_retweetnetwork')">
+        Kommunismus</div>
+      <div class="trending-topic" id="tuesday-topic-3"
+        onclick="openWebsite('25_04_2023/2023-04-25_tweets_Tucker/2023-04-26_tweets_Tucker_retweetnetwork')">Tucker
+      </div>
+    </div>
+    <div class="day-section">
+      <div class="day-header" onclick="toggleTrendingTopics('Wednesday')">Wednesday</div>
+      <div class="trending-topic" id="wednesday-topic-1"
+        onclick="openWebsite('26_04_2023/2023-04-28_tweets_%23EGU23/2023-04-28_tweets_%23EGU23_retweetnetwork')">#EGU23
+      </div>
+      <div class="trending-topic" id="wednesday-topic-2"
+        onclick="openWebsite('26_04_2023/2023-04-28_tweets_Harry_Belafonte/2023-04-28_tweets_Harry_Belafonte_retweetnetwork')">
+        Harry_Belafonte</div>
+      <div class="trending-topic" id="wednesday-topic-3"
+        onclick="openWebsite('26_04_2023/2023-04-28_tweets_Ministerin/2023-04-28_tweets_Ministerin_retweetnetwork')">
+        Ministerin</div>
+    </div>
+    <div class="day-section">
+      <div class="day-header" onclick="toggleTrendingTopics('Thursday')">Thursday</div>
+      <div class="trending-topic" id="thursday-topic-1"
+        onclick="openWebsite('27_04_2023/2023-04-28_tweets_%23EGU23/2023-04-28_tweets_%23EGU23_retweetnetwork')">#EGU23
+      </div>
+      <div class="trending-topic" id="thursday-topic-2"
+        onclick="openWebsite('27_04_2023/2023-04-28_tweets_Berichterstattung/2023-04-28_tweets_Berichterstattung_retweetnetwork')">
+        Berichterstattung</div>
+      <div class="trending-topic" id="thursday-topic-3"
+        onclick="openWebsite('27_04_2023/2023-04-28_tweets_Pille/2023-04-28_tweets_Pille_retweetnetwork')">Pille</div>
+    </div>
+    <div class="day-section">
+      <div class="day-header" onclick="toggleTrendingTopics('Friday')">Friday</div>
+      <div class="trending-topic" id="friday-topic-1"
+        onclick="openWebsite('28_04_2023/2023-05-02_tweets_%23EGU23/2023-05-02_tweets_%23EGU23_retweetnetwork')">#EGU23
+      </div>
+      <div class="trending-topic" id="friday-topic-2"
+        onclick="openWebsite('28_04_2023/2023-05-02_tweets_%23gntm/2023-05-02_tweets_%23gntm_retweetnetwork')">#gntm
+      </div>
+      <div class="trending-topic" id="friday-topic-3"
+        onclick="openWebsite('28_04_2023/2023-05-02_tweets_%23WienerZeitung/2023-05-02_tweets_%23WienerZeitung_retweetnetwork')">
+        #WienerZeitung</div>
+    </div>
+    <div class="day-section">
+      <div class="day-header" onclick="toggleTrendingTopics('Saturday')">Saturday</div>
+      <div class="trending-topic" id="saturday-topic-1"
+        onclick="openWebsite('29_04_2023/2023-05-02_tweets_%23BOCBVB/2023-05-02_tweets_%23BOCBVB_retweetnetwork')">
+        #B0CBVB</div>
+      <div class="trending-topic" id="saturday-topic-2"
+        onclick="openWebsite('29_04_2023/2023-05-02_tweets_%23dancingstars/2023-05-02_tweets_%23dancingstars_retweetnetwork')">
+        #dancingstars</div>
+      <div class="trending-topic" id="saturday-topic-3"
+        onclick="openWebsite('29_04_2023/2023-05-02_tweets_Haslauer/2023-05-02_tweets_Haslauer_retweetnetwork')">
+        Haslauer</div>
+    </div>
+    <div class="day-section">
+      <div class="day-header" onclick="toggleTrendingTopics('Sunday')">Sunday</div>
+      <div class="trending-topic" id="sunday-topic-1"
+        onclick="openWebsite('30_04_2023/2023-05-02_tweets_%23w2904/2023-05-02_tweets_%23w2904_retweetnetwork')">#w2904
+      </div>
+      <div class="trending-topic" id="sunday-topic-2"
+        onclick="openWebsite('30_04_2023/2023-05-02_tweets_Erbschaftssteuer/2023-05-02_tweets_Erbschaftssteuer_retweetnetwork')">
+        Erbschaftssteuer</div>
+      <div class="trending-topic" id="sunday-topic-3"
+        onclick="openWebsite('30_04_2023/2023-05-02_tweets_Kogler/2023-05-02_tweets_Kogler_retweetnetwork')">Kogler
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleTrendingTopics(day) {
+      var topics = document.querySelectorAll('[id^="' + day.toLowerCase() + '-topic"]');
+      topics.forEach(function (topic) {
+        topic.style.display = (topic.style.display === 'none' || topic.style.display === '') ? 'block' : 'none';
+      });
+    }
+
+    function openWebsite(page) {
+      // Replace 'website_directory' with the actual directory where your websites are located
+      // Replace 'html_extension' with the actual extension of your HTML files (e.g., '.html')
+      var websiteDirectory = '/home/nicholas/Documents/twitter-explorer/examples/';
+      var htmlExtension = '.html';
+
+      var url = websiteDirectory + page.replace(/ /g, '_') + htmlExtension;
+
+      // Open the website in a new tab or window
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8"/>
+    <title>twitter explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://unpkg.com/force-graph"></script>
+    <script src="https://unpkg.com/3d-force-graph"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js"></script>    
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
+    <script> 
+    $(document).ready(function(){
+      $("#panel00").click(function(){
+        $("#content00").slideToggle(300);
+              });
+    });
+    $(document).ready(function(){
+      $("#panel01").click(function(){
+        $("#content01").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel02").click(function(){
+        $("#content02").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel03").click(function(){
+        $("#content03").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel04").click(function(){
+        $("#content04").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel04A").click(function(){
+        $("#content04A").slideToggle(300);
+      });
+    });    
+    $(document).ready(function(){
+      $("#panel05").click(function(){
+        $("#content05").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel06").click(function(){
+        $("#content06").slideToggle(300);
+      });
+    });
+    $( function() {
+        $( "#totalborder" ).draggable();
+        } );
+    </script>
+<style>
+.switch {
+    position: relative;
+    width: 60px;
+    }
+/* Hide default HTML checkbox */
+    .onoffswitch {
+        position: relative;         
+        margin: 10px;
+        /*margin-left:270px;*/
+        width: 40px;
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    }
+    .onoffswitch-checkbox {
+        display: none;
+    }
+    .onoffswitch-label {
+        display: block; overflow: hidden; cursor: pointer;
+        height: 15px; padding: 0; line-height: 15px;
+        border: 2px solid #999999; border-radius: 15px;
+        background-color: #EEEEEE;
+        transition: background-color 0.3s ease-in;
+    }
+    .onoffswitch-label:before {
+        content: "";
+        display: block; width: 15px; margin: 0px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 23px;
+        border: 2px solid #999999; border-radius: 15px;
+        transition: all 0.3s ease-in 0s; 
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label {
+        background-color: #fff;
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+       border-color: #999999;
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+        right: 0px; 
+    }
+    html.transition,
+    html.transition *,
+    html.transition *:before,
+    html.transition *:after {
+      transition: ease-in-out 200ms !important;
+      transition-delay: 0 !important;
+    }
+      html {
+          background: var(--backg);
+                    --backg: #fff;
+                    --color_text: #000;
+                    --color_title_text: #fff;
+                    --color_title_backg: #000;
+                    --backg_buttons: rgba(0,0,0,0.15);}
+      html[data-theme='darktheme'] {
+          background: var(--backg);
+          --backg: #000;
+          --color_text: #fff;
+          --color_title_text: #000;
+          --color_title_backg: #fff;
+          --backg_buttons: rgba(255,255,255,0.25)
+            }
+      body {margin: 0; 
+            font-family: "Inter",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+            font-size: 12pt;
+            background-color: var(--backg);
+            color: var(--color_text)}
+
+        #totalborder {
+        border: 1px;
+        margin: 25px;
+        width: 325px;
+        border-style: solid;
+        padding-left: 0px;
+        position: relative;
+        float: left;
+        z-index: 10;
+        background-color: var(--backg)
+        }
+
+        #totalborder:hover {
+          cursor: move
+        }
+        
+        #panel00{
+          text-decoration: underline;
+          text-transform: uppercase;
+        }
+
+        .borders {
+          border: solid 1px;
+          margin: 10px;
+          width: 300px;
+        }
+        .borders_small {
+          border: solid 1px;
+          margin: 0px;
+          width: 270px;
+          margin-top: 10px
+        }
+
+        #title {
+        padding: 10px;
+        width: 300px;
+        color: var(--color_title_text);
+        font-size: 20pt;
+        font-weight: bold;
+        }
+
+        #titleborder {
+        background-color: var(--color_title_backg)
+        }
+
+        .content {
+          display: none;
+          padding: 10px;
+        }
+
+        .subtitle {
+          padding: 10px;
+        }
+        .subsubtitle {
+          padding: 5px;
+          font-size: 11pt;
+        }
+
+        .subtitle:hover{
+          background-color: var(--backg_buttons);
+          cursor: pointer;
+        }
+        .subsubtitle:hover{
+          background-color: var(--backg_buttons);
+          cursor: pointer;
+        }
+
+        #footer{
+          font-size: 8pt;
+          padding-left: 10px;
+          padding-bottom: 5px;
+          color:grey;
+        }
+
+        a{
+          color:var(--text-color);
+        }
+        #infodiv{
+            padding-left: 20px;
+            position: relative;
+            float: left;
+            z-index: 10;
+        }
+        iframe.infodiv{
+                padding-left:0px;
+
+        }
+        @media(max-width:1000px){
+            #infodiv{
+                padding-left:0px;
+            }
+            #stripecontainer{
+              padding-left:0;
+            }
+        }
+        /* ---------------------------- */  
+        /* ---------- Selector ---------- */
+        #mainselection select {
+           border: 1;
+           border-width: 1px;
+           /*border-color: black;*/
+           border-radius: 4px;
+           background: transparent;
+           font-size: 11pt;
+           color: var(--text_color);
+           padding: 2px 5px;
+           width: 270px;
+           -webkit-appearance: none;
+        }
+        #mainselection {
+           /*overflow:hidden;*/
+           width:240px;
+           border: 1;
+           /*background: #58B14C no-repeat scroll 150px center;*/
+        }
+        /* ---------------------------- */  
+        /* ---------- Button ---------- */
+        .button1 {
+            background-color:transparent;
+            border-radius:4px;
+            margin-top: 10px;
+            border:1px solid;
+            display:inline-block;
+            cursor:pointer;
+            color:var(--color_text);
+            width: 119px;
+            font-size:10pt;
+            padding:5px 5px;
+            /*padding:6px 36px;*/
+            text-decoration:none;
+            margin-right: 5px
+          }
+          .button1:hover {
+            background-color: var(--backg_buttons);
+          }
+          .button1:active {
+            position:relative;
+            top:1px;
+          }
+        .button2 {
+            background-color:transparent;
+            border-radius:4px;
+            margin-top: 20px;
+            border:1px solid;
+            display:inline-block;
+            cursor:pointer;
+            color:var(--color_text);
+            width: 140px;
+            font-size:10pt;
+            padding:5px 5px;
+            /*padding:6px 36px;*/
+            text-decoration:none;
+            margin-right: 5px
+          }
+          .button2:hover {
+            background-color: var(--backg_buttons);
+          }
+          .button2:active {
+            position:relative;
+            top:1px;
+          }                    
+        /* ---------------------------- */  
+        /* ---------- Checkbox ---------- */
+        .checkbox {
+            display: inline-flex;
+            cursor: pointer;
+            position: relative;
+        }
+        .checkbox > span {
+            padding: 0.3rem 0.5rem;
+            font-size: 12pt
+        }
+        .checkbox > input {
+            height: 25px;
+            width: 25px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -o-appearance: none;
+            appearance: none;
+            border: 1px solid;
+            border-radius: 4px;
+            outline: none;
+            transition-duration: 0.3s;
+            background-color: transparent;
+            cursor: pointer;
+            margin-left: 1px
+          }
+        .checkbox > input:checked {
+            border: 1px solid;
+        }
+        .checkbox > input:checked + span::before {
+            content: '\2713';
+            display: block;
+            text-align: center;
+            color: var(--color_text);
+            position: absolute;
+            left: 0.3rem;
+            top: 0.2rem;
+            font-size: 14pt
+
+        }
+        .checkbox > input:active {
+            border: 2px solid #34495E;
+        }
+        .description{
+            font-size:9pt;
+            margin-top: 0px
+        }
+        .element{
+          margin-bottom: 10px
+        }
+        #twittertimeline{
+          margin-top: 0px
+        }
+        /* ---------------------------- */  
+        /* ---------- Search Box ---------- */
+        input[type=search] {
+            border-radius: 4px;
+            font-size: 12pt;
+            width: 272px;
+            background-color: transparent;
+            color: var(--color_text);
+        }
+        /* ---------------------------- */
+        ul{
+            padding-left:15px;
+            list-style-type:circle; 
+            font-size: 11pt; 
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        #slido{width: 270px;}
+        #time_slider{width: 270px;}
+        #slido_links{width: 270px;}        
+        #scale{margin-top: 20px}
+        #user_retweets{
+          overflow-y: scroll;
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* Internet Explorer 10+ */          
+          height: 300px;
+        }
+        #user_retweets::-webkit-scrollbar { /* WebKit */
+        width: 0;
+        height: 0;
+        }
+        #user_originaltweets{
+          overflow-y: scroll;
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* Internet Explorer 10+ */          
+          height: 300px;
+        }
+        #user_originaltweets::-webkit-scrollbar { /* WebKit */
+        width: 0;
+        height: 0;
+        }        
+        .loader {
+            border: 12px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 12px solid #444444;
+            width: 35px;
+            height: 35px;
+            animation: spin 1s linear infinite;
+            display: none;
+        }        
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .svgbutton00 {
+          padding-top: 6px;
+          padding-bottom: 0px;
+          }
+          .svgbutton00:hover{
+            cursor: pointer;
+          }
+        .svgbutton00 svg {
+          width: 24px;
+          height: 24px;
+          stroke: var(--color_text);
+          stroke-width: 4;
+          stroke-linecap: square;
+          stroke-linejoin: miter;
+          fill: var(--color_text);
+        }
+        .svgbutton00 svg:hover{
+            stroke: magenta;
+        }             
+        .svgbutton01 {
+          /*border-radius: 4px;*/
+          padding-top: 3px;          
+          /*float: right;*/
+          }
+          .svgbutton01:hover{
+            cursor: pointer;
+          }
+        .svgbutton01 svg {
+          width: 30px;
+          height: 30px;
+          stroke: var(--color_text);
+          stroke-width: 4;
+          stroke-linecap: square;
+          stroke-linejoin: miter;
+          fill: none;
+        }
+        .svgbutton01 svg:hover{
+            stroke: magenta;
+        }          
+</style>
+</head>
+<body>
+<div id="totalborder">
+<div style="display:flex">
+<div style="padding-left: 10px;" class="svgbutton00">
+<svg onclick='toggle_darkmode()' height='100px' width='100px'  fill="#000000" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 100 100" x="0px" y="0px"><title>Toggle dark mode</title><path d="M50,2.5A47.5,47.5,0,1,0,97.5,50,47.5,47.5,0,0,0,50,2.5Zm0,90.56A43.06,43.06,0,1,1,93.06,50,43.11,43.11,0,0,1,50,93.06ZM14.93,49.56A35.51,35.51,0,0,0,50.44,85.07V14A35.51,35.51,0,0,0,14.93,49.56Z"></path></svg>
+</div>
+<div style="padding-left: 250px;" class="svgbutton01" title='Make a screenshot of the current graph view'>
+<a id='camera'></a>    
+<svg onclick='make_screenshot()' height='100px' width='100px'  fill="#000000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path d="M92.5,27.5H35V20c0-1.4-1.1-2.5-2.5-2.5h-15c-1.4,0-2.5,1.1-2.5,2.5v7.5H7.5C6.1,27.5,5,28.6,5,30v50c0,1.4,1.1,2.5,2.5,2.5  h85c1.4,0,2.5-1.1,2.5-2.5V30C95,28.6,93.9,27.5,92.5,27.5z M20,22.5h10v5H20V22.5z M90,77.5H10v-45h80V77.5z"></path><path d="M50,72.5c9.6,0,17.5-7.9,17.5-17.5S59.6,37.5,50,37.5S32.5,45.4,32.5,55S40.4,72.5,50,72.5z M50,42.5  c6.9,0,12.5,5.6,12.5,12.5S56.9,67.5,50,67.5S37.5,61.9,37.5,55S43.1,42.5,50,42.5z"></path></svg>
+</div>
+</div>
+<div class="borders" id="titleborder" style="margin-top:0">
+<div id="title">twitter explorer <span id="version_number" style="font-size:8pt"></span></div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel00"></div>
+<div class = "content" id="content00" style="padding-top:0px">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel01">VISUALIZATION OPTIONS</div>
+<div class = "content" id="content01">
+    <div id="mainselection" class="element">
+        <div class="description">Auto-color nodes by</div>
+            <select id = "nodecolor">
+                <option value = "none" style="font-weight: bold"></option>
+            </select>
+        <br> <br>
+        <div class="description">Node size (variable scale)</div>
+            <select id = "nodesize">
+                <option value = "none">None</option>
+                <option value = "in_degree" id="indegreeoption">In-Degree (number of times the user got retweeted)</option>
+                <option value = "out_degree" id="outdegreeoption">Out-Degree (number of times the user retweeted someone)</option>
+                <option value = "followers">Number of followers</option>
+                <option value = "friends">Number of followed accounts</option>
+            </select>
+        </div>
+        <div class="description" id="scale">Size scale</div>
+        <div class="slidecontainer">
+          <input type="range" min="0.2" max="20" value="2" id="slido">
+        </div>
+        <a href="javascript:void(0);" onclick="toggle_linkvisibility()" class="button2">Toggle link visibility</a>
+        <!-- <a href="javascript:void(0);" onclick="switchGraph()" class="button2">Switch Graph</a>    -->
+        <button class="button2" id="switchGraph">Switch Graph</button>
+        <button class="button2" id="clusterGraph">Toggle Cluster Graph</button>
+<div class="description" style="padding-top:20px" id="time_scale">Filter edges by day (experimental feature)</div>
+    <div class="slidecontainer">
+        <input type="range" min="0" max="25" value="0" id="time_slider">
+    </div>
+    <div id="current_time_filter" style="font-size:9pt"></div>                      
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel02">NETWORK MEASURES</div>
+<div class = "content" id="content02">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel03">ACCOUNT INFORMATION</div>
+<div class = "content" id="content03">
+    <div class="description"> Search user</div>
+    <input id="searchuser" type="search"/>
+        <br>
+        <a href="javascript:void(0);" onclick="zoomonuser()" class="button1">Zoom on node</a>
+        <a href="javascript:void(0);" onclick="drawortweets()" class="button1" id="fetch_originaltweet">Fetch tweets</a><br>        
+        <a href="javascript:void(0);" onclick="drawretweets()" class="button1" id="fetch_interaction"></a>
+        <a href="javascript:void(0);" onclick="drawtimeline()" class="button1">Fetch timeline</a> 
+    <br><br>
+    <div id="userinfostring"></div>
+    <div class="borders_small" id="originaltweetsborders">
+        <div class= "subsubtitle" id="panel04A">ORIGINAL TWEETS IN DATASET</div>
+        <div class = "content" id="content04A">
+            <div id="user_originaltweets">
+                <div class="loader"></div>
+                <a id="useroriginaltweets" class="useroriginaltweets"></a>
+            </div>
+        </div>
+    </div>  
+    <div class="borders_small">
+        <div class= "subsubtitle" id="panel04"></div>
+        <div class = "content" id="content04">
+            <div id="user_retweets">
+                <a id="userretweets" class="userretweets"></a>
+            </div>
+        </div>
+    </div>   
+    <div class="borders_small">
+        <div class= "subsubtitle" id="panel05">TWITTER TIMELINE</div>
+        <div class = "content" id="content05">
+            <div id="twittertimeline">
+                <a id="twitter_timeline" class="twitter-timeline"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel06">EXPORT OPTIONS</div>
+<div class = "content" id="content06">
+<a href="javascript:void(0);" onclick="export_nodes_as_csv()" class="button1" style="margin-top:0">Export nodes and metadata as CSV</a>   
+<a href="javascript:void(0);" onclick="d3graph_to_gml()" class="button1" style="margin-top:0">Export graph as GML (for Gephi)</a>   
+<a href="javascript:void(0);" onclick="export_coordinates()" class="button1" style="margin-top:0">Export coordinates</a>
+</div>
+</div>
+<!-- <div id="footer">Created with the <a href="https://twitterexplorer.org">twitter explorer</a></div></div> -->
+</div>
+
+<div id="graph" style="width:100%;height: 100%;position: absolute;"></div>
+
+    <script type="text/javascript">
+        var data = {'nodes': [{'id': 0, 'twitter_id': '1274685851448926209', 'screen_name': 'nykmuktsar', 'followers': 578, 'friends': 549, 'interactions': ['1652394378688860161', '1652393669511577602', '1652392696110284800'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 1, 'leiden_com': 0}, {'id': 1, 'twitter_id': '1315895680175464448', 'screen_name': 'NykAzamgarh', 'followers': 791, 'friends': 401, 'interactions': 'None', 'otweets': ['1652206390180745216'], 'in_degree': 5, 'out_degree': 0, 'in_degree_pa': 5, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 0}, {'id': 2, 'twitter_id': '1854369001', 'screen_name': 'Nyksindia', 'followers': 76618, 'friends': 961, 'interactions': 'None', 'otweets': ['1652194091080495106'], 'in_degree': 70, 'out_degree': 0, 'in_degree_pa': 70, 'out_degree_pa': 0, 'louvain_com': 0, 'leiden_com': 1}, {'id': 3, 'twitter_id': '1315695555603881985', 'screen_name': 'nyk_new', 'followers': 3752, 'friends': 3531, 'interactions': ['1652218988099956738'], 'otweets': ['1652234649710755840'], 'in_degree': 8, 'out_degree': 1, 'in_degree_pa': 8, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 4, 'twitter_id': '1472871706410717185', 'screen_name': 'arunexednyks', 'followers': 5155, 'friends': 13, 'interactions': ['1652367109077491712'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 5, 'twitter_id': '1174999223445553152', 'screen_name': 'NykNalbariAssam', 'followers': 865, 'friends': 405, 'interactions': ['1652348664650821634'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 6, 'twitter_id': '1422546116898213890', 'screen_name': 'Kazzylsaini', 'followers': 54, 'friends': 15, 'interactions': ['1652347467692920832'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 7, 'twitter_id': '1438414610197987331', 'screen_name': 'ManojNYV21', 'followers': 75, 'friends': 64, 'interactions': ['1652342112447533057'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 8, 'twitter_id': '1538109300048273408', 'screen_name': 'MaddiletiDoni', 'followers': 27, 'friends': 6, 'interactions': ['1652341797140709376'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 9, 'twitter_id': '1315886990512939009', 'screen_name': 'NykSikar57', 'followers': 1413, 'friends': 1165, 'interactions': ['1652341668694360064'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 10, 'twitter_id': '1315581535563644928', 'screen_name': 'up_nyk', 'followers': 983, 'friends': 533, 'interactions': ['1652339941442220033'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 11, 'twitter_id': '886492604078096384', 'screen_name': 'Ujjwalgupta28', 'followers': 27, 'friends': 49, 'interactions': ['1652335434360590336'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 12, 'twitter_id': '1405780214014046208', 'screen_name': 'NykDharamsala', 'followers': 150, 'friends': 248, 'interactions': ['1652333838495027200'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 13, 'twitter_id': '1522439721623769088', 'screen_name': 'AmritAmmy1992', 'followers': 60, 'friends': 38, 'interactions': ['1652331456142917636'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 14, 'twitter_id': '1426072708236800007', 'screen_name': 'DWestkhasihills', 'followers': 79, 'friends': 157, 'interactions': ['1652329976929083398'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 15, 'twitter_id': '851027539007070208', 'screen_name': 'Jasmers01552089', 'followers': 46, 'friends': 99, 'interactions': ['1652329966355496960'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 16, 'twitter_id': '1467030193403404290', 'screen_name': 'SANDHYA49317149', 'followers': 295, 'friends': 611, 'interactions': ['1652329699547422721'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 17, 'twitter_id': '1426067941833904129', 'screen_name': 'DEastkhasihills', 'followers': 151, 'friends': 220, 'interactions': ['1652329411193217024'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 18, 'twitter_id': '1266287272078368770', 'screen_name': 'NYKEASTDELHI', 'followers': 4151, 'friends': 4361, 'interactions': ['1652328667891081217', '1652327109782560768'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 1, 'leiden_com': 0}, {'id': 19, 'twitter_id': '1545268045177769985', 'screen_name': 'Sapnaku80639469', 'followers': 18, 'friends': 4, 'interactions': ['1652322436980023296'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 20, 'twitter_id': '1218494169196326920', 'screen_name': 'nykpatna', 'followers': 883, 'friends': 81, 'interactions': ['1652293317235986435'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 21, 'twitter_id': '1435821575127769088', 'screen_name': 'Sonisanjana02', 'followers': 16, 'friends': 26, 'interactions': ['1652292403469111296'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 22, 'twitter_id': '1529407306156240897', 'screen_name': 'Ashmeet28273400', 'followers': 471, 'friends': 827, 'interactions': ['1652290950369280001'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 23, 'twitter_id': '1315652309943083008', 'screen_name': 'BarnalaNyk', 'followers': 2470, 'friends': 4332, 'interactions': ['1652290446855667716'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 24, 'twitter_id': '1316293121261490177', 'screen_name': 'YuvaChapra', 'followers': 908, 'friends': 340, 'interactions': ['1652289591582552064'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 25, 'twitter_id': '1036603817695952901', 'screen_name': 'Balgovindkuma20', 'followers': 41, 'friends': 96, 'interactions': ['1652285442254073862'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 26, 'twitter_id': '1436349276968439811', 'screen_name': 'lilhistorian16', 'followers': 141, 'friends': 138, 'interactions': ['1652284681310679040'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 27, 'twitter_id': '788750520307617792', 'screen_name': 'chandanbts1992', 'followers': 22, 'friends': 177, 'interactions': ['1652281024347525121'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 28, 'twitter_id': '1092702834355691522', 'screen_name': 'nykbarwani', 'followers': 825, 'friends': 703, 'interactions': ['1652280841769455616'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 29, 'twitter_id': '1581535942770233344', 'screen_name': 'NSSPOACWADALA', 'followers': 29, 'friends': 43, 'interactions': ['1652273619328724994'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 30, 'twitter_id': '3302225916', 'screen_name': 'ssjoshi4', 'followers': 916, 'friends': 2337, 'interactions': ['1652271355591794698'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 31, 'twitter_id': '1298136905469456386', 'screen_name': 'NKarimnagar', 'followers': 858, 'friends': 816, 'interactions': ['1652269767145959425'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 32, 'twitter_id': '1316636603779964930', 'screen_name': 'YuvaGondia', 'followers': 482, 'friends': 324, 'interactions': ['1652265381837570048'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 33, 'twitter_id': '1407566069686960128', 'screen_name': 'NYK_Udhampur', 'followers': 948, 'friends': 478, 'interactions': ['1652259056663363584'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 34, 'twitter_id': '1439152926161707008', 'screen_name': 'Jitendernyks', 'followers': 508, 'friends': 851, 'interactions': ['1652257668340518913'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 35, 'twitter_id': '1353918660503433218', 'screen_name': 'BalliaGange', 'followers': 157, 'friends': 69, 'interactions': ['1652254827580104704'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 36, 'twitter_id': '1148454277301428224', 'screen_name': 'LalitKumarInd', 'followers': 35, 'friends': 699, 'interactions': ['1652253432957267968'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 37, 'twitter_id': '1316601622596734976', 'screen_name': 'NYKErode', 'followers': 187, 'friends': 186, 'interactions': ['1652252558449344512'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 38, 'twitter_id': '1195005424858124288', 'screen_name': 'NYKKULLU1', 'followers': 1422, 'friends': 883, 'interactions': ['1652244777423998978', '1652244610721411072', '1652244601045147651', '1652225240976744448'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 4, 'in_degree_pa': 0, 'out_degree_pa': 4, 'louvain_com': 1, 'leiden_com': 0}, {'id': 39, 'twitter_id': '1315581117169168386', 'screen_name': 'YuvaBarpeta', 'followers': 775, 'friends': 536, 'interactions': 'None', 'otweets': ['1652200032215650305'], 'in_degree': 1, 'out_degree': 0, 'in_degree_pa': 1, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 0}, {'id': 40, 'twitter_id': '1301718819698700289', 'screen_name': 'YuvaBargarh', 'followers': 1051, 'friends': 978, 'interactions': ['1652240593563828224'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 41, 'twitter_id': '1445427134709714947', 'screen_name': 'AVIJITD13460288', 'followers': 36, 'friends': 23, 'interactions': ['1652234886311452673'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 42, 'twitter_id': '1169194613162172422', 'screen_name': 'DiamondNyks', 'followers': 918, 'friends': 258, 'interactions': ['1652234797249613825'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 43, 'twitter_id': '1507347836446588938', 'screen_name': 'SUBHANKARKSY', 'followers': 9, 'friends': 66, 'interactions': ['1652231224889581568'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 44, 'twitter_id': '1446789545437978628', 'screen_name': 'NYKCENTRALDELHI', 'followers': 969, 'friends': 402, 'interactions': ['1652229474300096513'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 45, 'twitter_id': '1630920359175389185', 'screen_name': 'kendra_nehru', 'followers': 5, 'friends': 21, 'interactions': ['1652228060903612416'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 46, 'twitter_id': '1437679617976856578', 'screen_name': 'kajalnyks2', 'followers': 75, 'friends': 69, 'interactions': ['1652223263756681218'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 47, 'twitter_id': '1561724603684102144', 'screen_name': 'divyajy01471184', 'followers': 8, 'friends': 3, 'interactions': ['1652221278592585728'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 48, 'twitter_id': '1280008771616436224', 'screen_name': 'BhadrakNyk', 'followers': 583, 'friends': 197, 'interactions': ['1652219159357300738'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 49, 'twitter_id': '1315542999376392192', 'screen_name': 'YuvaChamba', 'followers': 1296, 'friends': 1056, 'interactions': ['1652219121499553793'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 50, 'twitter_id': '1540615448894775297', 'screen_name': 'sadhana76601861', 'followers': 31, 'friends': 77, 'interactions': ['1652218163596255233'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 0}, {'id': 51, 'twitter_id': '1436228718205177859', 'screen_name': 'nykspoonch', 'followers': 641, 'friends': 443, 'interactions': ['1652214102251671552'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 52, 'twitter_id': '1303578616182132736', 'screen_name': 'YuvaSbs', 'followers': 2163, 'friends': 2323, 'interactions': ['1652213501471989762'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 53, 'twitter_id': '1251168766706118657', 'screen_name': 'RcmandaBjp', 'followers': 188, 'friends': 255, 'interactions': ['1652212917469868032'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 54, 'twitter_id': '1418389616890060803', 'screen_name': 'PRAMATHESHCHAK2', 'followers': 47, 'friends': 7, 'interactions': ['1652210022049529856'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 55, 'twitter_id': '1301885160678252544', 'screen_name': 'NykGonda', 'followers': 1107, 'friends': 864, 'interactions': ['1652206978268028932'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 56, 'twitter_id': '1261236499376455681', 'screen_name': 'NyksChatra', 'followers': 751, 'friends': 87, 'interactions': ['1652206146974027776'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 57, 'twitter_id': '3254463025', 'screen_name': 'Arzoo1208', 'followers': 115, 'friends': 235, 'interactions': ['1652205340950134785'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 58, 'twitter_id': '1209097438046257155', 'screen_name': 'Nykkld', 'followers': 1044, 'friends': 1001, 'interactions': ['1652204725650194432'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 59, 'twitter_id': '1538520229219020800', 'screen_name': 'ManilTeliki', 'followers': 4, 'friends': 10, 'interactions': ['1652203801150095363'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 60, 'twitter_id': '1315529134714486785', 'screen_name': 'NykRewari', 'followers': 833, 'friends': 1049, 'interactions': ['1652203460799139845'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 61, 'twitter_id': '1418246097495945217', 'screen_name': 'BiharNyks', 'followers': 2491, 'friends': 79, 'interactions': ['1652203281278722050'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 62, 'twitter_id': '1541687490062721024', 'screen_name': 'kiran_sonkar', 'followers': 14, 'friends': 11, 'interactions': ['1652202451502788610'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 63, 'twitter_id': '1156527874536382464', 'screen_name': 'YuvaKhandwa', 'followers': 3449, 'friends': 999, 'interactions': ['1652199176439222272'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 64, 'twitter_id': '1444934894044336134', 'screen_name': 'HiranmaySarka17', 'followers': 2, 'friends': 13, 'interactions': ['1652198908393844736'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 65, 'twitter_id': '1431509422992343041', 'screen_name': 'NYKS_Odisha', 'followers': 842, 'friends': 650, 'interactions': ['1652197632398487552'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 66, 'twitter_id': '1316044639250468865', 'screen_name': 'NyksPakur', 'followers': 476, 'friends': 22, 'interactions': ['1652197523107483649'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 67, 'twitter_id': '1336278228244164612', 'screen_name': 'NYKMalda', 'followers': 324, 'friends': 39, 'interactions': ['1652197384649342977'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 68, 'twitter_id': '1417462373816827911', 'screen_name': 'PikunSahu9', 'followers': 235, 'friends': 338, 'interactions': ['1652197280064348160'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 69, 'twitter_id': '1316327083933483010', 'screen_name': 'NykUnnao', 'followers': 538, 'friends': 71, 'interactions': ['1652197244182069253'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 70, 'twitter_id': '4363862894', 'screen_name': 'NaantamilBJP', 'followers': 166, 'friends': 175, 'interactions': ['1652197198694850560'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 71, 'twitter_id': '1316045452370821120', 'screen_name': 'JharkhandNyks', 'followers': 329, 'friends': 24, 'interactions': ['1652197190763450368'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 72, 'twitter_id': '1257567492353912834', 'screen_name': 'NMurshidabad', 'followers': 1054, 'friends': 685, 'interactions': ['1652196960378699782'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 73, 'twitter_id': '1316324011744219137', 'screen_name': 'HassanNyk', 'followers': 886, 'friends': 702, 'interactions': ['1652196433515405312'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 74, 'twitter_id': '1540599800152072193', 'screen_name': 'PadmaPrem4', 'followers': 21, 'friends': 20, 'interactions': ['1652196272949039105'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 75, 'twitter_id': '1316683473109696513', 'screen_name': 'nykjspur', 'followers': 689, 'friends': 267, 'interactions': ['1652195860426686467'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 76, 'twitter_id': '1576403300177825792', 'screen_name': 'manojku13683094', 'followers': 2, 'friends': 11, 'interactions': ['1652195714125160450'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 77, 'twitter_id': '1316300826063773696', 'screen_name': 'NYKCKM', 'followers': 835, 'friends': 462, 'interactions': ['1652195203045007365'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 78, 'twitter_id': '1425845949767700482', 'screen_name': 'DuryodhanPande4', 'followers': 102, 'friends': 55, 'interactions': ['1652194889625657344'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 79, 'twitter_id': '1315654995941879813', 'screen_name': 'NyksSo', 'followers': 833, 'friends': 505, 'interactions': ['1652194745463246849'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}, {'id': 80, 'twitter_id': '1315895271134384128', 'screen_name': 'NYKBokaro', 'followers': 621, 'friends': 181, 'interactions': ['1652194569923219456'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 1}], 'links': [{'source': 0, 'target': 1, 'tweet': '1652394378688860161', 'ts': 1682796494}, {'source': 0, 'target': 2, 'tweet': '1652393669511577602', 'ts': 1682796325}, {'source': 0, 'target': 3, 'tweet': '1652392696110284800', 'ts': 1682796093}, {'source': 4, 'target': 2, 'tweet': '1652367109077491712', 'ts': 1682789992}, {'source': 5, 'target': 2, 'tweet': '1652348664650821634', 'ts': 1682785595}, {'source': 6, 'target': 3, 'tweet': '1652347467692920832', 'ts': 1682785310}, {'source': 7, 'target': 3, 'tweet': '1652342112447533057', 'ts': 1682784033}, {'source': 8, 'target': 2, 'tweet': '1652341797140709376', 'ts': 1682783958}, {'source': 9, 'target': 2, 'tweet': '1652341668694360064', 'ts': 1682783927}, {'source': 10, 'target': 2, 'tweet': '1652339941442220033', 'ts': 1682783515}, {'source': 11, 'target': 3, 'tweet': '1652335434360590336', 'ts': 1682782441}, {'source': 12, 'target': 2, 'tweet': '1652333838495027200', 'ts': 1682782060}, {'source': 13, 'target': 2, 'tweet': '1652331456142917636', 'ts': 1682781492}, {'source': 14, 'target': 2, 'tweet': '1652329976929083398', 'ts': 1682781139}, {'source': 15, 'target': 2, 'tweet': '1652329966355496960', 'ts': 1682781137}, {'source': 16, 'target': 2, 'tweet': '1652329699547422721', 'ts': 1682781073}, {'source': 17, 'target': 2, 'tweet': '1652329411193217024', 'ts': 1682781005}, {'source': 18, 'target': 3, 'tweet': '1652328667891081217', 'ts': 1682780827}, {'source': 18, 'target': 2, 'tweet': '1652327109782560768', 'ts': 1682780456}, {'source': 19, 'target': 2, 'tweet': '1652322436980023296', 'ts': 1682779342}, {'source': 20, 'target': 2, 'tweet': '1652293317235986435', 'ts': 1682772399}, {'source': 21, 'target': 1, 'tweet': '1652292403469111296', 'ts': 1682772181}, {'source': 22, 'target': 2, 'tweet': '1652290950369280001', 'ts': 1682771835}, {'source': 23, 'target': 2, 'tweet': '1652290446855667716', 'ts': 1682771715}, {'source': 24, 'target': 2, 'tweet': '1652289591582552064', 'ts': 1682771511}, {'source': 25, 'target': 2, 'tweet': '1652285442254073862', 'ts': 1682770522}, {'source': 26, 'target': 3, 'tweet': '1652284681310679040', 'ts': 1682770340}, {'source': 27, 'target': 2, 'tweet': '1652281024347525121', 'ts': 1682769468}, {'source': 28, 'target': 2, 'tweet': '1652280841769455616', 'ts': 1682769425}, {'source': 29, 'target': 2, 'tweet': '1652273619328724994', 'ts': 1682767703}, {'source': 30, 'target': 2, 'tweet': '1652271355591794698', 'ts': 1682767163}, {'source': 31, 'target': 2, 'tweet': '1652269767145959425', 'ts': 1682766784}, {'source': 32, 'target': 2, 'tweet': '1652265381837570048', 'ts': 1682765739}, {'source': 33, 'target': 2, 'tweet': '1652259056663363584', 'ts': 1682764231}, {'source': 34, 'target': 3, 'tweet': '1652257668340518913', 'ts': 1682763900}, {'source': 35, 'target': 2, 'tweet': '1652254827580104704', 'ts': 1682763222}, {'source': 36, 'target': 2, 'tweet': '1652253432957267968', 'ts': 1682762890}, {'source': 37, 'target': 2, 'tweet': '1652252558449344512', 'ts': 1682762681}, {'source': 38, 'target': 39, 'tweet': '1652244777423998978', 'ts': 1682760826}, {'source': 38, 'target': 3, 'tweet': '1652244610721411072', 'ts': 1682760787}, {'source': 38, 'target': 1, 'tweet': '1652244601045147651', 'ts': 1682760784}, {'source': 40, 'target': 2, 'tweet': '1652240593563828224', 'ts': 1682759829}, {'source': 41, 'target': 2, 'tweet': '1652234886311452673', 'ts': 1682758468}, {'source': 42, 'target': 2, 'tweet': '1652234797249613825', 'ts': 1682758447}, {'source': 43, 'target': 2, 'tweet': '1652231224889581568', 'ts': 1682757595}, {'source': 44, 'target': 1, 'tweet': '1652229474300096513', 'ts': 1682757178}, {'source': 45, 'target': 2, 'tweet': '1652228060903612416', 'ts': 1682756841}, {'source': 38, 'target': 2, 'tweet': '1652225240976744448', 'ts': 1682756168}, {'source': 46, 'target': 2, 'tweet': '1652223263756681218', 'ts': 1682755697}, {'source': 47, 'target': 2, 'tweet': '1652221278592585728', 'ts': 1682755224}, {'source': 48, 'target': 2, 'tweet': '1652219159357300738', 'ts': 1682754718}, {'source': 49, 'target': 2, 'tweet': '1652219121499553793', 'ts': 1682754709}, {'source': 3, 'target': 2, 'tweet': '1652218988099956738', 'ts': 1682754678}, {'source': 50, 'target': 1, 'tweet': '1652218163596255233', 'ts': 1682754481}, {'source': 51, 'target': 2, 'tweet': '1652214102251671552', 'ts': 1682753513}, {'source': 52, 'target': 2, 'tweet': '1652213501471989762', 'ts': 1682753370}, {'source': 53, 'target': 2, 'tweet': '1652212917469868032', 'ts': 1682753230}, {'source': 54, 'target': 2, 'tweet': '1652210022049529856', 'ts': 1682752540}, {'source': 55, 'target': 2, 'tweet': '1652206978268028932', 'ts': 1682751814}, {'source': 56, 'target': 2, 'tweet': '1652206146974027776', 'ts': 1682751616}, {'source': 57, 'target': 2, 'tweet': '1652205340950134785', 'ts': 1682751424}, {'source': 58, 'target': 2, 'tweet': '1652204725650194432', 'ts': 1682751277}, {'source': 59, 'target': 2, 'tweet': '1652203801150095363', 'ts': 1682751057}, {'source': 60, 'target': 2, 'tweet': '1652203460799139845', 'ts': 1682750976}, {'source': 61, 'target': 2, 'tweet': '1652203281278722050', 'ts': 1682750933}, {'source': 62, 'target': 2, 'tweet': '1652202451502788610', 'ts': 1682750735}, {'source': 63, 'target': 2, 'tweet': '1652199176439222272', 'ts': 1682749954}, {'source': 64, 'target': 2, 'tweet': '1652198908393844736', 'ts': 1682749890}, {'source': 65, 'target': 2, 'tweet': '1652197632398487552', 'ts': 1682749586}, {'source': 66, 'target': 2, 'tweet': '1652197523107483649', 'ts': 1682749560}, {'source': 67, 'target': 2, 'tweet': '1652197384649342977', 'ts': 1682749527}, {'source': 68, 'target': 2, 'tweet': '1652197280064348160', 'ts': 1682749502}, {'source': 69, 'target': 2, 'tweet': '1652197244182069253', 'ts': 1682749494}, {'source': 70, 'target': 2, 'tweet': '1652197198694850560', 'ts': 1682749483}, {'source': 71, 'target': 2, 'tweet': '1652197190763450368', 'ts': 1682749481}, {'source': 72, 'target': 2, 'tweet': '1652196960378699782', 'ts': 1682749426}, {'source': 73, 'target': 2, 'tweet': '1652196433515405312', 'ts': 1682749300}, {'source': 74, 'target': 2, 'tweet': '1652196272949039105', 'ts': 1682749262}, {'source': 75, 'target': 2, 'tweet': '1652195860426686467', 'ts': 1682749164}, {'source': 76, 'target': 2, 'tweet': '1652195714125160450', 'ts': 1682749129}, {'source': 77, 'target': 2, 'tweet': '1652195203045007365', 'ts': 1682749007}, {'source': 78, 'target': 2, 'tweet': '1652194889625657344', 'ts': 1682748932}, {'source': 79, 'target': 2, 'tweet': '1652194745463246849', 'ts': 1682748898}, {'source': 80, 'target': 2, 'tweet': '1652194569923219456', 'ts': 1682748856}], 'graph': {'type': 'Retweet network', 'N_nodes': 81, 'N_links': 84, 'keyword': 'tweets_#dancingstars', 'collected_on': '2023-05-02', 'first_tweet': '2023-04-29 08:14', 'last_tweet': '2023-04-29 21:28', 'communities': 2}, 'version_number': '0.6.7'}
+    </script>
+    
+//<script>
+
+// initialize variables
+var colorselector = document.getElementById("nodecolor");
+var nodescaling = 0.05;
+var nodecolor = colorselector.options[colorselector.selectedIndex].value;
+var darkmode = false
+
+// get node color options
+ms = document.getElementById('nodecolor')
+if ('louvain_com' in data.nodes[0]){ms.innerHTML+=`<option value = "louvain_com">Louvain community</option>\n`}
+if ('leiden_com' in data.nodes[0]){ms.innerHTML+=`<option value = "leiden_com">Leiden community</option>\n`}
+
+// hide links by default if there are more than 10.000
+if (data.links.length > 10000) {var init_linkvis = false}
+else {var init_linkvis = true}
+
+// initialize graph
+var elem = document.getElementById("graph")
+var is3D = false;
+var isCluster = false;
+
+//console.log(data.links)
+// 2D force graph
+function init2DGraph() {
+  return ForceGraph()(elem)
+    .graphData({ nodes: data.nodes, links: data.links })
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeId('id')
+    .nodeLabel(node => node.screen_name)
+    .nodeColor(node => "black")
+    .nodeVal(node => node.in_degree * nodescaling)
+    .linkDirectionalParticleColor(() => 'red')
+    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+
+// 3D force graph(node.in_degree * nodescaling);
+function init3DGraph() {
+  return ForceGraph3D()(elem)
+    .graphData({ nodes: data.nodes, links: data.links })
+    .nodeId('id')
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeLabel(node => node.screen_name)
+    .nodeColor(node => "black")
+    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
+    .nodeVal(node => {
+      const sphereGeometry = new THREE.SphereGeometry(node.in_degree * nodescaling);
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: "black"});
+      return new THREE.Mesh(sphereGeometry, sphereMaterial);
+    })
+    .linkDirectionalParticleColor(() => 'red')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    //.linkWidth(1)
+    .linkOpacity(1)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, node.z, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+
+function initClusterGraph() {
+  let cluster_graph = {
+      "nodes": [],
+      "links": []
+  }
+  for(let i = 0; i< data.graph.communities; i++) {
+    cluster_graph.nodes.push({
+      "id": i,
+      "leiden_com": i,
+      "followers": 0,
+      "friends": 0,
+      "out_degree": 0,
+      "in_degree": 0
+    })
+  }
+  data.nodes.forEach(node => {
+    if(node.leiden_com <= data.graph.communities)
+    {
+      cluster_graph.nodes[node.leiden_com].followers += node.followers
+      cluster_graph.nodes[node.leiden_com].friends += node.friends
+      cluster_graph.nodes[node.leiden_com].out_degree += node.out_degree
+      cluster_graph.nodes[node.leiden_com].in_degree += node.in_degree
+    }
+  })
+  let linkMap = new Map();
+  //console.log(data.links)
+
+  data.links.forEach((lnk) => {
+    //console.log(lnk)
+
+    if(lnk.source.leiden_com <= data.graph.communities && lnk.target.leiden_com <= data.graph.communities)
+    {
+      let linkId = `${lnk.source.leiden_com}-${lnk.target.leiden_com}`; // Generate a unique identifier for the community link
+      if(linkMap.has(linkId)) {
+        linkMap.get(linkId).weight += 1; // If the link already exists, increment its weight
+      } else {
+        // Otherwise, create a new link with a weight of 1
+        linkMap.set(linkId, {
+          "source": lnk.source.leiden_com, 
+          "target": lnk.target.leiden_com,
+          "weight": 1
+        });
+      }
+    }
+  
+    
+  });
+  cluster_graph.links = Array.from(linkMap.values());
+  console.log(cluster_graph)
+
+  
+  return ForceGraph()(elem)
+    .graphData({ nodes: cluster_graph.nodes, links: cluster_graph.links })
+    .backgroundColor("rgba(0,0,0,0)")
+    .nodeId('id')
+    .nodeLabel(node => node.leiden_com)
+    .nodeColor(node => "black")
+    .nodeVal(node => node.in_degree * nodescaling * 0.2)
+    .linkDirectionalParticleColor(() => 'red')
+    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
+    .linkHoverPrecision(10)
+    .linkVisibility(init_linkvis)
+    .linkWidth(link => link.weight)
+    .onNodeRightClick(node => {
+      Graph.centerAt(node.x, node.y, 1000);
+      Graph.zoom(8, 2000);
+    })
+    .onLinkClick(link => {
+      Graph.emitParticle(link);
+    });
+}
+// Initialize the default graph (2D in this case)
+Graph = init2DGraph();
+// function switchGraph(){
+document.getElementById('switchGraph').addEventListener('click', () => {
+  // Remove current graph
+  // Graph.resetProps();
+
+  if (is3D) {
+    Graph = init2DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 3D';
+  } else {
+    Graph = init3DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 2D';
+  }
+  
+  // Toggle the is3D flag
+  is3D = !is3D;
+  rescalenodes();
+  recolornodes();
+  // USER INFO ON CLICK
+  Graph.onNodeClick((node => {
+    pastenodeinfo(node);
+    $("#content03").slideDown(300)
+    $("#content01").slideUp(300)
+    highlight(node)
+  }))
+
+  Graph.linkDirectionalParticles(link => {
+    if (link.colorthat == 1) {
+      return 1}
+      else {
+        return 0
+      }})
+  
+  Graph.onBackgroundClick(() => resetcolors())
+});
+
+document.getElementById('clusterGraph').addEventListener('click', () => {
+  // Remove current graph
+  // Graph.resetProps();
+
+  if (isCluster) {
+    Graph = init2DGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 3D';
+  } else {
+    Graph = initClusterGraph();
+    document.getElementById('switchGraph').textContent = 'Switch to 2D';
+    Graph.zoom(5, 2000);
+  }
+  isCluster = !isCluster;
+  recolornodes();
+});
+// get list of all users for autocomplete
+var users = []
+for(var i in data.nodes)
+{users.push(data.nodes[i].screen_name)};
+
+// draw tweets
+function drawortweets (){
+    if (darkmode === false) {var themecol = 'light'}
+    else {var themecol = 'dark'} 
+    var name = document.getElementById("searchuser").value
+    document.getElementById("useroriginaltweets").innerHTML = "";
+    const getNode = id => {
+    return data.nodes.find(node => node.screen_name === name);
+    };
+    var node = getNode(name)
+    highlight(node)
+    if (node.otweets != "None"){
+    for (tweet of node.otweets) {        
+        twttr.widgets.createTweet(
+          tweet,
+          document.getElementById('useroriginaltweets'),
+          {
+            theme: themecol,
+            dnt: true,
+            width: 280
+          }
+        );  }}
+    else {document.getElementById('useroriginaltweets').innerHTML = "None"}
+    
+$("#content04").slideUp(300)
+$("#content05").slideUp(300)
+$("#content04A").slideDown(300);  
+}
+
+function drawretweets (){
+    if (darkmode === false) {var themecol = 'light'}
+    else {var themecol = 'dark'} 
+    var name = document.getElementById("searchuser").value
+    document.getElementById("userretweets").innerHTML = "";
+    const getNode = id => {
+    return data.nodes.find(node => node.screen_name === name);
+    };
+    var node = getNode(name)
+    highlight(node)
+    if (node.interactions != "None"){
+    for (tweet of node.interactions) {
+        if (tweet != "None") {
+        twttr.widgets.createTweet(
+          tweet,
+          document.getElementById('userretweets'),
+          {
+            theme: themecol,
+            dnt: true,
+            width: 280
+          }
+        ); }       
+    }}
+    else {document.getElementById('userretweets').innerHTML = "None"}
+
+$("#content04A").slideUp(300);
+$("#content05").slideUp(300);
+$("#content04").slideDown(300);
+}
+
+
+// DRAW TWITTER TIMELINE
+function drawtimeline(){
+if (darkmode === false) {var themecol = 'light'}
+else {var themecol = 'dark'}        
+var name = document.getElementById("searchuser").value
+document.getElementById("twitter_timeline").innerHTML = "";
+twttr.widgets.createTimeline(
+{
+sourceType: "profile",
+screenName: name
+},
+document.getElementById("twitter_timeline"),
+{
+theme: themecol,
+height: 400,
+chrome: 'noscrollbar',
+dnt: true                    
+});
+{
+$("#content05").slideDown(300);
+$("#content04").slideUp(300)
+$("#content04A").slideUp(300)
+};                  
+}
+
+// USER INFO ON CLICK
+Graph.onNodeClick((node =>  {
+pastenodeinfo(node);
+$("#content03").slideDown(300)
+$("#content01").slideUp(300)
+highlight(node)
+}))
+
+function highlight(node){
+var neighbors = []
+neighbors.push(node)
+
+for (link of data.links) {
+  if (link.source == node) {
+    neighbors.push(link.target)
+    link.colorthat = 1
+  }
+  else if (link.target == node){
+    neighbors.push(link.source)
+    link.colorthat = 1
+  }
+  else {link.colorthat=0}
+}
+for (node of data.nodes){
+  if(neighbors.includes(node)){
+    node.colorthat = 1
+  }
+  else node.colorthat = 0}
+colorbar = ['#d3d3d3', 'red']
+Graph.nodeColor(() => 'black') 
+Graph.nodeColor(node => colorbar[node.colorthat])
+// linkcolor depending on dark/lightmode
+if (darkmode === false) {var colorbar2 = ['rgba(0,0,0,0.05)', 'rgba(255,0,0,0.5)']}
+else {var colorbar2 = ['rgba(255,255,255,0.03)', 'rgba(255,0,0,0.5)']}
+Graph.linkColor(link => colorbar2[link.colorthat])
+}
+Graph.linkDirectionalParticles(link => {
+  if (link.colorthat == 1) {
+    return 1}
+    else {
+      return 0
+    }})
+
+Graph.onBackgroundClick(() => resetcolors())
+
+function resetcolors(){
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {
+  var linkcol = 'rgba(0,0,0,0.2)'}
+if (bg === 'rgb(255, 255, 255)') {
+  var linkcol = 'rgba(255,255,255,0.2)'}
+
+recolornodes()
+Graph.linkColor(() => linkcol)}
+
+
+var input = document.getElementById("searchuser");
+new Awesomplete(input, {
+list: users
+});
+
+// ZOOM ON USER
+function zoomonuser(){
+var name = document.getElementById("searchuser").value;
+const getNode = id => {
+return data.nodes.find(node => node.screen_name === name);
+}
+var nodeathand = getNode(name)
+Graph.centerAt(nodeathand.x, nodeathand.y, 1000);Graph.zoom(8, 2000);
+console.log(nodeathand);}
+
+// FLASH COLOR
+function flashcolor(){
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
+if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
+var name = document.getElementById("searchuser").value;
+const getNode = id => {
+return data.nodes.find(node => node.screen_name === name);
+};
+var nodeathand = getNode(name)
+console.log(nodeathand)
+originalcolor = nodeathand.color
+Graph.nodeColor(node => {
+if (node.screen_name === name) {
+return "red";
+}
+else {return nodecol}
+});
+setTimeout(function(){            
+Graph.nodeColor(node => {
+if (node.screen_name === name) {
+return nodecol;
+}
+else {return nodecol}
+});
+}, 250);}
+
+function resetzoom(){
+Graph.centerAt(0, 0,1000);Graph.zoom(0.4, 1000)
+}
+
+// LIGHT / DARK MODE
+function toggle_darkmode(){
+    
+    if (darkmode == false) 
+    {
+        document.documentElement.setAttribute('data-theme', 'darktheme');
+        Graph.linkColor(() => 'rgba(255,255,255,0.2)');
+        var colorselector = document.getElementById("nodecolor");
+        var selectedoption = colorselector.options[colorselector.selectedIndex].value               
+        if (selectedoption === "none") {Graph.nodeColor(() => 'white')}
+        darkmode = true 
+    }
+    else 
+    {
+        document.documentElement.setAttribute('data-theme', 'lighttheme');
+        Graph.linkColor(() => 'rgba(0,0,0,0.2)');
+        var colorselector = document.getElementById("nodecolor");
+        var selectedoption = colorselector.options[colorselector.selectedIndex].value                               
+        if (selectedoption === "none") {Graph.nodeColor(() => 'black')}
+        darkmode = false 
+    }
+}
+
+// RECOLOR NODES
+var colorscale = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+document.getElementById("nodecolor").addEventListener("change", recolornodes);
+
+function recolornodes(){
+var colorselector = document.getElementById("nodecolor");
+var selectedoption = colorselector.options[colorselector.selectedIndex].value
+if (selectedoption != "none"){
+Graph.nodeColor(node => colorscale[node[selectedoption]])}            
+else { 
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
+if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
+Graph.nodeColor(node => nodecol)} }
+
+// NODE SIZE
+document.getElementById("slido").addEventListener("change", rescalenodes);
+function rescalenodes(){
+  var nodescaleslider = document.getElementById("slido");
+  var newscale = nodescaleslider.value  
+  var sizeselector = document.getElementById("nodesize");
+  var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
+  if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.000005 * newscale)}            
+  else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001 * newscale)}
+  else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}
+  else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}              
+}
+
+document.getElementById("nodesize").addEventListener("change", changenodesize);
+function changenodesize(){
+var sizeselector = document.getElementById("nodesize");
+var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
+if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.00005)}            
+else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001)}
+else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}
+else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}              
+else { Graph.nodeVal(node => 1.0)} 
+}
+
+$(function() {
+var colval="none"; 
+$("#nodecolor").val(colval);
+});
+$(function() {
+var sizeval="in_degree"; 
+$("#nodesize").val(sizeval);
+});
+
+
+// INCLUDE NETWORK INFORMATION FROM GRAPH DATA
+var netinfo = `<ul> 
+<li> Keyword: ${data.graph.keyword}</li>
+<li> Collected on: ${data.graph.collected_on}</li>
+<li> First retweet: ${data.graph.first_tweet}</li>
+<li> Last retweet: ${data.graph.last_tweet}</li>
+</ul>`
+var netmeasures = `
+<ul>
+  <li>Nodes: ${data.graph.N_nodes}</li>
+  <li>Links: ${data.graph.N_links}</li>
+</ul>`
+document.getElementById('panel00').innerHTML = data.graph.type
+document.getElementById('content00').innerHTML = netinfo
+document.getElementById('content02').innerHTML = netmeasures
+document.getElementById('version_number').innerHTML = data.version_number
+
+// NODE INFO
+function pastenodeinfo(node){
+userinfostring = `<ul> 
+<li> Followers: ${node.followers}
+<li> Followed accounts: ${node.friends}
+<li> Times the user ${interaction_type_past.split(' ')[0]}: ${node.out_degree}
+<li> Times the user got ${interaction_type_past}: ${node.in_degree}`
+if ("louvain_com" in node){
+    userinfostring += `<li> Louvain community: ${node.louvain_com}`
+}
+if ("leiden_com" in node){
+    userinfostring += `<li> Leiden community: ${node.leiden_com}`
+}
+userinfostring += `</ul>`
+document.getElementById('userinfostring').innerHTML = userinfostring
+document.getElementById("searchuser").value = node.screen_name
+}
+
+
+var interaction_type = data.graph.type.split(' ')[0].toLowerCase()
+
+if (interaction_type == "retweet"){
+    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got retweeted)"
+    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account retweeted another)"    
+    document.getElementById('panel04').innerHTML = "RETWEETS IN DATASET"
+    document.getElementById('fetch_interaction').innerHTML = "Fetch retweets"
+    var interaction_type_past = "retweeted"
+}
+
+if (interaction_type == "quote"){
+    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got quoted)"
+    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account quoted another)"    
+    document.getElementById('panel04').innerHTML = "QUOTES IN DATASET"
+    document.getElementById('fetch_interaction').innerHTML = "Fetch quotes"
+    var interaction_type_past = "quoted"
+}
+if (interaction_type == "reply"){
+    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got replied to)"
+    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account replied to another)"    
+    document.getElementById('panel04').innerHTML = "REPLIES IN DATASET"
+    document.getElementById('fetch_interaction').innerHTML = "Fetch replies"
+    var interaction_type_past = "replied to"
+}
+if (interaction_type == "mention"){
+    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got mentioned)"
+    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account mentioned another)"    
+    document.getElementById('panel04').innerHTML = "MENTIONS IN DATASET"
+    document.getElementById('fetch_interaction').innerHTML = "Fetch mentions"
+    var interaction_type_past = "mentioned"
+    document.getElementById('fetch_originaltweet').style="display:none"
+    document.getElementById('originaltweetsborders').style="display:none"    
+}
+
+$("#content00").slideToggle(300)
+
+function toggle_linkvisibility(){
+    if (Graph.linkVisibility() == true){
+        Graph.linkVisibility(false)
+    }
+    else {Graph.linkVisibility(true)}
+}
+
+function make_screenshot(){
+// var canvas = document.getElementsByClassName('force-graph-container')[0]['children'][0];
+var canvas = document.getElementById('graph')['children'][0]['children'][0]
+console.log(canvas)
+var link = document.getElementById('camera');
+link.setAttribute('download', 'screenshot.png');
+link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+link.click()
+}
+
+function export_nodes_as_csv(){
+    var csv_string = ""
+    var options = Object.keys(data.nodes[0])
+    var to_disregard = ['otweets','interactions','vx','vy','index']
+    var filtered_options = options.filter(function(e) { return !to_disregard.includes(e)})
+    for (option of filtered_options)
+        {csv_string += option;csv_string += ","}
+    csv_string = csv_string.slice(0, -1)
+    csv_string += "\n"
+    for (var i = 0; i < data.nodes.length; ++i)
+    // for (var i = 0; i < 2; ++i)
+        {
+            node = data.nodes[i]
+            for (option of filtered_options){
+                csv_string += node[option]
+                csv_string += ","
+            }
+            csv_string = csv_string.slice(0, -1)
+            csv_string += "\n"
+        }
+    csv_string = csv_string.slice(0, -1)
+    var blob = new Blob([csv_string],
+      { type: "text/plain;charset=utf-8" });
+    saveAs(blob, "nodes_metadata.csv");
+}
+
+function d3graph_to_gml(){
+  var gml_string = "graph\n[\n"
+  var options = Object.keys(data.nodes[0])
+  var to_disregard = ['otweets','interactions','vx','vy','index']
+  var filtered_options = options.filter(function(e) { return !to_disregard.includes(e)})
+  for (var i = 0; i < data.nodes.length; ++i){
+    node = data.nodes[i]
+    gml_string += "node\n"
+    gml_string += "[\n"
+    for (option of filtered_options){
+      if (node[option].constructor !== Array || typeof node[option] !== 'object') {
+      if (typeof node[option] === 'string' || node[option] instanceof String){
+        gml_string += option + " " + '"' + node[option] + '"' + "\n"
+      }
+      else {
+      gml_string += option + " " + node[option] + "\n"
+    }}}
+    gml_string += "]\n"
+  }
+  for (var i = 0; i < data.links.length; ++i){
+    link = data.links[i], source = link.source, target = link.target;
+    gml_string += "edge\n"
+    gml_string += "[\n" 
+    gml_string += "source " + source.id + "\n"
+    gml_string += "target " + target.id + "\n"
+    gml_string += "]\n"
+  }
+  gml_string += "]"
+  var blob = new Blob([gml_string],
+      { type: "text/plain;charset=utf-8" });
+  saveAs(blob, "network.gml");
+}
+
+function export_coordinates(){
+  if(!is3D && !isCluster){
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, leiden: d.leiden_com, louvain: d.louvain_com }; });
+    var jsonPostition = JSON.stringify(positions);
+    var blob = new Blob([jsonPostition], {type: "application/json"});
+    saveAs(blob, "positions.json")
+  }
+  if(is3D && !isCluster){
+    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, z:d.z, leiden: d.leiden_com, louvain: d.louvain_com }; });
+    var jsonPostition = JSON.stringify(positions);
+    var blob = new Blob([jsonPostition], {type: "application/json"});
+    saveAs(blob, "positions3D.json")
+  }
+}
+
+
+    function monthDiff(d1, d2) {
+        var months;
+        months = (d2.getFullYear() - d1.getFullYear()) * 12;
+        months -= d1.getMonth();
+        months += d2.getMonth();
+        return months <= 0 ? 0 : months;
+    }        
+    function dayDiff(d1, d2) {
+        const oneDay = 24 * 60 * 60 * 1000;
+        var days;
+        var diffDays = Math.round(Math.abs((d1 - d2) / oneDay));
+        return diffDays
+    }        
+
+    function padStr(i) {
+        return (i < 10) ? "0" + i : "" + i;
+    }
+    function addMonths(date, months) {
+        var d = date.getDate();
+        date.setMonth(date.getMonth() + +months);
+        if (date.getDate() != d) {
+          date.setDate(0);
+        }
+        return date;
+    }
+    function addDays(date, days) {
+        var d = date.getDate();
+        date.setDate(date.getDate() + +days);
+        // if (date.getDate() != d) {
+        //   date.setDate(0);
+        // }
+        return date;
+    }
+
+    // FILTER EDGES BY DATE SECTION
+    var all_dates = []
+    for (link of data.links){all_dates.push(new Date(link.ts * 1000))}
+    all_dates.sort((date1, date2) => date1 - date2)
+
+    // get the number of elements in the slider
+    var n_days = dayDiff(all_dates[0],all_dates[all_dates.length-1]) + 1
+
+    var first_year = all_dates[0].getFullYear()
+    var first_month = all_dates[0].getMonth()+1
+    var first_day = all_dates[0].getDay()+1
+    var idx_to_date = {} 
+    var idx_to_timestamp = {} 
+
+    for (let i = 0; i < n_days; i++){
+        var newdate = new Date(all_dates[0].getTime());        
+        newdate = addDays(newdate,i)
+        // console.log(i)
+        // idx_to_date[i] = `${first_year}-${first_month}+${i}`
+        newdate.setHours(0,0,0,0);
+        idx_to_date[i] = padStr(newdate.getFullYear())+"-"+padStr(1 + newdate.getMonth())+"-"+padStr(newdate.getDate())
+        idx_to_timestamp[i] = newdate.getTime() / 1000
+        }
+// console.log(all_dates)
+// console.log(idx_to_date)
+
+document.getElementById("time_slider").max = n_days-1;
+document.getElementById("time_slider").addEventListener("change", filter_edges_by_time);
+
+function filter_edges_by_time(){        
+    var timeslider = document.getElementById("time_slider").value;
+    // console.log(idx_to_date[timeslider])
+    var show_this_date = idx_to_date[timeslider]
+    var compute_this_date = idx_to_timestamp[timeslider]
+    // console.log(new Date(compute_this_date * 1000))
+    document.getElementById("current_time_filter").innerHTML = show_this_date        
+
+    // USE THIS IF YOU ONLY WANT TO ALTER THE LINKS
+    // for (link of data.links){    
+    //     if (link.ts > compute_this_date && link.ts < compute_this_date+(60*60*24)) {link.show=true;temporal_nodes.push(link.source);temporal_nodes.push(link.target) }
+    //     else {link.show=false}}
+
+    for (link of data.links){
+        link.source.show=false
+        link.target.show=false
+    }
+    for (link of data.links){
+        if (link.ts >= compute_this_date && link.ts <= compute_this_date+(60*60*24)) 
+            {link.show=true;
+             link.source.show=true;
+             link.target.show=true;}
+        else {link.show=false}}
+
+
+    Graph.linkVisibility(link => link.show)
+
+    var colorselector = document.getElementById("nodecolor");
+    var selectedoption = colorselector.options[colorselector.selectedIndex].value
+    if (selectedoption != "none"){
+    Graph.nodeColor(node => {if (node.show == true) {return colorscale[node[selectedoption]]} 
+                             else {return 'rgba(0,0,0,0.07)'}   })
+                                 }            
+    else { 
+    var bodyelement = document.querySelector('body')
+    var bodystyle = window.getComputedStyle(bodyelement)
+    var bg = bodystyle.getPropertyValue('color')
+    if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
+    if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
+    Graph.nodeColor(node => {if (node.show == true) {return nodecol} 
+                             else {return 'rgba(0,0,0,0.07)'}   })}
+    // Graph.nodeVisibility(node => node.show)
+    }
+</script>
+</body>
