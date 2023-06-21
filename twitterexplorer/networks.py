@@ -31,7 +31,8 @@ class InteractionNetwork():
         self._community_detection = {'louvain':False,
                                     'leiden':False}
         self._private = False   
-        self._communities = 0    
+        self._leiden_communities = 0    
+        self._louvain_communities = 0 
         self._d3dict = None
 
     def build_network(self, 
@@ -224,13 +225,13 @@ class InteractionNetwork():
             for v in G.vs:
                 v["leiden_com"]  = partition_leiden.membership[v.index]
             self._community_detection['leiden'] = True
-            self._communities = len(partition_leiden)
+            self._leiden_communities = len(partition_leiden)
         if louvain == True:
             partition_louvain = louvain_method.find_partition(G_comdec, louvain_method.ModularityVertexPartition)
             for v in G.vs:
                 v["louvain_com"]  = partition_louvain.membership[v.index]
             self._community_detection['louvain'] = True
-            self._communities = len(partition_louvain)
+            self._louvain_communities = len(partition_louvain)
 
         self._graph = G
 
@@ -317,7 +318,8 @@ class InteractionNetwork():
         d3graph['graph']['collected_on'] = collected_on
         d3graph['graph']['first_tweet'] = firstdate_str
         d3graph['graph']['last_tweet'] = lastdate_str
-        d3graph['graph']['communities'] = self._communities
+        d3graph['graph']['leiden_communities'] = self._leiden_communities
+        d3graph['graph']['louvain_communities'] = self._louvain_communities
         d3graph['version_number'] = __version__
 
         self._d3dict = d3graph
