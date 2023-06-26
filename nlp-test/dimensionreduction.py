@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/felix/Documents/bif/inno2/twitter-explorer/")
+sys.path.append("/home/dominik/Documents/twitter explorer/twitter-explorer/")
 
 import os
 import pandas as pd
@@ -7,7 +7,6 @@ import numpy as np
 import altair as alt
 import streamlit as st
 import datetime as dt
-import spacy
 import time
 
 from HanTa import HanoverTagger as ht
@@ -85,7 +84,7 @@ def load_data_old(path):
 start = time.time()
 
 # load data from csv
-df = load_data_old("/home/felix/twitterexplorer/data/salzburg.csv")
+df = load_data_old("/home/dominik/twitterexplorer/data/Salzburg.csv")
 
 df_new = df[['user_id', 'text']]
 df_new2 = df_new.groupby(['user_id']).agg("\n".join)
@@ -178,5 +177,7 @@ import matplotlib.pyplot as plt
 plt.scatter(pca2D[:,0], pca2D[:,1], color="b")
 plt.scatter(mds2D[:,0], mds2D[:,1], color="r")
 plt.scatter(umap2D[:,0], umap2D[:,1], color="g")
+
+#plt.savefig('plot.png')
 
 plt.show()

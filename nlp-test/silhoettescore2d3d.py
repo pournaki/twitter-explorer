@@ -77,6 +77,6 @@ print("score3d euclidean:", score3d)
 # print("samples3d euclidean:",samples3d)
 
 print("score2d cosine:", score2dcosine)
-# print("samples2d cosine:",samples2dcosine)
+#print("samples2d cosine:",samples2dcosine)
 print("score3d cosine:", score3dcosine)
-# print("samples3d cosine:",samples3dcosine)
+#print("samples3d cosine:",samples3dcosine)

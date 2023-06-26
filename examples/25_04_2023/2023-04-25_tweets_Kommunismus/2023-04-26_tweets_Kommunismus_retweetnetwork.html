@@ -463,7 +463,7 @@
     <div id="mainselection" class="element">
         <div class="description">Auto-color nodes by</div>
             <select id = "nodecolor">
-                <option value = "none" style="font-weight: bold"></option>
+                <option id="nodecolor_none" value = "none" style="font-weight: bold">None</option>
             </select>
         <br> <br>
         <div class="description">Node size (variable scale)</div>
@@ -481,7 +481,7 @@
         </div>
         <a href="javascript:void(0);" onclick="toggle_linkvisibility()" class="button2">Toggle link visibility</a>
         <!-- <a href="javascript:void(0);" onclick="switchGraph()" class="button2">Switch Graph</a>    -->
-        <button class="button2" id="switchGraph">Switch Graph</button>
+        <button class="button2" id="switchGraph">Switch to 3D</button>
         <button class="button2" id="clusterGraph">Toggle Cluster Graph</button>
 <div class="description" style="padding-top:20px" id="time_scale">Filter edges by day (experimental feature)</div>
     <div class="slidecontainer">
@@ -548,7 +548,7 @@
 <div id="graph" style="width:100%;height: 100%;position: absolute;"></div>
 
     <script type="text/javascript">
-        var data = {'nodes': [{'id': 0, 'twitter_id': '1079883945372774403', 'screen_name': 'Kishin_Sensei', 'followers': 502, 'friends': 1187, 'interactions': ['1651003683314778117'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 1, 'twitter_id': '1076737234286641158', 'screen_name': 'serbinnen', 'followers': 3104, 'friends': 342, 'interactions': 'None', 'otweets': ['1650606493241057299'], 'in_degree': 9, 'out_degree': 0, 'in_degree_pa': 9, 'out_degree_pa': 0, 'louvain_com': 8, 'leiden_com': 0}, {'id': 2, 'twitter_id': '1360339107474509831', 'screen_name': 'KarlReitter', 'followers': 335, 'friends': 357, 'interactions': ['1650990091915886592', '1650971577616351233', '1650862428534743042'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 2, 'leiden_com': 1}, {'id': 3, 'twitter_id': '53949414', 'screen_name': 'zarkojank', 'followers': 7177, 'friends': 1348, 'interactions': 'None', 'otweets': ['1650766152346263552'], 'in_degree': 31, 'out_degree': 0, 'in_degree_pa': 31, 'out_degree_pa': 0, 'louvain_com': 0, 'leiden_com': 2}, {'id': 4, 'twitter_id': '1277767304898588672', 'screen_name': 'doncarlos332', 'followers': 275, 'friends': 318, 'interactions': ['1650988601943916547'], 'otweets': ['1650872579236716544'], 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 5, 'twitter_id': '2512712310', 'screen_name': 'ThomasEinfach', 'followers': 1330, 'friends': 301, 'interactions': 'None', 'otweets': ['1650910416724279302', '1650797062407987201', '1650768228853903360', '1650739324231598093'], 'in_degree': 16, 'out_degree': 0, 'in_degree_pa': 16, 'out_degree_pa': 0, 'louvain_com': 2, 'leiden_com': 1}, {'id': 6, 'twitter_id': '2271737306', 'screen_name': 'bernhardheiller', 'followers': 1871, 'friends': 4955, 'interactions': ['1650987029331603458'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 7, 'twitter_id': '785981589410967553', 'screen_name': 'Mhs_ThatFace', 'followers': 591, 'friends': 1026, 'interactions': ['1650980417493770240'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 8, 'twitter_id': '2657514314', 'screen_name': 'EmirDiz', 'followers': 1548, 'friends': 903, 'interactions': ['1650973859103883265'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 9, 'twitter_id': '435990966', 'screen_name': 'VickySpielfrau', 'followers': 13652, 'friends': 4264, 'interactions': 'None', 'otweets': ['1650824593286758400'], 'in_degree': 12, 'out_degree': 0, 'in_degree_pa': 12, 'out_degree_pa': 0, 'louvain_com': 7, 'leiden_com': 3}, {'id': 10, 'twitter_id': '1446468848383823873', 'screen_name': 'AloisiaMargare1', 'followers': 424, 'friends': 1359, 'interactions': ['1650972662938697728'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 11, 'twitter_id': '95193977', 'screen_name': 'TheHansSolar', 'followers': 105, 'friends': 207, 'interactions': ['1650969617865555969', '1650945507848515597', '1650945344467873792'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 7, 'leiden_com': 3}, {'id': 12, 'twitter_id': '3303139900', 'screen_name': 'Manni908', 'followers': 235, 'friends': 673, 'interactions': ['1650961647945543714'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 13, 'twitter_id': '22533918', 'screen_name': 'art18bvg', 'followers': 6380, 'friends': 757, 'interactions': ['1650803254417080320', '1650803108581105664'], 'otweets': ['1650504489550372865', '1650950502656405520', '1650850787579363329', '1650237113009594368', '1650791908623384576', '1650790653125640192', '1650667154864324616'], 'in_degree': 17, 'out_degree': 2, 'in_degree_pa': 17, 'out_degree_pa': 2, 'louvain_com': 6, 'leiden_com': 4}, {'id': 14, 'twitter_id': '1427553334009999373', 'screen_name': 'nouvella8', 'followers': 658, 'friends': 852, 'interactions': ['1650943567693488128', '1650831446334906371', '1650817825433370626'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 4, 'leiden_com': 5}, {'id': 15, 'twitter_id': '1325098402015813632', 'screen_name': 'NenntG', 'followers': 1409, 'friends': 1595, 'interactions': ['1650776517184569345'], 'otweets': ['1650875198076334080', '1650542542671192066'], 'in_degree': 5, 'out_degree': 1, 'in_degree_pa': 5, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 16, 'twitter_id': '1348896893536006144', 'screen_name': 'af_n_doo', 'followers': 22, 'friends': 256, 'interactions': ['1650940405108580377'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 17, 'twitter_id': '1390686973082353668', 'screen_name': 'PetraFeiertag', 'followers': 117, 'friends': 235, 'interactions': ['1650938875634655237'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 18, 'twitter_id': '723615116332294144', 'screen_name': 'lisimisera1', 'followers': 657, 'friends': 2841, 'interactions': ['1650938736077578269'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 19, 'twitter_id': '26482284', 'screen_name': 'NeodawnAT', 'followers': 935, 'friends': 850, 'interactions': ['1650938588710797312'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 20, 'twitter_id': '1129778470228234240', 'screen_name': 'brigitte_rosner', 'followers': 1873, 'friends': 1107, 'interactions': 'None', 'otweets': ['1650815474962235392'], 'in_degree': 15, 'out_degree': 0, 'in_degree_pa': 15, 'out_degree_pa': 0, 'louvain_com': 5, 'leiden_com': 6}, {'id': 21, 'twitter_id': '496875534', 'screen_name': 'OthmarD', 'followers': 409, 'friends': 735, 'interactions': ['1650936037089091603'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 22, 'twitter_id': '85406852', 'screen_name': 'pw48', 'followers': 1947, 'friends': 932, 'interactions': ['1650935987256565762'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 23, 'twitter_id': '1361054648799547395', 'screen_name': 'Edith41209888', 'followers': 102, 'friends': 32, 'interactions': ['1650933761737891869'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 24, 'twitter_id': '239078153', 'screen_name': 'creation_2011', 'followers': 2038, 'friends': 4999, 'interactions': ['1650933225982664729'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 25, 'twitter_id': '1449797358498324487', 'screen_name': 'schowiedaXian', 'followers': 102, 'friends': 112, 'interactions': ['1650929676791980044'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 26, 'twitter_id': '3410845756', 'screen_name': 'kanzlerflorian', 'followers': 147, 'friends': 48, 'interactions': ['1650929229033291776'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 27, 'twitter_id': '19528958', 'screen_name': 'kitz_troet_cafe', 'followers': 737, 'friends': 5004, 'interactions': ['1650928294005448707'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 28, 'twitter_id': '1588982363844927489', 'screen_name': 'mfredl2', 'followers': 3, 'friends': 21, 'interactions': ['1650926999970390029'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 29, 'twitter_id': '412216955', 'screen_name': 'evibytweet', 'followers': 344, 'friends': 372, 'interactions': ['1650923656627757070'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 30, 'twitter_id': '2195841648', 'screen_name': 'IchTarzanDuJane', 'followers': 98, 'friends': 101, 'interactions': ['1650922692428570628', '1650853596064534531', '1650817162834059267'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 5, 'leiden_com': 6}, {'id': 31, 'twitter_id': '449102425', 'screen_name': 'mariela_noname', 'followers': 71, 'friends': 637, 'interactions': 'None', 'otweets': ['1650861952602894337'], 'in_degree': 1, 'out_degree': 0, 'in_degree_pa': 1, 'out_degree_pa': 0, 'louvain_com': 5, 'leiden_com': 6}, {'id': 32, 'twitter_id': '948243130733735936', 'screen_name': 'SmolkaSabine', 'followers': 1387, 'friends': 2155, 'interactions': ['1650919049474236417'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 33, 'twitter_id': '1674090122', 'screen_name': 'es_ist_Magie', 'followers': 1170, 'friends': 2846, 'interactions': ['1650918837045305351'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 34, 'twitter_id': '1152125104756862976', 'screen_name': 'HaarigerHorror', 'followers': 321, 'friends': 759, 'interactions': ['1650918133756993556'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 35, 'twitter_id': '2340812917', 'screen_name': 'heigion', 'followers': 1990, 'friends': 2438, 'interactions': ['1650914541746765837', '1650825270423609344'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 5, 'leiden_com': 6}, {'id': 36, 'twitter_id': '2987620323', 'screen_name': 'Anna1007Lee', 'followers': 128, 'friends': 523, 'interactions': ['1650913778656067600'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 37, 'twitter_id': '1569329393507385346', 'screen_name': 'KochanskiFelix', 'followers': 86, 'friends': 194, 'interactions': ['1650911122348728320'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 38, 'twitter_id': '1430087561662320666', 'screen_name': 'Werni007', 'followers': 560, 'friends': 1412, 'interactions': ['1650911115948294144'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 39, 'twitter_id': '241966092', 'screen_name': 'lisa_mayr', 'followers': 9435, 'friends': 2098, 'interactions': ['1650908779460935694'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 40, 'twitter_id': '1500799085007233029', 'screen_name': 'ThomasRitt', 'followers': 456, 'friends': 236, 'interactions': 'None', 'otweets': 'None', 'in_degree': 2, 'out_degree': 0, 'in_degree_pa': 2, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 7}, {'id': 41, 'twitter_id': '1546251588221763585', 'screen_name': 'etikettensaege', 'followers': 51, 'friends': 189, 'interactions': ['1650907693157171226'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 42, 'twitter_id': '976883905344299008', 'screen_name': 'Stefans_Tweety', 'followers': 2986, 'friends': 1231, 'interactions': 'None', 'otweets': ['1650514103864029188'], 'in_degree': 7, 'out_degree': 0, 'in_degree_pa': 7, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 7}, {'id': 43, 'twitter_id': '1252230236382494720', 'screen_name': 'Anna15111958', 'followers': 304, 'friends': 650, 'interactions': ['1650907658147315725', '1650804110445117441'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 7, 'leiden_com': 3}, {'id': 44, 'twitter_id': '863791049336123392', 'screen_name': 'sunny_Simmering', 'followers': 153, 'friends': 550, 'interactions': ['1650901584472162308'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 45, 'twitter_id': '1368995900', 'screen_name': 'ArienAichi', 'followers': 94, 'friends': 586, 'interactions': ['1650899188954148866'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 46, 'twitter_id': '1365207127472627716', 'screen_name': 'SichtDer', 'followers': 176, 'friends': 598, 'interactions': ['1650896263779438595'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 47, 'twitter_id': '388763788', 'screen_name': 'KnutOgris', 'followers': 1766, 'friends': 2913, 'interactions': ['1650894873086640140', '1650891112515620868', '1650824773440610304', '1650768086084009984', '1650727582868856833'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 5, 'in_degree_pa': 0, 'out_degree_pa': 5, 'louvain_com': 4, 'leiden_com': 5}, {'id': 48, 'twitter_id': '74430958', 'screen_name': 'die_mandel', 'followers': 90, 'friends': 209, 'interactions': ['1650893387569004545'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 49, 'twitter_id': '2968274788', 'screen_name': 'BettinaDanzl', 'followers': 410, 'friends': 623, 'interactions': ['1650890684080037895'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 50, 'twitter_id': '483134531', 'screen_name': 'DjetePay1', 'followers': 22, 'friends': 73, 'interactions': ['1650887792031834113'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 51, 'twitter_id': '1521151838279671814', 'screen_name': 'FSGGenosse', 'followers': 88, 'friends': 322, 'interactions': ['1650885425840508930'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 52, 'twitter_id': '1249614164215169026', 'screen_name': 'AlexanderKller1', 'followers': 66, 'friends': 35, 'interactions': ['1650884668038733824'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 53, 'twitter_id': '169452812', 'screen_name': 'MaBeSch', 'followers': 200, 'friends': 862, 'interactions': ['1650880630077497345'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 54, 'twitter_id': '1236433451542339587', 'screen_name': 'KremLten', 'followers': 1594, 'friends': 830, 'interactions': ['1650873191529627651', '1650773741826105350'], 'otweets': ['1650775600599113728'], 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 7, 'leiden_com': 3}, {'id': 55, 'twitter_id': '1641513069267374080', 'screen_name': 'TinaRrrrr', 'followers': 50, 'friends': 302, 'interactions': ['1650871518618963968'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 56, 'twitter_id': '2637537674', 'screen_name': 'schierhangl', 'followers': 228, 'friends': 1006, 'interactions': ['1650870798448558082'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 57, 'twitter_id': '47436725', 'screen_name': 'KPOE_EL', 'followers': 5418, 'friends': 2302, 'interactions': 'None', 'otweets': ['1650597995237220362'], 'in_degree': 9, 'out_degree': 0, 'in_degree_pa': 9, 'out_degree_pa': 0, 'louvain_com': 3, 'leiden_com': 8}, {'id': 58, 'twitter_id': '1427581398005731330', 'screen_name': 'MoosNatascha', 'followers': 57, 'friends': 47, 'interactions': ['1650866538218487809'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 59, 'twitter_id': '1198249272', 'screen_name': 'arno_felix_', 'followers': 24, 'friends': 168, 'interactions': 'None', 'otweets': ['1650860942593511427', '1650862229338853380'], 'in_degree': 2, 'out_degree': 0, 'in_degree_pa': 2, 'out_degree_pa': 0, 'louvain_com': 2, 'leiden_com': 1}, {'id': 60, 'twitter_id': '1166245247640330240', 'screen_name': 'RMogyorosy', 'followers': 9317, 'friends': 5945, 'interactions': ['1650861297683304448', '1650768922487005184'], 'otweets': ['1650792709060280320'], 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 2, 'leiden_com': 1}, {'id': 61, 'twitter_id': '1296527793296203776', 'screen_name': 'MalagicMehmed', 'followers': 29, 'friends': 701, 'interactions': ['1650858986772762624'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 62, 'twitter_id': '2535529657', 'screen_name': 'HombergEv', 'followers': 1024, 'friends': 2121, 'interactions': ['1650855670940602368', '1650720095784648705'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 3, 'leiden_com': 8}, {'id': 63, 'twitter_id': '1110236948', 'screen_name': 'shcietc', 'followers': 104, 'friends': 679, 'interactions': ['1650855169381261314'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 64, 'twitter_id': '1280289350081753088', 'screen_name': 'Fmk28949957', 'followers': 20, 'friends': 346, 'interactions': ['1650847532929482752', '1650829329972994048'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 4, 'leiden_com': 5}, {'id': 65, 'twitter_id': '1534502517291335681', 'screen_name': 'elflanell', 'followers': 783, 'friends': 286, 'interactions': 'None', 'otweets': ['1650844767788433408'], 'in_degree': 1, 'out_degree': 0, 'in_degree_pa': 1, 'out_degree_pa': 0, 'louvain_com': 4, 'leiden_com': 5}, {'id': 66, 'twitter_id': '79442114', 'screen_name': 'SnowbootsLove', 'followers': 457, 'friends': 1882, 'interactions': ['1650847150262108164', '1650841919952494593'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 7, 'leiden_com': 3}, {'id': 67, 'twitter_id': '178680931', 'screen_name': 'msulzbacher', 'followers': 29410, 'friends': 4800, 'interactions': ['1650846893772009472'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 68, 'twitter_id': '319854904', 'screen_name': 'Betrifft', 'followers': 1740, 'friends': 592, 'interactions': ['1650846837400543235'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 69, 'twitter_id': '219991963', 'screen_name': 'Claus_Pandi', 'followers': 54246, 'friends': 991, 'interactions': 'None', 'otweets': ['1650746330128560129'], 'in_degree': 5, 'out_degree': 0, 'in_degree_pa': 5, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 7}, {'id': 70, 'twitter_id': '974379740', 'screen_name': 'June26Jasmine', 'followers': 2193, 'friends': 2546, 'interactions': ['1650846756119166978', '1650815879377027072'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 1, 'leiden_com': 6}, {'id': 71, 'twitter_id': '2308268232', 'screen_name': 'DeinSalzamt', 'followers': 1019, 'friends': 167, 'interactions': ['1650846198297665539', '1650842158121795584'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 6, 'leiden_com': 4}, {'id': 72, 'twitter_id': '89033113', 'screen_name': 'ma_wal1', 'followers': 160, 'friends': 1819, 'interactions': ['1650844081201852422'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 73, 'twitter_id': '1284300575904075777', 'screen_name': 'jiangshimaybel', 'followers': 729, 'friends': 37, 'interactions': ['1650840760948850688'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 74, 'twitter_id': '1351594210642829327', 'screen_name': 'N2007182', 'followers': 84, 'friends': 253, 'interactions': ['1650839932485750790'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 75, 'twitter_id': '1378691042577383431', 'screen_name': 'mitzwitscherin', 'followers': 62, 'friends': 478, 'interactions': ['1650837156410142721'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 76, 'twitter_id': '920308807', 'screen_name': 'drakkalas', 'followers': 1938, 'friends': 1841, 'interactions': ['1650832448211615744'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 77, 'twitter_id': '1136727985174863874', 'screen_name': 'HackRudolf', 'followers': 507, 'friends': 1304, 'interactions': ['1650831152347840512', '1650785548666130434'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 0, 'leiden_com': 2}, {'id': 78, 'twitter_id': '54832478', 'screen_name': 'saschaosaka', 'followers': 549, 'friends': 798, 'interactions': ['1650830273464991750'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 79, 'twitter_id': '237731150', 'screen_name': 'Waldohreule303', 'followers': 157, 'friends': 154, 'interactions': ['1650826391041064960'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 80, 'twitter_id': '1445704973556203520', 'screen_name': 'semiramis758459', 'followers': 86, 'friends': 485, 'interactions': ['1650822897806499842', '1650775538561167362'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 3, 'leiden_com': 8}, {'id': 81, 'twitter_id': '1396093100045611020', 'screen_name': 'Alfredo51748676', 'followers': 1291, 'friends': 1532, 'interactions': ['1650817783263907849'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 82, 'twitter_id': '1517519464429981697', 'screen_name': 'ALEHDoG', 'followers': 1272, 'friends': 1869, 'interactions': ['1650817425816920068'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 83, 'twitter_id': '1381023936234848270', 'screen_name': 'Taugenichts8', 'followers': 496, 'friends': 492, 'interactions': ['1650817304471699458'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 84, 'twitter_id': '1276881400109694980', 'screen_name': 'realSaibot', 'followers': 170, 'friends': 162, 'interactions': ['1650814485316116480'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 85, 'twitter_id': '1083114491955630083', 'screen_name': 'Gisi19788653', 'followers': 421, 'friends': 467, 'interactions': ['1650812755367153668'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 86, 'twitter_id': '1206814293209100288', 'screen_name': 'Rotstift44', 'followers': 5152, 'friends': 1842, 'interactions': 'None', 'otweets': ['1650693573694615552', '1650730017695858689'], 'in_degree': 6, 'out_degree': 0, 'in_degree_pa': 6, 'out_degree_pa': 0, 'louvain_com': 4, 'leiden_com': 5}, {'id': 87, 'twitter_id': '1920162312', 'screen_name': 'lackerer', 'followers': 2460, 'friends': 1716, 'interactions': ['1650812227732008961'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 88, 'twitter_id': '1479132251132772359', 'screen_name': 'merowinng', 'followers': 307, 'friends': 866, 'interactions': ['1650757955141206016', '1650731033275277315'], 'otweets': 'None', 'in_degree': 1, 'out_degree': 2, 'in_degree_pa': 1, 'out_degree_pa': 2, 'louvain_com': 1, 'leiden_com': 7}, {'id': 89, 'twitter_id': '1517231929145401345', 'screen_name': 'Schneide3R', 'followers': 260, 'friends': 328, 'interactions': ['1650811134599987200'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 90, 'twitter_id': '414858461', 'screen_name': 'arabrab55_i', 'followers': 763, 'friends': 1700, 'interactions': ['1650809711019581441'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 91, 'twitter_id': '238498745', 'screen_name': 'Freizeitrobin', 'followers': 1881, 'friends': 1873, 'interactions': ['1650808868077809665'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 92, 'twitter_id': '1345738305426644993', 'screen_name': 'LalinchenB', 'followers': 28, 'friends': 262, 'interactions': ['1650808754512773123'], 'otweets': ['1650810261966667776'], 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 93, 'twitter_id': '238632327', 'screen_name': 'eranseder', 'followers': 549, 'friends': 596, 'interactions': ['1650806593154433025'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 94, 'twitter_id': '1520889855395475462', 'screen_name': 'JustoQua', 'followers': 471, 'friends': 822, 'interactions': ['1650805656901898241'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 95, 'twitter_id': '52191578', 'screen_name': 'TwirterOdd', 'followers': 56, 'friends': 434, 'interactions': ['1650803522391113728'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 96, 'twitter_id': '1330140241538277376', 'screen_name': 'Reneke88100556', 'followers': 465, 'friends': 1073, 'interactions': ['1650803495061053440', '1650737109911650308', '1650737060813176833', '1650736887496163329'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 4, 'in_degree_pa': 0, 'out_degree_pa': 4, 'louvain_com': 3, 'leiden_com': 8}, {'id': 97, 'twitter_id': '774883338435825664', 'screen_name': 'trimifeda', 'followers': 16, 'friends': 193, 'interactions': ['1650801329055449089'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 98, 'twitter_id': '51968470', 'screen_name': 'dzanab', 'followers': 371, 'friends': 650, 'interactions': ['1650795082323316736'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 99, 'twitter_id': '820394306066350081', 'screen_name': 'ein_NickK', 'followers': 468, 'friends': 646, 'interactions': ['1650788357964791810'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 100, 'twitter_id': '791971513230655488', 'screen_name': 'mi2501ra', 'followers': 144, 'friends': 374, 'interactions': ['1650787954552455170'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 101, 'twitter_id': '190937641', 'screen_name': 'yagobuzz', 'followers': 668, 'friends': 761, 'interactions': 'None', 'otweets': ['1650513264105619459'], 'in_degree': 1, 'out_degree': 0, 'in_degree_pa': 1, 'out_degree_pa': 0, 'louvain_com': 0, 'leiden_com': 2}, {'id': 102, 'twitter_id': '1300413623341326337', 'screen_name': 'grinsjodo', 'followers': 92, 'friends': 503, 'interactions': ['1650784965158752257'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 103, 'twitter_id': '1156973472905609216', 'screen_name': 'floria3siebner', 'followers': 113, 'friends': 196, 'interactions': ['1650783779252740096'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 104, 'twitter_id': '499208300', 'screen_name': 'leiwandowski', 'followers': 43, 'friends': 434, 'interactions': ['1650782636086796289'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 105, 'twitter_id': '146846407', 'screen_name': 'AD1968F', 'followers': 4135, 'friends': 4995, 'interactions': ['1650779839475900418'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 106, 'twitter_id': '1451169754119647235', 'screen_name': 'LizzyLange', 'followers': 203, 'friends': 180, 'interactions': ['1650775709814599680', '1650725192673501186'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 3, 'leiden_com': 8}, {'id': 107, 'twitter_id': '1304700920043835393', 'screen_name': 'HelmutMhlberge1', 'followers': 195, 'friends': 269, 'interactions': ['1650775591761616897'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 108, 'twitter_id': '1174041837692211200', 'screen_name': 'Thaller96791846', 'followers': 489, 'friends': 1298, 'interactions': 'None', 'otweets': ['1650640173833629698', '1650645732712411137', '1650642769734426630'], 'in_degree': 6, 'out_degree': 0, 'in_degree_pa': 6, 'out_degree_pa': 0, 'louvain_com': 3, 'leiden_com': 8}, {'id': 109, 'twitter_id': '1270752026645929985', 'screen_name': 'Herr_Penguin', 'followers': 180, 'friends': 642, 'interactions': ['1650765307311542272'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 110, 'twitter_id': '396072476', 'screen_name': 'meisterebner', 'followers': 776, 'friends': 232, 'interactions': ['1650759958567301120'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 111, 'twitter_id': '439884522', 'screen_name': 'SolautSonja', 'followers': 8962, 'friends': 2388, 'interactions': ['1650759604677091328', '1650757220227842051'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 1, 'leiden_com': 7}, {'id': 112, 'twitter_id': '2792910119', 'screen_name': 'Clautschi66', 'followers': 177, 'friends': 290, 'interactions': ['1650756730781876226'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 113, 'twitter_id': '490655905', 'screen_name': 'jfohringer', 'followers': 7029, 'friends': 7478, 'interactions': ['1650753852679901184'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 114, 'twitter_id': '1499808275335946241', 'screen_name': 'SabineM2020', 'followers': 114, 'friends': 323, 'interactions': ['1650752975969693696'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 115, 'twitter_id': '166948485', 'screen_name': 'plocaploca', 'followers': 1212, 'friends': 2829, 'interactions': ['1650750153765146624'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 116, 'twitter_id': '1631339514479214592', 'screen_name': 'Karluswusw', 'followers': 21, 'friends': 61, 'interactions': ['1650747860680425472'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 117, 'twitter_id': '1156835512163938305', 'screen_name': 'DanielS22118455', 'followers': 296, 'friends': 263, 'interactions': ['1650747781752016896'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 118, 'twitter_id': '1375394844105920516', 'screen_name': 'GerhardGutschi', 'followers': 66, 'friends': 304, 'interactions': ['1650747487215337472'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 119, 'twitter_id': '806013743419232256', 'screen_name': 'SchulratEgger', 'followers': 1842, 'friends': 942, 'interactions': ['1650731724278562816'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 120, 'twitter_id': '845732803622916097', 'screen_name': 'Hanna__Frisch', 'followers': 444, 'friends': 1606, 'interactions': ['1650731411719041030', '1650703839580782592'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 4, 'leiden_com': 4}, {'id': 121, 'twitter_id': '897798706212241408', 'screen_name': 'YveBiskupska', 'followers': 2054, 'friends': 3502, 'interactions': ['1650730300220096513'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 122, 'twitter_id': '1055514114', 'screen_name': 'BLS_Schmid_G', 'followers': 2037, 'friends': 2064, 'interactions': ['1650729044881686528'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 123, 'twitter_id': '1544668431370313729', 'screen_name': 'BirgitPomorin', 'followers': 99, 'friends': 373, 'interactions': ['1650728079466151938'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 124, 'twitter_id': '1124392800685121537', 'screen_name': 'Christa29930995', 'followers': 2125, 'friends': 3187, 'interactions': ['1650727855406366722'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 125, 'twitter_id': '1455434484552187905', 'screen_name': 'lang_psy', 'followers': 236, 'friends': 764, 'interactions': ['1650724356157329410'], 'otweets': ['1650739577940746244'], 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 126, 'twitter_id': '1299689982', 'screen_name': 'IngeHaus2', 'followers': 2304, 'friends': 2482, 'interactions': ['1650723824059535366'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 127, 'twitter_id': '883785255156686850', 'screen_name': 'tomgreis', 'followers': 573, 'friends': 1262, 'interactions': ['1650722768848134145'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 128, 'twitter_id': '37377414', 'screen_name': 'klobbl', 'followers': 142, 'friends': 849, 'interactions': ['1650721726353874946'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 129, 'twitter_id': '1563203746573606924', 'screen_name': 'Nottoda35427881', 'followers': 12, 'friends': 148, 'interactions': ['1650719711997448192'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}], 'links': [{'source': 0, 'target': 1, 'tweet': '1651003683314778117', 'ts': 1682464926}, {'source': 2, 'target': 3, 'tweet': '1650990091915886592', 'ts': 1682461686}, {'source': 2, 'target': 5, 'tweet': '1650971577616351233', 'ts': 1682457272}, {'source': 2, 'target': 59, 'tweet': '1650862428534743042', 'ts': 1682431249}, {'source': 4, 'target': 5, 'tweet': '1650988601943916547', 'ts': 1682461331}, {'source': 6, 'target': 3, 'tweet': '1650987029331603458', 'ts': 1682460956}, {'source': 7, 'target': 5, 'tweet': '1650980417493770240', 'ts': 1682459379}, {'source': 8, 'target': 9, 'tweet': '1650973859103883265', 'ts': 1682457816}, {'source': 10, 'target': 5, 'tweet': '1650972662938697728', 'ts': 1682457531}, {'source': 11, 'target': 3, 'tweet': '1650969617865555969', 'ts': 1682456805}, {'source': 11, 'target': 5, 'tweet': '1650945344467873792', 'ts': 1682451017}, {'source': 11, 'target': 9, 'tweet': '1650945507848515597', 'ts': 1682451056}, {'source': 12, 'target': 13, 'tweet': '1650961647945543714', 'ts': 1682454904}, {'source': 13, 'target': 13, 'tweet': '1650803108581105664', 'ts': 1682417106}, {'source': 13, 'target': 13, 'tweet': '1650803254417080320', 'ts': 1682417140}, {'source': 14, 'target': 9, 'tweet': '1650831446334906371', 'ts': 1682423862}, {'source': 14, 'target': 15, 'tweet': '1650943567693488128', 'ts': 1682450594}, {'source': 14, 'target': 20, 'tweet': '1650817825433370626', 'ts': 1682420614}, {'source': 15, 'target': 13, 'tweet': '1650776517184569345', 'ts': 1682410766}, {'source': 16, 'target': 5, 'tweet': '1650940405108580377', 'ts': 1682449840}, {'source': 17, 'target': 5, 'tweet': '1650938875634655237', 'ts': 1682449475}, {'source': 18, 'target': 5, 'tweet': '1650938736077578269', 'ts': 1682449442}, {'source': 19, 'target': 20, 'tweet': '1650938588710797312', 'ts': 1682449407}, {'source': 21, 'target': 9, 'tweet': '1650936037089091603', 'ts': 1682448798}, {'source': 22, 'target': 9, 'tweet': '1650935987256565762', 'ts': 1682448786}, {'source': 23, 'target': 5, 'tweet': '1650933761737891869', 'ts': 1682448256}, {'source': 24, 'target': 1, 'tweet': '1650933225982664729', 'ts': 1682448128}, {'source': 25, 'target': 5, 'tweet': '1650929676791980044', 'ts': 1682447282}, {'source': 26, 'target': 3, 'tweet': '1650929229033291776', 'ts': 1682447175}, {'source': 27, 'target': 1, 'tweet': '1650928294005448707', 'ts': 1682446952}, {'source': 28, 'target': 20, 'tweet': '1650926999970390029', 'ts': 1682446644}, {'source': 29, 'target': 5, 'tweet': '1650923656627757070', 'ts': 1682445847}, {'source': 30, 'target': 3, 'tweet': '1650817162834059267', 'ts': 1682420456}, {'source': 30, 'target': 20, 'tweet': '1650853596064534531', 'ts': 1682429143}, {'source': 30, 'target': 31, 'tweet': '1650922692428570628', 'ts': 1682445617}, {'source': 32, 'target': 20, 'tweet': '1650919049474236417', 'ts': 1682444748}, {'source': 33, 'target': 20, 'tweet': '1650918837045305351', 'ts': 1682444697}, {'source': 34, 'target': 3, 'tweet': '1650918133756993556', 'ts': 1682444530}, {'source': 35, 'target': 5, 'tweet': '1650914541746765837', 'ts': 1682443673}, {'source': 35, 'target': 20, 'tweet': '1650825270423609344', 'ts': 1682422389}, {'source': 36, 'target': 5, 'tweet': '1650913778656067600', 'ts': 1682443491}, {'source': 37, 'target': 5, 'tweet': '1650911122348728320', 'ts': 1682442858}, {'source': 38, 'target': 5, 'tweet': '1650911115948294144', 'ts': 1682442857}, {'source': 39, 'target': 40, 'tweet': '1650908779460935694', 'ts': 1682442300}, {'source': 41, 'target': 42, 'tweet': '1650907693157171226', 'ts': 1682442041}, {'source': 43, 'target': 3, 'tweet': '1650804110445117441', 'ts': 1682417345}, {'source': 43, 'target': 9, 'tweet': '1650907658147315725', 'ts': 1682442032}, {'source': 44, 'target': 3, 'tweet': '1650901584472162308', 'ts': 1682440584}, {'source': 45, 'target': 3, 'tweet': '1650899188954148866', 'ts': 1682440013}, {'source': 46, 'target': 3, 'tweet': '1650896263779438595', 'ts': 1682439316}, {'source': 47, 'target': 1, 'tweet': '1650894873086640140', 'ts': 1682438984}, {'source': 47, 'target': 3, 'tweet': '1650768086084009984', 'ts': 1682408756}, {'source': 47, 'target': 15, 'tweet': '1650891112515620868', 'ts': 1682438087}, {'source': 47, 'target': 20, 'tweet': '1650824773440610304', 'ts': 1682422271}, {'source': 47, 'target': 86, 'tweet': '1650727582868856833', 'ts': 1682399099}, {'source': 48, 'target': 9, 'tweet': '1650893387569004545', 'ts': 1682438630}, {'source': 49, 'target': 9, 'tweet': '1650890684080037895', 'ts': 1682437985}, {'source': 50, 'target': 13, 'tweet': '1650887792031834113', 'ts': 1682437296}, {'source': 51, 'target': 1, 'tweet': '1650885425840508930', 'ts': 1682436732}, {'source': 52, 'target': 3, 'tweet': '1650884668038733824', 'ts': 1682436551}, {'source': 53, 'target': 1, 'tweet': '1650880630077497345', 'ts': 1682435588}, {'source': 54, 'target': 3, 'tweet': '1650773741826105350', 'ts': 1682410104}, {'source': 54, 'target': 9, 'tweet': '1650873191529627651', 'ts': 1682433815}, {'source': 55, 'target': 1, 'tweet': '1650871518618963968', 'ts': 1682433416}, {'source': 56, 'target': 57, 'tweet': '1650870798448558082', 'ts': 1682433244}, {'source': 58, 'target': 13, 'tweet': '1650866538218487809', 'ts': 1682432228}, {'source': 60, 'target': 5, 'tweet': '1650768922487005184', 'ts': 1682408955}, {'source': 60, 'target': 59, 'tweet': '1650861297683304448', 'ts': 1682430979}, {'source': 61, 'target': 57, 'tweet': '1650858986772762624', 'ts': 1682430428}, {'source': 62, 'target': 20, 'tweet': '1650855670940602368', 'ts': 1682429638}, {'source': 62, 'target': 108, 'tweet': '1650720095784648705', 'ts': 1682397314}, {'source': 63, 'target': 13, 'tweet': '1650855169381261314', 'ts': 1682429518}, {'source': 64, 'target': 15, 'tweet': '1650829329972994048', 'ts': 1682423357}, {'source': 64, 'target': 65, 'tweet': '1650847532929482752', 'ts': 1682427697}, {'source': 66, 'target': 9, 'tweet': '1650847150262108164', 'ts': 1682427606}, {'source': 66, 'target': 13, 'tweet': '1650841919952494593', 'ts': 1682426359}, {'source': 67, 'target': 9, 'tweet': '1650846893772009472', 'ts': 1682427545}, {'source': 68, 'target': 69, 'tweet': '1650846837400543235', 'ts': 1682427531}, {'source': 70, 'target': 20, 'tweet': '1650815879377027072', 'ts': 1682420150}, {'source': 70, 'target': 42, 'tweet': '1650846756119166978', 'ts': 1682427512}, {'source': 71, 'target': 3, 'tweet': '1650842158121795584', 'ts': 1682426416}, {'source': 71, 'target': 13, 'tweet': '1650846198297665539', 'ts': 1682427379}, {'source': 72, 'target': 3, 'tweet': '1650844081201852422', 'ts': 1682426874}, {'source': 73, 'target': 3, 'tweet': '1650840760948850688', 'ts': 1682426083}, {'source': 74, 'target': 42, 'tweet': '1650839932485750790', 'ts': 1682425885}, {'source': 75, 'target': 20, 'tweet': '1650837156410142721', 'ts': 1682425223}, {'source': 76, 'target': 20, 'tweet': '1650832448211615744', 'ts': 1682424101}, {'source': 77, 'target': 3, 'tweet': '1650831152347840512', 'ts': 1682423792}, {'source': 77, 'target': 101, 'tweet': '1650785548666130434', 'ts': 1682412919}, {'source': 78, 'target': 9, 'tweet': '1650830273464991750', 'ts': 1682423582}, {'source': 79, 'target': 20, 'tweet': '1650826391041064960', 'ts': 1682422657}, {'source': 80, 'target': 3, 'tweet': '1650822897806499842', 'ts': 1682421824}, {'source': 80, 'target': 108, 'tweet': '1650775538561167362', 'ts': 1682410532}, {'source': 81, 'target': 20, 'tweet': '1650817783263907849', 'ts': 1682420604}, {'source': 82, 'target': 15, 'tweet': '1650817425816920068', 'ts': 1682420519}, {'source': 83, 'target': 20, 'tweet': '1650817304471699458', 'ts': 1682420490}, {'source': 84, 'target': 3, 'tweet': '1650814485316116480', 'ts': 1682419818}, {'source': 85, 'target': 86, 'tweet': '1650812755367153668', 'ts': 1682419406}, {'source': 87, 'target': 88, 'tweet': '1650812227732008961', 'ts': 1682419280}, {'source': 88, 'target': 42, 'tweet': '1650731033275277315', 'ts': 1682399922}, {'source': 88, 'target': 69, 'tweet': '1650757955141206016', 'ts': 1682406340}, {'source': 89, 'target': 86, 'tweet': '1650811134599987200', 'ts': 1682419019}, {'source': 90, 'target': 3, 'tweet': '1650809711019581441', 'ts': 1682418680}, {'source': 91, 'target': 3, 'tweet': '1650808868077809665', 'ts': 1682418479}, {'source': 92, 'target': 3, 'tweet': '1650808754512773123', 'ts': 1682418452}, {'source': 93, 'target': 3, 'tweet': '1650806593154433025', 'ts': 1682417936}, {'source': 94, 'target': 42, 'tweet': '1650805656901898241', 'ts': 1682417713}, {'source': 95, 'target': 3, 'tweet': '1650803522391113728', 'ts': 1682417204}, {'source': 96, 'target': 3, 'tweet': '1650803495061053440', 'ts': 1682417198}, {'source': 96, 'target': 108, 'tweet': '1650736887496163329', 'ts': 1682401317}, {'source': 96, 'target': 108, 'tweet': '1650737060813176833', 'ts': 1682401359}, {'source': 96, 'target': 108, 'tweet': '1650737109911650308', 'ts': 1682401370}, {'source': 97, 'target': 13, 'tweet': '1650801329055449089', 'ts': 1682416681}, {'source': 98, 'target': 3, 'tweet': '1650795082323316736', 'ts': 1682415192}, {'source': 99, 'target': 69, 'tweet': '1650788357964791810', 'ts': 1682413589}, {'source': 100, 'target': 3, 'tweet': '1650787954552455170', 'ts': 1682413493}, {'source': 102, 'target': 3, 'tweet': '1650784965158752257', 'ts': 1682412780}, {'source': 103, 'target': 3, 'tweet': '1650783779252740096', 'ts': 1682412497}, {'source': 104, 'target': 3, 'tweet': '1650782636086796289', 'ts': 1682412225}, {'source': 105, 'target': 57, 'tweet': '1650779839475900418', 'ts': 1682411558}, {'source': 106, 'target': 57, 'tweet': '1650775709814599680', 'ts': 1682410573}, {'source': 106, 'target': 108, 'tweet': '1650725192673501186', 'ts': 1682398529}, {'source': 107, 'target': 3, 'tweet': '1650775591761616897', 'ts': 1682410545}, {'source': 109, 'target': 1, 'tweet': '1650765307311542272', 'ts': 1682408093}, {'source': 110, 'target': 69, 'tweet': '1650759958567301120', 'ts': 1682406818}, {'source': 111, 'target': 40, 'tweet': '1650759604677091328', 'ts': 1682406734}, {'source': 111, 'target': 69, 'tweet': '1650757220227842051', 'ts': 1682406165}, {'source': 112, 'target': 13, 'tweet': '1650756730781876226', 'ts': 1682406048}, {'source': 113, 'target': 13, 'tweet': '1650753852679901184', 'ts': 1682405362}, {'source': 114, 'target': 13, 'tweet': '1650752975969693696', 'ts': 1682405153}, {'source': 115, 'target': 1, 'tweet': '1650750153765146624', 'ts': 1682404480}, {'source': 116, 'target': 15, 'tweet': '1650747860680425472', 'ts': 1682403934}, {'source': 117, 'target': 57, 'tweet': '1650747781752016896', 'ts': 1682403915}, {'source': 118, 'target': 13, 'tweet': '1650747487215337472', 'ts': 1682403845}, {'source': 119, 'target': 86, 'tweet': '1650731724278562816', 'ts': 1682400086}, {'source': 120, 'target': 13, 'tweet': '1650731411719041030', 'ts': 1682400012}, {'source': 120, 'target': 86, 'tweet': '1650703839580782592', 'ts': 1682393438}, {'source': 121, 'target': 86, 'tweet': '1650730300220096513', 'ts': 1682399747}, {'source': 122, 'target': 42, 'tweet': '1650729044881686528', 'ts': 1682399448}, {'source': 123, 'target': 57, 'tweet': '1650728079466151938', 'ts': 1682399217}, {'source': 124, 'target': 13, 'tweet': '1650727855406366722', 'ts': 1682399164}, {'source': 125, 'target': 57, 'tweet': '1650724356157329410', 'ts': 1682398330}, {'source': 126, 'target': 42, 'tweet': '1650723824059535366', 'ts': 1682398203}, {'source': 127, 'target': 13, 'tweet': '1650722768848134145', 'ts': 1682397951}, {'source': 128, 'target': 57, 'tweet': '1650721726353874946', 'ts': 1682397703}, {'source': 129, 'target': 57, 'tweet': '1650719711997448192', 'ts': 1682397222}], 'graph': {'type': 'Retweet network', 'N_nodes': 130, 'N_links': 146, 'keyword': 'tweets_Kommunismus', 'collected_on': '2023-04-26', 'first_tweet': '2023-04-25 06:33', 'last_tweet': '2023-04-26 01:22', 'communities': 9}, 'version_number': '0.6.7'}
+        var data = {'nodes': [{'id': 0, 'twitter_id': '1079883945372774403', 'screen_name': 'Kishin_Sensei', 'followers': 502, 'friends': 1187, 'interactions': ['1651003683314778117'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 1, 'twitter_id': '1076737234286641158', 'screen_name': 'serbinnen', 'followers': 3104, 'friends': 342, 'interactions': 'None', 'otweets': ['1650606493241057299'], 'in_degree': 9, 'out_degree': 0, 'in_degree_pa': 9, 'out_degree_pa': 0, 'louvain_com': 8, 'leiden_com': 0}, {'id': 2, 'twitter_id': '1360339107474509831', 'screen_name': 'KarlReitter', 'followers': 335, 'friends': 357, 'interactions': ['1650990091915886592', '1650971577616351233', '1650862428534743042'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 2, 'leiden_com': 1}, {'id': 3, 'twitter_id': '53949414', 'screen_name': 'zarkojank', 'followers': 7177, 'friends': 1348, 'interactions': 'None', 'otweets': ['1650766152346263552'], 'in_degree': 31, 'out_degree': 0, 'in_degree_pa': 31, 'out_degree_pa': 0, 'louvain_com': 0, 'leiden_com': 2}, {'id': 4, 'twitter_id': '1277767304898588672', 'screen_name': 'doncarlos332', 'followers': 275, 'friends': 318, 'interactions': ['1650988601943916547'], 'otweets': ['1650872579236716544'], 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 5, 'twitter_id': '2512712310', 'screen_name': 'ThomasEinfach', 'followers': 1330, 'friends': 301, 'interactions': 'None', 'otweets': ['1650910416724279302', '1650797062407987201', '1650768228853903360', '1650739324231598093'], 'in_degree': 16, 'out_degree': 0, 'in_degree_pa': 16, 'out_degree_pa': 0, 'louvain_com': 2, 'leiden_com': 1}, {'id': 6, 'twitter_id': '2271737306', 'screen_name': 'bernhardheiller', 'followers': 1871, 'friends': 4955, 'interactions': ['1650987029331603458'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 7, 'twitter_id': '785981589410967553', 'screen_name': 'Mhs_ThatFace', 'followers': 591, 'friends': 1026, 'interactions': ['1650980417493770240'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 8, 'twitter_id': '2657514314', 'screen_name': 'EmirDiz', 'followers': 1548, 'friends': 903, 'interactions': ['1650973859103883265'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 9, 'twitter_id': '435990966', 'screen_name': 'VickySpielfrau', 'followers': 13652, 'friends': 4264, 'interactions': 'None', 'otweets': ['1650824593286758400'], 'in_degree': 12, 'out_degree': 0, 'in_degree_pa': 12, 'out_degree_pa': 0, 'louvain_com': 7, 'leiden_com': 3}, {'id': 10, 'twitter_id': '1446468848383823873', 'screen_name': 'AloisiaMargare1', 'followers': 424, 'friends': 1359, 'interactions': ['1650972662938697728'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 11, 'twitter_id': '95193977', 'screen_name': 'TheHansSolar', 'followers': 105, 'friends': 207, 'interactions': ['1650969617865555969', '1650945507848515597', '1650945344467873792'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 7, 'leiden_com': 3}, {'id': 12, 'twitter_id': '3303139900', 'screen_name': 'Manni908', 'followers': 235, 'friends': 673, 'interactions': ['1650961647945543714'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 13, 'twitter_id': '22533918', 'screen_name': 'art18bvg', 'followers': 6380, 'friends': 757, 'interactions': ['1650803254417080320', '1650803108581105664'], 'otweets': ['1650504489550372865', '1650950502656405520', '1650850787579363329', '1650237113009594368', '1650791908623384576', '1650790653125640192', '1650667154864324616'], 'in_degree': 17, 'out_degree': 2, 'in_degree_pa': 17, 'out_degree_pa': 2, 'louvain_com': 6, 'leiden_com': 4}, {'id': 14, 'twitter_id': '1427553334009999373', 'screen_name': 'nouvella8', 'followers': 658, 'friends': 852, 'interactions': ['1650943567693488128', '1650831446334906371', '1650817825433370626'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 4, 'leiden_com': 5}, {'id': 15, 'twitter_id': '1325098402015813632', 'screen_name': 'NenntG', 'followers': 1409, 'friends': 1595, 'interactions': ['1650776517184569345'], 'otweets': ['1650875198076334080', '1650542542671192066'], 'in_degree': 5, 'out_degree': 1, 'in_degree_pa': 5, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 16, 'twitter_id': '1348896893536006144', 'screen_name': 'af_n_doo', 'followers': 22, 'friends': 256, 'interactions': ['1650940405108580377'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 17, 'twitter_id': '1390686973082353668', 'screen_name': 'PetraFeiertag', 'followers': 117, 'friends': 235, 'interactions': ['1650938875634655237'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 18, 'twitter_id': '723615116332294144', 'screen_name': 'lisimisera1', 'followers': 657, 'friends': 2841, 'interactions': ['1650938736077578269'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 19, 'twitter_id': '26482284', 'screen_name': 'NeodawnAT', 'followers': 935, 'friends': 850, 'interactions': ['1650938588710797312'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 20, 'twitter_id': '1129778470228234240', 'screen_name': 'brigitte_rosner', 'followers': 1873, 'friends': 1107, 'interactions': 'None', 'otweets': ['1650815474962235392'], 'in_degree': 15, 'out_degree': 0, 'in_degree_pa': 15, 'out_degree_pa': 0, 'louvain_com': 5, 'leiden_com': 6}, {'id': 21, 'twitter_id': '496875534', 'screen_name': 'OthmarD', 'followers': 409, 'friends': 735, 'interactions': ['1650936037089091603'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 22, 'twitter_id': '85406852', 'screen_name': 'pw48', 'followers': 1947, 'friends': 932, 'interactions': ['1650935987256565762'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 23, 'twitter_id': '1361054648799547395', 'screen_name': 'Edith41209888', 'followers': 102, 'friends': 32, 'interactions': ['1650933761737891869'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 24, 'twitter_id': '239078153', 'screen_name': 'creation_2011', 'followers': 2038, 'friends': 4999, 'interactions': ['1650933225982664729'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 25, 'twitter_id': '1449797358498324487', 'screen_name': 'schowiedaXian', 'followers': 102, 'friends': 112, 'interactions': ['1650929676791980044'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 26, 'twitter_id': '3410845756', 'screen_name': 'kanzlerflorian', 'followers': 147, 'friends': 48, 'interactions': ['1650929229033291776'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 27, 'twitter_id': '19528958', 'screen_name': 'kitz_troet_cafe', 'followers': 737, 'friends': 5004, 'interactions': ['1650928294005448707'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 28, 'twitter_id': '1588982363844927489', 'screen_name': 'mfredl2', 'followers': 3, 'friends': 21, 'interactions': ['1650926999970390029'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 29, 'twitter_id': '412216955', 'screen_name': 'evibytweet', 'followers': 344, 'friends': 372, 'interactions': ['1650923656627757070'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 30, 'twitter_id': '2195841648', 'screen_name': 'IchTarzanDuJane', 'followers': 98, 'friends': 101, 'interactions': ['1650922692428570628', '1650853596064534531', '1650817162834059267'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 3, 'in_degree_pa': 0, 'out_degree_pa': 3, 'louvain_com': 5, 'leiden_com': 6}, {'id': 31, 'twitter_id': '449102425', 'screen_name': 'mariela_noname', 'followers': 71, 'friends': 637, 'interactions': 'None', 'otweets': ['1650861952602894337'], 'in_degree': 1, 'out_degree': 0, 'in_degree_pa': 1, 'out_degree_pa': 0, 'louvain_com': 5, 'leiden_com': 6}, {'id': 32, 'twitter_id': '948243130733735936', 'screen_name': 'SmolkaSabine', 'followers': 1387, 'friends': 2155, 'interactions': ['1650919049474236417'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 33, 'twitter_id': '1674090122', 'screen_name': 'es_ist_Magie', 'followers': 1170, 'friends': 2846, 'interactions': ['1650918837045305351'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 34, 'twitter_id': '1152125104756862976', 'screen_name': 'HaarigerHorror', 'followers': 321, 'friends': 759, 'interactions': ['1650918133756993556'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 35, 'twitter_id': '2340812917', 'screen_name': 'heigion', 'followers': 1990, 'friends': 2438, 'interactions': ['1650914541746765837', '1650825270423609344'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 5, 'leiden_com': 6}, {'id': 36, 'twitter_id': '2987620323', 'screen_name': 'Anna1007Lee', 'followers': 128, 'friends': 523, 'interactions': ['1650913778656067600'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 37, 'twitter_id': '1569329393507385346', 'screen_name': 'KochanskiFelix', 'followers': 86, 'friends': 194, 'interactions': ['1650911122348728320'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 38, 'twitter_id': '1430087561662320666', 'screen_name': 'Werni007', 'followers': 560, 'friends': 1412, 'interactions': ['1650911115948294144'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 2, 'leiden_com': 1}, {'id': 39, 'twitter_id': '241966092', 'screen_name': 'lisa_mayr', 'followers': 9435, 'friends': 2098, 'interactions': ['1650908779460935694'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 40, 'twitter_id': '1500799085007233029', 'screen_name': 'ThomasRitt', 'followers': 456, 'friends': 236, 'interactions': 'None', 'otweets': 'None', 'in_degree': 2, 'out_degree': 0, 'in_degree_pa': 2, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 7}, {'id': 41, 'twitter_id': '1546251588221763585', 'screen_name': 'etikettensaege', 'followers': 51, 'friends': 189, 'interactions': ['1650907693157171226'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 42, 'twitter_id': '976883905344299008', 'screen_name': 'Stefans_Tweety', 'followers': 2986, 'friends': 1231, 'interactions': 'None', 'otweets': ['1650514103864029188'], 'in_degree': 7, 'out_degree': 0, 'in_degree_pa': 7, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 7}, {'id': 43, 'twitter_id': '1252230236382494720', 'screen_name': 'Anna15111958', 'followers': 304, 'friends': 650, 'interactions': ['1650907658147315725', '1650804110445117441'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 7, 'leiden_com': 3}, {'id': 44, 'twitter_id': '863791049336123392', 'screen_name': 'sunny_Simmering', 'followers': 153, 'friends': 550, 'interactions': ['1650901584472162308'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 45, 'twitter_id': '1368995900', 'screen_name': 'ArienAichi', 'followers': 94, 'friends': 586, 'interactions': ['1650899188954148866'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 46, 'twitter_id': '1365207127472627716', 'screen_name': 'SichtDer', 'followers': 176, 'friends': 598, 'interactions': ['1650896263779438595'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 47, 'twitter_id': '388763788', 'screen_name': 'KnutOgris', 'followers': 1766, 'friends': 2913, 'interactions': ['1650894873086640140', '1650891112515620868', '1650824773440610304', '1650768086084009984', '1650727582868856833'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 5, 'in_degree_pa': 0, 'out_degree_pa': 5, 'louvain_com': 4, 'leiden_com': 5}, {'id': 48, 'twitter_id': '74430958', 'screen_name': 'die_mandel', 'followers': 90, 'friends': 209, 'interactions': ['1650893387569004545'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 49, 'twitter_id': '2968274788', 'screen_name': 'BettinaDanzl', 'followers': 410, 'friends': 623, 'interactions': ['1650890684080037895'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 50, 'twitter_id': '483134531', 'screen_name': 'DjetePay1', 'followers': 22, 'friends': 73, 'interactions': ['1650887792031834113'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 51, 'twitter_id': '1521151838279671814', 'screen_name': 'FSGGenosse', 'followers': 88, 'friends': 322, 'interactions': ['1650885425840508930'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 52, 'twitter_id': '1249614164215169026', 'screen_name': 'AlexanderKller1', 'followers': 66, 'friends': 35, 'interactions': ['1650884668038733824'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 53, 'twitter_id': '169452812', 'screen_name': 'MaBeSch', 'followers': 200, 'friends': 862, 'interactions': ['1650880630077497345'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 54, 'twitter_id': '1236433451542339587', 'screen_name': 'KremLten', 'followers': 1594, 'friends': 830, 'interactions': ['1650873191529627651', '1650773741826105350'], 'otweets': ['1650775600599113728'], 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 7, 'leiden_com': 3}, {'id': 55, 'twitter_id': '1641513069267374080', 'screen_name': 'TinaRrrrr', 'followers': 50, 'friends': 302, 'interactions': ['1650871518618963968'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 56, 'twitter_id': '2637537674', 'screen_name': 'schierhangl', 'followers': 228, 'friends': 1006, 'interactions': ['1650870798448558082'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 57, 'twitter_id': '47436725', 'screen_name': 'KPOE_EL', 'followers': 5418, 'friends': 2302, 'interactions': 'None', 'otweets': ['1650597995237220362'], 'in_degree': 9, 'out_degree': 0, 'in_degree_pa': 9, 'out_degree_pa': 0, 'louvain_com': 3, 'leiden_com': 8}, {'id': 58, 'twitter_id': '1427581398005731330', 'screen_name': 'MoosNatascha', 'followers': 57, 'friends': 47, 'interactions': ['1650866538218487809'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 59, 'twitter_id': '1198249272', 'screen_name': 'arno_felix_', 'followers': 24, 'friends': 168, 'interactions': 'None', 'otweets': ['1650860942593511427', '1650862229338853380'], 'in_degree': 2, 'out_degree': 0, 'in_degree_pa': 2, 'out_degree_pa': 0, 'louvain_com': 2, 'leiden_com': 1}, {'id': 60, 'twitter_id': '1166245247640330240', 'screen_name': 'RMogyorosy', 'followers': 9317, 'friends': 5945, 'interactions': ['1650861297683304448', '1650768922487005184'], 'otweets': ['1650792709060280320'], 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 2, 'leiden_com': 1}, {'id': 61, 'twitter_id': '1296527793296203776', 'screen_name': 'MalagicMehmed', 'followers': 29, 'friends': 701, 'interactions': ['1650858986772762624'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 62, 'twitter_id': '2535529657', 'screen_name': 'HombergEv', 'followers': 1024, 'friends': 2121, 'interactions': ['1650855670940602368', '1650720095784648705'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 3, 'leiden_com': 8}, {'id': 63, 'twitter_id': '1110236948', 'screen_name': 'shcietc', 'followers': 104, 'friends': 679, 'interactions': ['1650855169381261314'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 64, 'twitter_id': '1280289350081753088', 'screen_name': 'Fmk28949957', 'followers': 20, 'friends': 346, 'interactions': ['1650847532929482752', '1650829329972994048'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 4, 'leiden_com': 5}, {'id': 65, 'twitter_id': '1534502517291335681', 'screen_name': 'elflanell', 'followers': 783, 'friends': 286, 'interactions': 'None', 'otweets': ['1650844767788433408'], 'in_degree': 1, 'out_degree': 0, 'in_degree_pa': 1, 'out_degree_pa': 0, 'louvain_com': 4, 'leiden_com': 5}, {'id': 66, 'twitter_id': '79442114', 'screen_name': 'SnowbootsLove', 'followers': 457, 'friends': 1882, 'interactions': ['1650847150262108164', '1650841919952494593'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 7, 'leiden_com': 3}, {'id': 67, 'twitter_id': '178680931', 'screen_name': 'msulzbacher', 'followers': 29410, 'friends': 4800, 'interactions': ['1650846893772009472'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 68, 'twitter_id': '319854904', 'screen_name': 'Betrifft', 'followers': 1740, 'friends': 592, 'interactions': ['1650846837400543235'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 69, 'twitter_id': '219991963', 'screen_name': 'Claus_Pandi', 'followers': 54246, 'friends': 991, 'interactions': 'None', 'otweets': ['1650746330128560129'], 'in_degree': 5, 'out_degree': 0, 'in_degree_pa': 5, 'out_degree_pa': 0, 'louvain_com': 1, 'leiden_com': 7}, {'id': 70, 'twitter_id': '974379740', 'screen_name': 'June26Jasmine', 'followers': 2193, 'friends': 2546, 'interactions': ['1650846756119166978', '1650815879377027072'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 1, 'leiden_com': 7}, {'id': 71, 'twitter_id': '2308268232', 'screen_name': 'DeinSalzamt', 'followers': 1019, 'friends': 167, 'interactions': ['1650846198297665539', '1650842158121795584'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 6, 'leiden_com': 4}, {'id': 72, 'twitter_id': '89033113', 'screen_name': 'ma_wal1', 'followers': 160, 'friends': 1819, 'interactions': ['1650844081201852422'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 73, 'twitter_id': '1284300575904075777', 'screen_name': 'jiangshimaybel', 'followers': 729, 'friends': 37, 'interactions': ['1650840760948850688'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 74, 'twitter_id': '1351594210642829327', 'screen_name': 'N2007182', 'followers': 84, 'friends': 253, 'interactions': ['1650839932485750790'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 75, 'twitter_id': '1378691042577383431', 'screen_name': 'mitzwitscherin', 'followers': 62, 'friends': 478, 'interactions': ['1650837156410142721'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 76, 'twitter_id': '920308807', 'screen_name': 'drakkalas', 'followers': 1938, 'friends': 1841, 'interactions': ['1650832448211615744'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 77, 'twitter_id': '1136727985174863874', 'screen_name': 'HackRudolf', 'followers': 507, 'friends': 1304, 'interactions': ['1650831152347840512', '1650785548666130434'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 0, 'leiden_com': 2}, {'id': 78, 'twitter_id': '54832478', 'screen_name': 'saschaosaka', 'followers': 549, 'friends': 798, 'interactions': ['1650830273464991750'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 7, 'leiden_com': 3}, {'id': 79, 'twitter_id': '237731150', 'screen_name': 'Waldohreule303', 'followers': 157, 'friends': 154, 'interactions': ['1650826391041064960'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 80, 'twitter_id': '1445704973556203520', 'screen_name': 'semiramis758459', 'followers': 86, 'friends': 485, 'interactions': ['1650822897806499842', '1650775538561167362'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 3, 'leiden_com': 8}, {'id': 81, 'twitter_id': '1396093100045611020', 'screen_name': 'Alfredo51748676', 'followers': 1291, 'friends': 1532, 'interactions': ['1650817783263907849'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 82, 'twitter_id': '1517519464429981697', 'screen_name': 'ALEHDoG', 'followers': 1272, 'friends': 1869, 'interactions': ['1650817425816920068'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 83, 'twitter_id': '1381023936234848270', 'screen_name': 'Taugenichts8', 'followers': 496, 'friends': 492, 'interactions': ['1650817304471699458'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 5, 'leiden_com': 6}, {'id': 84, 'twitter_id': '1276881400109694980', 'screen_name': 'realSaibot', 'followers': 170, 'friends': 162, 'interactions': ['1650814485316116480'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 85, 'twitter_id': '1083114491955630083', 'screen_name': 'Gisi19788653', 'followers': 421, 'friends': 467, 'interactions': ['1650812755367153668'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 86, 'twitter_id': '1206814293209100288', 'screen_name': 'Rotstift44', 'followers': 5152, 'friends': 1842, 'interactions': 'None', 'otweets': ['1650693573694615552', '1650730017695858689'], 'in_degree': 6, 'out_degree': 0, 'in_degree_pa': 6, 'out_degree_pa': 0, 'louvain_com': 4, 'leiden_com': 5}, {'id': 87, 'twitter_id': '1920162312', 'screen_name': 'lackerer', 'followers': 2460, 'friends': 1716, 'interactions': ['1650812227732008961'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 88, 'twitter_id': '1479132251132772359', 'screen_name': 'merowinng', 'followers': 307, 'friends': 866, 'interactions': ['1650757955141206016', '1650731033275277315'], 'otweets': 'None', 'in_degree': 1, 'out_degree': 2, 'in_degree_pa': 1, 'out_degree_pa': 2, 'louvain_com': 1, 'leiden_com': 7}, {'id': 89, 'twitter_id': '1517231929145401345', 'screen_name': 'Schneide3R', 'followers': 260, 'friends': 328, 'interactions': ['1650811134599987200'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 90, 'twitter_id': '414858461', 'screen_name': 'arabrab55_i', 'followers': 763, 'friends': 1700, 'interactions': ['1650809711019581441'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 91, 'twitter_id': '238498745', 'screen_name': 'Freizeitrobin', 'followers': 1881, 'friends': 1873, 'interactions': ['1650808868077809665'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 92, 'twitter_id': '1345738305426644993', 'screen_name': 'LalinchenB', 'followers': 28, 'friends': 262, 'interactions': ['1650808754512773123'], 'otweets': ['1650810261966667776'], 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 93, 'twitter_id': '238632327', 'screen_name': 'eranseder', 'followers': 549, 'friends': 596, 'interactions': ['1650806593154433025'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 94, 'twitter_id': '1520889855395475462', 'screen_name': 'JustoQua', 'followers': 471, 'friends': 822, 'interactions': ['1650805656901898241'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 95, 'twitter_id': '52191578', 'screen_name': 'TwirterOdd', 'followers': 56, 'friends': 434, 'interactions': ['1650803522391113728'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 96, 'twitter_id': '1330140241538277376', 'screen_name': 'Reneke88100556', 'followers': 465, 'friends': 1073, 'interactions': ['1650803495061053440', '1650737109911650308', '1650737060813176833', '1650736887496163329'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 4, 'in_degree_pa': 0, 'out_degree_pa': 4, 'louvain_com': 3, 'leiden_com': 8}, {'id': 97, 'twitter_id': '774883338435825664', 'screen_name': 'trimifeda', 'followers': 16, 'friends': 193, 'interactions': ['1650801329055449089'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 98, 'twitter_id': '51968470', 'screen_name': 'dzanab', 'followers': 371, 'friends': 650, 'interactions': ['1650795082323316736'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 99, 'twitter_id': '820394306066350081', 'screen_name': 'ein_NickK', 'followers': 468, 'friends': 646, 'interactions': ['1650788357964791810'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 100, 'twitter_id': '791971513230655488', 'screen_name': 'mi2501ra', 'followers': 144, 'friends': 374, 'interactions': ['1650787954552455170'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 101, 'twitter_id': '190937641', 'screen_name': 'yagobuzz', 'followers': 668, 'friends': 761, 'interactions': 'None', 'otweets': ['1650513264105619459'], 'in_degree': 1, 'out_degree': 0, 'in_degree_pa': 1, 'out_degree_pa': 0, 'louvain_com': 0, 'leiden_com': 2}, {'id': 102, 'twitter_id': '1300413623341326337', 'screen_name': 'grinsjodo', 'followers': 92, 'friends': 503, 'interactions': ['1650784965158752257'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 103, 'twitter_id': '1156973472905609216', 'screen_name': 'floria3siebner', 'followers': 113, 'friends': 196, 'interactions': ['1650783779252740096'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 104, 'twitter_id': '499208300', 'screen_name': 'leiwandowski', 'followers': 43, 'friends': 434, 'interactions': ['1650782636086796289'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 105, 'twitter_id': '146846407', 'screen_name': 'AD1968F', 'followers': 4135, 'friends': 4995, 'interactions': ['1650779839475900418'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 106, 'twitter_id': '1451169754119647235', 'screen_name': 'LizzyLange', 'followers': 203, 'friends': 180, 'interactions': ['1650775709814599680', '1650725192673501186'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 3, 'leiden_com': 8}, {'id': 107, 'twitter_id': '1304700920043835393', 'screen_name': 'HelmutMhlberge1', 'followers': 195, 'friends': 269, 'interactions': ['1650775591761616897'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 0, 'leiden_com': 2}, {'id': 108, 'twitter_id': '1174041837692211200', 'screen_name': 'Thaller96791846', 'followers': 489, 'friends': 1298, 'interactions': 'None', 'otweets': ['1650640173833629698', '1650645732712411137', '1650642769734426630'], 'in_degree': 6, 'out_degree': 0, 'in_degree_pa': 6, 'out_degree_pa': 0, 'louvain_com': 3, 'leiden_com': 8}, {'id': 109, 'twitter_id': '1270752026645929985', 'screen_name': 'Herr_Penguin', 'followers': 180, 'friends': 642, 'interactions': ['1650765307311542272'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 110, 'twitter_id': '396072476', 'screen_name': 'meisterebner', 'followers': 776, 'friends': 232, 'interactions': ['1650759958567301120'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 111, 'twitter_id': '439884522', 'screen_name': 'SolautSonja', 'followers': 8962, 'friends': 2388, 'interactions': ['1650759604677091328', '1650757220227842051'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 1, 'leiden_com': 7}, {'id': 112, 'twitter_id': '2792910119', 'screen_name': 'Clautschi66', 'followers': 177, 'friends': 290, 'interactions': ['1650756730781876226'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 113, 'twitter_id': '490655905', 'screen_name': 'jfohringer', 'followers': 7029, 'friends': 7478, 'interactions': ['1650753852679901184'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 114, 'twitter_id': '1499808275335946241', 'screen_name': 'SabineM2020', 'followers': 114, 'friends': 323, 'interactions': ['1650752975969693696'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 115, 'twitter_id': '166948485', 'screen_name': 'plocaploca', 'followers': 1212, 'friends': 2829, 'interactions': ['1650750153765146624'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 8, 'leiden_com': 0}, {'id': 116, 'twitter_id': '1631339514479214592', 'screen_name': 'Karluswusw', 'followers': 21, 'friends': 61, 'interactions': ['1650747860680425472'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 117, 'twitter_id': '1156835512163938305', 'screen_name': 'DanielS22118455', 'followers': 296, 'friends': 263, 'interactions': ['1650747781752016896'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 118, 'twitter_id': '1375394844105920516', 'screen_name': 'GerhardGutschi', 'followers': 66, 'friends': 304, 'interactions': ['1650747487215337472'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 119, 'twitter_id': '806013743419232256', 'screen_name': 'SchulratEgger', 'followers': 1842, 'friends': 942, 'interactions': ['1650731724278562816'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 120, 'twitter_id': '845732803622916097', 'screen_name': 'Hanna__Frisch', 'followers': 444, 'friends': 1606, 'interactions': ['1650731411719041030', '1650703839580782592'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 2, 'in_degree_pa': 0, 'out_degree_pa': 2, 'louvain_com': 4, 'leiden_com': 4}, {'id': 121, 'twitter_id': '897798706212241408', 'screen_name': 'YveBiskupska', 'followers': 2054, 'friends': 3502, 'interactions': ['1650730300220096513'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 4, 'leiden_com': 5}, {'id': 122, 'twitter_id': '1055514114', 'screen_name': 'BLS_Schmid_G', 'followers': 2037, 'friends': 2064, 'interactions': ['1650729044881686528'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 123, 'twitter_id': '1544668431370313729', 'screen_name': 'BirgitPomorin', 'followers': 99, 'friends': 373, 'interactions': ['1650728079466151938'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 124, 'twitter_id': '1124392800685121537', 'screen_name': 'Christa29930995', 'followers': 2125, 'friends': 3187, 'interactions': ['1650727855406366722'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 125, 'twitter_id': '1455434484552187905', 'screen_name': 'lang_psy', 'followers': 236, 'friends': 764, 'interactions': ['1650724356157329410'], 'otweets': ['1650739577940746244'], 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 126, 'twitter_id': '1299689982', 'screen_name': 'IngeHaus2', 'followers': 2304, 'friends': 2482, 'interactions': ['1650723824059535366'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 1, 'leiden_com': 7}, {'id': 127, 'twitter_id': '883785255156686850', 'screen_name': 'tomgreis', 'followers': 573, 'friends': 1262, 'interactions': ['1650722768848134145'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 6, 'leiden_com': 4}, {'id': 128, 'twitter_id': '37377414', 'screen_name': 'klobbl', 'followers': 142, 'friends': 849, 'interactions': ['1650721726353874946'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}, {'id': 129, 'twitter_id': '1563203746573606924', 'screen_name': 'Nottoda35427881', 'followers': 12, 'friends': 148, 'interactions': ['1650719711997448192'], 'otweets': 'None', 'in_degree': 0, 'out_degree': 1, 'in_degree_pa': 0, 'out_degree_pa': 1, 'louvain_com': 3, 'leiden_com': 8}], 'links': [{'source': 0, 'target': 1, 'tweet': '1651003683314778117', 'ts': 1682464926}, {'source': 2, 'target': 3, 'tweet': '1650990091915886592', 'ts': 1682461686}, {'source': 2, 'target': 5, 'tweet': '1650971577616351233', 'ts': 1682457272}, {'source': 2, 'target': 59, 'tweet': '1650862428534743042', 'ts': 1682431249}, {'source': 4, 'target': 5, 'tweet': '1650988601943916547', 'ts': 1682461331}, {'source': 6, 'target': 3, 'tweet': '1650987029331603458', 'ts': 1682460956}, {'source': 7, 'target': 5, 'tweet': '1650980417493770240', 'ts': 1682459379}, {'source': 8, 'target': 9, 'tweet': '1650973859103883265', 'ts': 1682457816}, {'source': 10, 'target': 5, 'tweet': '1650972662938697728', 'ts': 1682457531}, {'source': 11, 'target': 3, 'tweet': '1650969617865555969', 'ts': 1682456805}, {'source': 11, 'target': 5, 'tweet': '1650945344467873792', 'ts': 1682451017}, {'source': 11, 'target': 9, 'tweet': '1650945507848515597', 'ts': 1682451056}, {'source': 12, 'target': 13, 'tweet': '1650961647945543714', 'ts': 1682454904}, {'source': 13, 'target': 13, 'tweet': '1650803108581105664', 'ts': 1682417106}, {'source': 13, 'target': 13, 'tweet': '1650803254417080320', 'ts': 1682417140}, {'source': 14, 'target': 9, 'tweet': '1650831446334906371', 'ts': 1682423862}, {'source': 14, 'target': 15, 'tweet': '1650943567693488128', 'ts': 1682450594}, {'source': 14, 'target': 20, 'tweet': '1650817825433370626', 'ts': 1682420614}, {'source': 15, 'target': 13, 'tweet': '1650776517184569345', 'ts': 1682410766}, {'source': 16, 'target': 5, 'tweet': '1650940405108580377', 'ts': 1682449840}, {'source': 17, 'target': 5, 'tweet': '1650938875634655237', 'ts': 1682449475}, {'source': 18, 'target': 5, 'tweet': '1650938736077578269', 'ts': 1682449442}, {'source': 19, 'target': 20, 'tweet': '1650938588710797312', 'ts': 1682449407}, {'source': 21, 'target': 9, 'tweet': '1650936037089091603', 'ts': 1682448798}, {'source': 22, 'target': 9, 'tweet': '1650935987256565762', 'ts': 1682448786}, {'source': 23, 'target': 5, 'tweet': '1650933761737891869', 'ts': 1682448256}, {'source': 24, 'target': 1, 'tweet': '1650933225982664729', 'ts': 1682448128}, {'source': 25, 'target': 5, 'tweet': '1650929676791980044', 'ts': 1682447282}, {'source': 26, 'target': 3, 'tweet': '1650929229033291776', 'ts': 1682447175}, {'source': 27, 'target': 1, 'tweet': '1650928294005448707', 'ts': 1682446952}, {'source': 28, 'target': 20, 'tweet': '1650926999970390029', 'ts': 1682446644}, {'source': 29, 'target': 5, 'tweet': '1650923656627757070', 'ts': 1682445847}, {'source': 30, 'target': 3, 'tweet': '1650817162834059267', 'ts': 1682420456}, {'source': 30, 'target': 20, 'tweet': '1650853596064534531', 'ts': 1682429143}, {'source': 30, 'target': 31, 'tweet': '1650922692428570628', 'ts': 1682445617}, {'source': 32, 'target': 20, 'tweet': '1650919049474236417', 'ts': 1682444748}, {'source': 33, 'target': 20, 'tweet': '1650918837045305351', 'ts': 1682444697}, {'source': 34, 'target': 3, 'tweet': '1650918133756993556', 'ts': 1682444530}, {'source': 35, 'target': 5, 'tweet': '1650914541746765837', 'ts': 1682443673}, {'source': 35, 'target': 20, 'tweet': '1650825270423609344', 'ts': 1682422389}, {'source': 36, 'target': 5, 'tweet': '1650913778656067600', 'ts': 1682443491}, {'source': 37, 'target': 5, 'tweet': '1650911122348728320', 'ts': 1682442858}, {'source': 38, 'target': 5, 'tweet': '1650911115948294144', 'ts': 1682442857}, {'source': 39, 'target': 40, 'tweet': '1650908779460935694', 'ts': 1682442300}, {'source': 41, 'target': 42, 'tweet': '1650907693157171226', 'ts': 1682442041}, {'source': 43, 'target': 3, 'tweet': '1650804110445117441', 'ts': 1682417345}, {'source': 43, 'target': 9, 'tweet': '1650907658147315725', 'ts': 1682442032}, {'source': 44, 'target': 3, 'tweet': '1650901584472162308', 'ts': 1682440584}, {'source': 45, 'target': 3, 'tweet': '1650899188954148866', 'ts': 1682440013}, {'source': 46, 'target': 3, 'tweet': '1650896263779438595', 'ts': 1682439316}, {'source': 47, 'target': 1, 'tweet': '1650894873086640140', 'ts': 1682438984}, {'source': 47, 'target': 3, 'tweet': '1650768086084009984', 'ts': 1682408756}, {'source': 47, 'target': 15, 'tweet': '1650891112515620868', 'ts': 1682438087}, {'source': 47, 'target': 20, 'tweet': '1650824773440610304', 'ts': 1682422271}, {'source': 47, 'target': 86, 'tweet': '1650727582868856833', 'ts': 1682399099}, {'source': 48, 'target': 9, 'tweet': '1650893387569004545', 'ts': 1682438630}, {'source': 49, 'target': 9, 'tweet': '1650890684080037895', 'ts': 1682437985}, {'source': 50, 'target': 13, 'tweet': '1650887792031834113', 'ts': 1682437296}, {'source': 51, 'target': 1, 'tweet': '1650885425840508930', 'ts': 1682436732}, {'source': 52, 'target': 3, 'tweet': '1650884668038733824', 'ts': 1682436551}, {'source': 53, 'target': 1, 'tweet': '1650880630077497345', 'ts': 1682435588}, {'source': 54, 'target': 3, 'tweet': '1650773741826105350', 'ts': 1682410104}, {'source': 54, 'target': 9, 'tweet': '1650873191529627651', 'ts': 1682433815}, {'source': 55, 'target': 1, 'tweet': '1650871518618963968', 'ts': 1682433416}, {'source': 56, 'target': 57, 'tweet': '1650870798448558082', 'ts': 1682433244}, {'source': 58, 'target': 13, 'tweet': '1650866538218487809', 'ts': 1682432228}, {'source': 60, 'target': 5, 'tweet': '1650768922487005184', 'ts': 1682408955}, {'source': 60, 'target': 59, 'tweet': '1650861297683304448', 'ts': 1682430979}, {'source': 61, 'target': 57, 'tweet': '1650858986772762624', 'ts': 1682430428}, {'source': 62, 'target': 20, 'tweet': '1650855670940602368', 'ts': 1682429638}, {'source': 62, 'target': 108, 'tweet': '1650720095784648705', 'ts': 1682397314}, {'source': 63, 'target': 13, 'tweet': '1650855169381261314', 'ts': 1682429518}, {'source': 64, 'target': 15, 'tweet': '1650829329972994048', 'ts': 1682423357}, {'source': 64, 'target': 65, 'tweet': '1650847532929482752', 'ts': 1682427697}, {'source': 66, 'target': 9, 'tweet': '1650847150262108164', 'ts': 1682427606}, {'source': 66, 'target': 13, 'tweet': '1650841919952494593', 'ts': 1682426359}, {'source': 67, 'target': 9, 'tweet': '1650846893772009472', 'ts': 1682427545}, {'source': 68, 'target': 69, 'tweet': '1650846837400543235', 'ts': 1682427531}, {'source': 70, 'target': 20, 'tweet': '1650815879377027072', 'ts': 1682420150}, {'source': 70, 'target': 42, 'tweet': '1650846756119166978', 'ts': 1682427512}, {'source': 71, 'target': 3, 'tweet': '1650842158121795584', 'ts': 1682426416}, {'source': 71, 'target': 13, 'tweet': '1650846198297665539', 'ts': 1682427379}, {'source': 72, 'target': 3, 'tweet': '1650844081201852422', 'ts': 1682426874}, {'source': 73, 'target': 3, 'tweet': '1650840760948850688', 'ts': 1682426083}, {'source': 74, 'target': 42, 'tweet': '1650839932485750790', 'ts': 1682425885}, {'source': 75, 'target': 20, 'tweet': '1650837156410142721', 'ts': 1682425223}, {'source': 76, 'target': 20, 'tweet': '1650832448211615744', 'ts': 1682424101}, {'source': 77, 'target': 3, 'tweet': '1650831152347840512', 'ts': 1682423792}, {'source': 77, 'target': 101, 'tweet': '1650785548666130434', 'ts': 1682412919}, {'source': 78, 'target': 9, 'tweet': '1650830273464991750', 'ts': 1682423582}, {'source': 79, 'target': 20, 'tweet': '1650826391041064960', 'ts': 1682422657}, {'source': 80, 'target': 3, 'tweet': '1650822897806499842', 'ts': 1682421824}, {'source': 80, 'target': 108, 'tweet': '1650775538561167362', 'ts': 1682410532}, {'source': 81, 'target': 20, 'tweet': '1650817783263907849', 'ts': 1682420604}, {'source': 82, 'target': 15, 'tweet': '1650817425816920068', 'ts': 1682420519}, {'source': 83, 'target': 20, 'tweet': '1650817304471699458', 'ts': 1682420490}, {'source': 84, 'target': 3, 'tweet': '1650814485316116480', 'ts': 1682419818}, {'source': 85, 'target': 86, 'tweet': '1650812755367153668', 'ts': 1682419406}, {'source': 87, 'target': 88, 'tweet': '1650812227732008961', 'ts': 1682419280}, {'source': 88, 'target': 42, 'tweet': '1650731033275277315', 'ts': 1682399922}, {'source': 88, 'target': 69, 'tweet': '1650757955141206016', 'ts': 1682406340}, {'source': 89, 'target': 86, 'tweet': '1650811134599987200', 'ts': 1682419019}, {'source': 90, 'target': 3, 'tweet': '1650809711019581441', 'ts': 1682418680}, {'source': 91, 'target': 3, 'tweet': '1650808868077809665', 'ts': 1682418479}, {'source': 92, 'target': 3, 'tweet': '1650808754512773123', 'ts': 1682418452}, {'source': 93, 'target': 3, 'tweet': '1650806593154433025', 'ts': 1682417936}, {'source': 94, 'target': 42, 'tweet': '1650805656901898241', 'ts': 1682417713}, {'source': 95, 'target': 3, 'tweet': '1650803522391113728', 'ts': 1682417204}, {'source': 96, 'target': 3, 'tweet': '1650803495061053440', 'ts': 1682417198}, {'source': 96, 'target': 108, 'tweet': '1650736887496163329', 'ts': 1682401317}, {'source': 96, 'target': 108, 'tweet': '1650737060813176833', 'ts': 1682401359}, {'source': 96, 'target': 108, 'tweet': '1650737109911650308', 'ts': 1682401370}, {'source': 97, 'target': 13, 'tweet': '1650801329055449089', 'ts': 1682416681}, {'source': 98, 'target': 3, 'tweet': '1650795082323316736', 'ts': 1682415192}, {'source': 99, 'target': 69, 'tweet': '1650788357964791810', 'ts': 1682413589}, {'source': 100, 'target': 3, 'tweet': '1650787954552455170', 'ts': 1682413493}, {'source': 102, 'target': 3, 'tweet': '1650784965158752257', 'ts': 1682412780}, {'source': 103, 'target': 3, 'tweet': '1650783779252740096', 'ts': 1682412497}, {'source': 104, 'target': 3, 'tweet': '1650782636086796289', 'ts': 1682412225}, {'source': 105, 'target': 57, 'tweet': '1650779839475900418', 'ts': 1682411558}, {'source': 106, 'target': 57, 'tweet': '1650775709814599680', 'ts': 1682410573}, {'source': 106, 'target': 108, 'tweet': '1650725192673501186', 'ts': 1682398529}, {'source': 107, 'target': 3, 'tweet': '1650775591761616897', 'ts': 1682410545}, {'source': 109, 'target': 1, 'tweet': '1650765307311542272', 'ts': 1682408093}, {'source': 110, 'target': 69, 'tweet': '1650759958567301120', 'ts': 1682406818}, {'source': 111, 'target': 40, 'tweet': '1650759604677091328', 'ts': 1682406734}, {'source': 111, 'target': 69, 'tweet': '1650757220227842051', 'ts': 1682406165}, {'source': 112, 'target': 13, 'tweet': '1650756730781876226', 'ts': 1682406048}, {'source': 113, 'target': 13, 'tweet': '1650753852679901184', 'ts': 1682405362}, {'source': 114, 'target': 13, 'tweet': '1650752975969693696', 'ts': 1682405153}, {'source': 115, 'target': 1, 'tweet': '1650750153765146624', 'ts': 1682404480}, {'source': 116, 'target': 15, 'tweet': '1650747860680425472', 'ts': 1682403934}, {'source': 117, 'target': 57, 'tweet': '1650747781752016896', 'ts': 1682403915}, {'source': 118, 'target': 13, 'tweet': '1650747487215337472', 'ts': 1682403845}, {'source': 119, 'target': 86, 'tweet': '1650731724278562816', 'ts': 1682400086}, {'source': 120, 'target': 13, 'tweet': '1650731411719041030', 'ts': 1682400012}, {'source': 120, 'target': 86, 'tweet': '1650703839580782592', 'ts': 1682393438}, {'source': 121, 'target': 86, 'tweet': '1650730300220096513', 'ts': 1682399747}, {'source': 122, 'target': 42, 'tweet': '1650729044881686528', 'ts': 1682399448}, {'source': 123, 'target': 57, 'tweet': '1650728079466151938', 'ts': 1682399217}, {'source': 124, 'target': 13, 'tweet': '1650727855406366722', 'ts': 1682399164}, {'source': 125, 'target': 57, 'tweet': '1650724356157329410', 'ts': 1682398330}, {'source': 126, 'target': 42, 'tweet': '1650723824059535366', 'ts': 1682398203}, {'source': 127, 'target': 13, 'tweet': '1650722768848134145', 'ts': 1682397951}, {'source': 128, 'target': 57, 'tweet': '1650721726353874946', 'ts': 1682397703}, {'source': 129, 'target': 57, 'tweet': '1650719711997448192', 'ts': 1682397222}], 'graph': {'type': 'Retweet network', 'N_nodes': 130, 'N_links': 146, 'keyword': '_tweets_Kommunismus', 'collected_on': '/2023-04-2', 'first_tweet': '2023-04-25 06:33', 'last_tweet': '2023-04-26 01:22', 'leiden_communities': 9, 'louvain_communities': 9}, 'version_number': '0.6.7'}
     </script>
     
 //<script>
@@ -561,20 +561,20 @@ var darkmode = false
 
 // get node color options
 ms = document.getElementById('nodecolor')
-if ('louvain_com' in data.nodes[0]){ms.innerHTML+=`<option value = "louvain_com">Louvain community</option>\n`}
-if ('leiden_com' in data.nodes[0]){ms.innerHTML+=`<option value = "leiden_com">Leiden community</option>\n`}
+if ('louvain_com' in data.nodes[0]) { ms.innerHTML += `<option value = "louvain_com">Louvain community</option>\n` }
+if ('leiden_com' in data.nodes[0]) { ms.innerHTML += `<option value = "leiden_com">Leiden community</option>\n` }
 
 // hide links by default if there are more than 10.000
-if (data.links.length > 10000) {var init_linkvis = false}
-else {var init_linkvis = true}
+if (data.links.length > 10000) { var init_linkvis = false }
+else { var init_linkvis = true }
 
 // initialize graph
 var elem = document.getElementById("graph")
 var is3D = false;
 var isCluster = false;
 
-//console.log(data.links)
-// 2D force graph
+
+//Initializes a 2D force graph using the ForceGraph library
 function init2DGraph() {
   return ForceGraph()(elem)
     .graphData({ nodes: data.nodes, links: data.links })
@@ -584,7 +584,7 @@ function init2DGraph() {
     .nodeColor(node => "black")
     .nodeVal(node => node.in_degree * nodescaling)
     .linkDirectionalParticleColor(() => 'red')
-    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
+    .linkColor(() => darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
     .linkHoverPrecision(10)
     .linkVisibility(init_linkvis)
     .onNodeRightClick(node => {
@@ -596,7 +596,7 @@ function init2DGraph() {
     });
 }
 
-// 3D force graph(node.in_degree * nodescaling);
+//Initializes a 3D force graph using the ForceGraph3D library
 function init3DGraph() {
   return ForceGraph3D()(elem)
     .graphData({ nodes: data.nodes, links: data.links })
@@ -604,16 +604,15 @@ function init3DGraph() {
     .backgroundColor("rgba(0,0,0,0)")
     .nodeLabel(node => node.screen_name)
     .nodeColor(node => "black")
-    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
+    .linkColor(() => darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
     .nodeVal(node => {
       const sphereGeometry = new THREE.SphereGeometry(node.in_degree * nodescaling);
-      const sphereMaterial = new THREE.MeshBasicMaterial({ color: "black"});
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: "black" });
       return new THREE.Mesh(sphereGeometry, sphereMaterial);
     })
     .linkDirectionalParticleColor(() => 'red')
     .linkHoverPrecision(10)
     .linkVisibility(init_linkvis)
-    //.linkWidth(1)
     .linkOpacity(1)
     .onNodeRightClick(node => {
       Graph.centerAt(node.x, node.y, node.z, 1000);
@@ -623,58 +622,98 @@ function init3DGraph() {
       Graph.emitParticle(link);
     });
 }
-
+//Initializes a clustered force graph by creating a new graph data structure based on community information
 function initClusterGraph() {
   let cluster_graph = {
-      "nodes": [],
-      "links": []
+    "nodes": [],
+    "links": []
   }
-  for(let i = 0; i< data.graph.communities; i++) {
-    cluster_graph.nodes.push({
-      "id": i,
-      "leiden_com": i,
-      "followers": 0,
-      "friends": 0,
-      "out_degree": 0,
-      "in_degree": 0
-    })
-  }
-  data.nodes.forEach(node => {
-    if(node.leiden_com <= data.graph.communities)
-    {
-      cluster_graph.nodes[node.leiden_com].followers += node.followers
-      cluster_graph.nodes[node.leiden_com].friends += node.friends
-      cluster_graph.nodes[node.leiden_com].out_degree += node.out_degree
-      cluster_graph.nodes[node.leiden_com].in_degree += node.in_degree
-    }
-  })
+  var colorselector = document.getElementById("nodecolor");
+  var selectedoption = colorselector.options[colorselector.selectedIndex].value;
   let linkMap = new Map();
-  //console.log(data.links)
 
-  data.links.forEach((lnk) => {
-    //console.log(lnk)
-
-    if(lnk.source.leiden_com <= data.graph.communities && lnk.target.leiden_com <= data.graph.communities)
-    {
-      let linkId = `${lnk.source.leiden_com}-${lnk.target.leiden_com}`; // Generate a unique identifier for the community link
-      if(linkMap.has(linkId)) {
-        linkMap.get(linkId).weight += 1; // If the link already exists, increment its weight
-      } else {
-        // Otherwise, create a new link with a weight of 1
-        linkMap.set(linkId, {
-          "source": lnk.source.leiden_com, 
-          "target": lnk.target.leiden_com,
-          "weight": 1
-        });
+  switch (selectedoption) {
+    case "none":
+      return Graph;
+    case "louvain_com":
+      console.log("Louvain");
+      for (let i = 0; i < data.graph.louvain_communities; i++) {
+        cluster_graph.nodes.push({
+          "id": i,
+          "louvain_com": i,
+          "followers": 0,
+          "friends": 0,
+          "out_degree": 0,
+          "in_degree": 0
+        })
       }
-    }
-  
-    
-  });
+      data.nodes.forEach(node => {
+        if (node.louvain_com <= data.graph.louvain_communities) {
+          cluster_graph.nodes[node.louvain_com].followers += node.followers
+          cluster_graph.nodes[node.louvain_com].friends += node.friends
+          cluster_graph.nodes[node.louvain_com].out_degree += node.out_degree
+          cluster_graph.nodes[node.louvain_com].in_degree += node.in_degree
+        }
+      })
+      data.links.forEach((lnk) => {
+        if (lnk.source.louvain_com <= data.graph.louvain_communities && lnk.target.louvain_com <= data.graph.louvain_communities) {
+          let linkId = `${lnk.source.louvain_com}-${lnk.target.louvain_com}`; // Generate a unique identifier for the community link
+          if (linkMap.has(linkId)) {
+            linkMap.get(linkId).weight += 1; // If the link already exists, increment its weight
+          } else {
+            // Otherwise, create a new link with a weight of 1
+            linkMap.set(linkId, {
+              "source": lnk.source.louvain_com,
+              "target": lnk.target.louvain_com,
+              "weight": 1
+            });
+          }
+        }
+
+
+      });
+      break;
+    case "leiden_com":
+      console.log("Leiden");
+      for (let i = 0; i < data.graph.leiden_communities; i++) {
+        cluster_graph.nodes.push({
+          "id": i,
+          "leiden_com": i,
+          "followers": 0,
+          "friends": 0,
+          "out_degree": 0,
+          "in_degree": 0
+        })
+      }
+      data.nodes.forEach(node => {
+        if (node.leiden_com <= data.graph.leiden_communities) {
+          cluster_graph.nodes[node.leiden_com].followers += node.followers
+          cluster_graph.nodes[node.leiden_com].friends += node.friends
+          cluster_graph.nodes[node.leiden_com].out_degree += node.out_degree
+          cluster_graph.nodes[node.leiden_com].in_degree += node.in_degree
+        }
+      })
+      data.links.forEach((lnk) => {
+        if (lnk.source.leiden_com <= data.graph.leiden_communities && lnk.target.leiden_com <= data.graph.leiden_communities) {
+          let linkId = `${lnk.source.leiden_com}-${lnk.target.leiden_com}`; // Generate a unique identifier for the community link
+          if (linkMap.has(linkId)) {
+            linkMap.get(linkId).weight += 1; // If the link already exists, increment its weight
+          } else {
+            // Otherwise, create a new link with a weight of 1
+            linkMap.set(linkId, {
+              "source": lnk.source.leiden_com,
+              "target": lnk.target.leiden_com,
+              "weight": 1
+            });
+          }
+        }
+      });
+      break;
+  }
   cluster_graph.links = Array.from(linkMap.values());
   console.log(cluster_graph)
 
-  
+
   return ForceGraph()(elem)
     .graphData({ nodes: cluster_graph.nodes, links: cluster_graph.links })
     .backgroundColor("rgba(0,0,0,0)")
@@ -683,7 +722,7 @@ function initClusterGraph() {
     .nodeColor(node => "black")
     .nodeVal(node => node.in_degree * nodescaling * 0.2)
     .linkDirectionalParticleColor(() => 'red')
-    .linkColor(()=> darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
+    .linkColor(() => darkmode ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)')
     .linkHoverPrecision(10)
     .linkVisibility(init_linkvis)
     .linkWidth(link => link.weight)
@@ -697,7 +736,6 @@ function initClusterGraph() {
 }
 // Initialize the default graph (2D in this case)
 Graph = init2DGraph();
-// function switchGraph(){
 document.getElementById('switchGraph').addEventListener('click', () => {
   // Remove current graph
   // Graph.resetProps();
@@ -709,7 +747,7 @@ document.getElementById('switchGraph').addEventListener('click', () => {
     Graph = init3DGraph();
     document.getElementById('switchGraph').textContent = 'Switch to 2D';
   }
-  
+
   // Toggle the is3D flag
   is3D = !is3D;
   rescalenodes();
@@ -724,76 +762,88 @@ document.getElementById('switchGraph').addEventListener('click', () => {
 
   Graph.linkDirectionalParticles(link => {
     if (link.colorthat == 1) {
-      return 1}
-      else {
-        return 0
-      }})
-  
+      return 1
+    }
+    else {
+      return 0
+    }
+  })
+
   Graph.onBackgroundClick(() => resetcolors())
 });
 
 document.getElementById('clusterGraph').addEventListener('click', () => {
   // Remove current graph
   // Graph.resetProps();
-
-  if (isCluster) {
-    Graph = init2DGraph();
-    document.getElementById('switchGraph').textContent = 'Switch to 3D';
-  } else {
-    Graph = initClusterGraph();
-    document.getElementById('switchGraph').textContent = 'Switch to 2D';
-    Graph.zoom(5, 2000);
-  }
-  isCluster = !isCluster;
-  recolornodes();
+  var colorselector = document.getElementById("nodecolor");
+  var selectedoption = colorselector.options[colorselector.selectedIndex].value;
+  if(selectedoption != "none"){
+    if (isCluster) {
+      Graph = init2DGraph();
+      is3D = false;
+      document.getElementById('nodecolor_none').disabled = false;
+      document.getElementById('switchGraph').style.display = "block";
+      document.getElementById('switchGraph').textContent = 'Switch to 3D';
+    } else {
+      Graph = initClusterGraph();
+      rescalenodes();
+      // document.getElementById('switchGraph').textContent = 'Switch to 2D';
+      document.getElementById('nodecolor_none').disabled = true;
+      document.getElementById('switchGraph').style.display = "none";
+    }
+    isCluster = !isCluster;
+    recolornodes();
+}
 });
 // get list of all users for autocomplete
 var users = []
-for(var i in data.nodes)
-{users.push(data.nodes[i].screen_name)};
+for (var i in data.nodes) { users.push(data.nodes[i].screen_name) };
 
-// draw tweets
-function drawortweets (){
-    if (darkmode === false) {var themecol = 'light'}
-    else {var themecol = 'dark'} 
-    var name = document.getElementById("searchuser").value
-    document.getElementById("useroriginaltweets").innerHTML = "";
-    const getNode = id => {
+// Retrieves and displays original tweets by a selected user
+function drawortweets() {
+  if (darkmode === false) { var themecol = 'light' }
+  else { var themecol = 'dark' }
+  var name = document.getElementById("searchuser").value
+  document.getElementById("useroriginaltweets").innerHTML = "";
+  const getNode = id => {
     return data.nodes.find(node => node.screen_name === name);
-    };
-    var node = getNode(name)
-    highlight(node)
-    if (node.otweets != "None"){
-    for (tweet of node.otweets) {        
-        twttr.widgets.createTweet(
-          tweet,
-          document.getElementById('useroriginaltweets'),
-          {
-            theme: themecol,
-            dnt: true,
-            width: 280
-          }
-        );  }}
-    else {document.getElementById('useroriginaltweets').innerHTML = "None"}
-    
-$("#content04").slideUp(300)
-$("#content05").slideUp(300)
-$("#content04A").slideDown(300);  
+  };
+  var node = getNode(name)
+  highlight(node)
+  if (node.otweets != "None") {
+    for (tweet of node.otweets) {
+      twttr.widgets.createTweet(
+        tweet,
+        document.getElementById('useroriginaltweets'),
+        {
+          theme: themecol,
+          dnt: true,
+          width: 280
+        }
+      );
+    }
+  }
+  else { document.getElementById('useroriginaltweets').innerHTML = "None" }
+
+  $("#content04").slideUp(300)
+  $("#content05").slideUp(300)
+  $("#content04A").slideDown(300);
 }
 
-function drawretweets (){
-    if (darkmode === false) {var themecol = 'light'}
-    else {var themecol = 'dark'} 
-    var name = document.getElementById("searchuser").value
-    document.getElementById("userretweets").innerHTML = "";
-    const getNode = id => {
+//Retrieves and displays retweets by a selected user
+function drawretweets() {
+  if (darkmode === false) { var themecol = 'light' }
+  else { var themecol = 'dark' }
+  var name = document.getElementById("searchuser").value
+  document.getElementById("userretweets").innerHTML = "";
+  const getNode = id => {
     return data.nodes.find(node => node.screen_name === name);
-    };
-    var node = getNode(name)
-    highlight(node)
-    if (node.interactions != "None"){
+  };
+  var node = getNode(name)
+  highlight(node)
+  if (node.interactions != "None") {
     for (tweet of node.interactions) {
-        if (tweet != "None") {
+      if (tweet != "None") {
         twttr.widgets.createTweet(
           tweet,
           document.getElementById('userretweets'),
@@ -802,218 +852,254 @@ function drawretweets (){
             dnt: true,
             width: 280
           }
-        ); }       
-    }}
-    else {document.getElementById('userretweets').innerHTML = "None"}
+        );
+      }
+    }
+  }
+  else { document.getElementById('userretweets').innerHTML = "None" }
 
-$("#content04A").slideUp(300);
-$("#content05").slideUp(300);
-$("#content04").slideDown(300);
+  $("#content04A").slideUp(300);
+  $("#content05").slideUp(300);
+  $("#content04").slideDown(300);
 }
 
 
-// DRAW TWITTER TIMELINE
-function drawtimeline(){
-if (darkmode === false) {var themecol = 'light'}
-else {var themecol = 'dark'}        
-var name = document.getElementById("searchuser").value
-document.getElementById("twitter_timeline").innerHTML = "";
-twttr.widgets.createTimeline(
-{
-sourceType: "profile",
-screenName: name
-},
-document.getElementById("twitter_timeline"),
-{
-theme: themecol,
-height: 400,
-chrome: 'noscrollbar',
-dnt: true                    
-});
-{
-$("#content05").slideDown(300);
-$("#content04").slideUp(300)
-$("#content04A").slideUp(300)
-};                  
+// Retrieves and displays the Twitter timeline of a selected user
+function drawtimeline() {
+  if (darkmode === false) { var themecol = 'light' }
+  else { var themecol = 'dark' }
+  var name = document.getElementById("searchuser").value
+  document.getElementById("twitter_timeline").innerHTML = "";
+  twttr.widgets.createTimeline(
+    {
+      sourceType: "profile",
+      screenName: name
+    },
+    document.getElementById("twitter_timeline"),
+    {
+      theme: themecol,
+      height: 400,
+      chrome: 'noscrollbar',
+      dnt: true
+    });
+  {
+    $("#content05").slideDown(300);
+    $("#content04").slideUp(300)
+    $("#content04A").slideUp(300)
+  };
 }
 
 // USER INFO ON CLICK
-Graph.onNodeClick((node =>  {
-pastenodeinfo(node);
-$("#content03").slideDown(300)
-$("#content01").slideUp(300)
-highlight(node)
+Graph.onNodeClick((node => {
+  pastenodeinfo(node);
+  $("#content03").slideDown(300)
+  $("#content01").slideUp(300)
+  highlight(node)
 }))
 
-function highlight(node){
-var neighbors = []
-neighbors.push(node)
+function highlight(node) {
+  var neighbors = []
+  neighbors.push(node)
 
-for (link of data.links) {
-  if (link.source == node) {
-    neighbors.push(link.target)
-    link.colorthat = 1
+  for (link of data.links) {
+    if (link.source == node) {
+      neighbors.push(link.target)
+      link.colorthat = 1
+    }
+    else if (link.target == node) {
+      neighbors.push(link.source)
+      link.colorthat = 1
+    }
+    else { link.colorthat = 0 }
   }
-  else if (link.target == node){
-    neighbors.push(link.source)
-    link.colorthat = 1
+  for (node of data.nodes) {
+    if (neighbors.includes(node)) {
+      node.colorthat = 1
+    }
+    else node.colorthat = 0
   }
-  else {link.colorthat=0}
-}
-for (node of data.nodes){
-  if(neighbors.includes(node)){
-    node.colorthat = 1
-  }
-  else node.colorthat = 0}
-colorbar = ['#d3d3d3', 'red']
-Graph.nodeColor(() => 'black') 
-Graph.nodeColor(node => colorbar[node.colorthat])
-// linkcolor depending on dark/lightmode
-if (darkmode === false) {var colorbar2 = ['rgba(0,0,0,0.05)', 'rgba(255,0,0,0.5)']}
-else {var colorbar2 = ['rgba(255,255,255,0.03)', 'rgba(255,0,0,0.5)']}
-Graph.linkColor(link => colorbar2[link.colorthat])
+  colorbar = ['#d3d3d3', 'red']
+  Graph.nodeColor(() => 'black')
+  Graph.nodeColor(node => colorbar[node.colorthat])
+  // linkcolor depending on dark/lightmode
+  if (darkmode === false) { var colorbar2 = ['rgba(0,0,0,0.05)', 'rgba(255,0,0,0.5)'] }
+  else { var colorbar2 = ['rgba(255,255,255,0.03)', 'rgba(255,0,0,0.5)'] }
+  Graph.linkColor(link => colorbar2[link.colorthat])
 }
 Graph.linkDirectionalParticles(link => {
   if (link.colorthat == 1) {
-    return 1}
-    else {
-      return 0
-    }})
+    return 1
+  }
+  else {
+    return 0
+  }
+})
 
 Graph.onBackgroundClick(() => resetcolors())
 
-function resetcolors(){
-var bodyelement = document.querySelector('body')
-var bodystyle = window.getComputedStyle(bodyelement)
-var bg = bodystyle.getPropertyValue('color')
-if (bg === 'rgb(0, 0, 0)') {
-  var linkcol = 'rgba(0,0,0,0.2)'}
-if (bg === 'rgb(255, 255, 255)') {
-  var linkcol = 'rgba(255,255,255,0.2)'}
+function resetcolors() {
+  var bodyelement = document.querySelector('body')
+  var bodystyle = window.getComputedStyle(bodyelement)
+  var bg = bodystyle.getPropertyValue('color')
+  if (bg === 'rgb(0, 0, 0)') {
+    var linkcol = 'rgba(0,0,0,0.2)'
+  }
+  if (bg === 'rgb(255, 255, 255)') {
+    var linkcol = 'rgba(255,255,255,0.2)'
+  }
 
-recolornodes()
-Graph.linkColor(() => linkcol)}
+  recolornodes()
+  Graph.linkColor(() => linkcol)
+}
 
 
 var input = document.getElementById("searchuser");
 new Awesomplete(input, {
-list: users
+  list: users
 });
 
 // ZOOM ON USER
-function zoomonuser(){
-var name = document.getElementById("searchuser").value;
-const getNode = id => {
-return data.nodes.find(node => node.screen_name === name);
+function zoomonuser() {
+  var name = document.getElementById("searchuser").value;
+  const getNode = id => {
+    return data.nodes.find(node => node.screen_name === name);
+  }
+  var nodeathand = getNode(name)
+  Graph.centerAt(nodeathand.x, nodeathand.y, 1000); Graph.zoom(8, 2000);
+  console.log(nodeathand);
 }
-var nodeathand = getNode(name)
-Graph.centerAt(nodeathand.x, nodeathand.y, 1000);Graph.zoom(8, 2000);
-console.log(nodeathand);}
 
 // FLASH COLOR
-function flashcolor(){
-var bodyelement = document.querySelector('body')
-var bodystyle = window.getComputedStyle(bodyelement)
-var bg = bodystyle.getPropertyValue('color')
-if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
-if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
-var name = document.getElementById("searchuser").value;
-const getNode = id => {
-return data.nodes.find(node => node.screen_name === name);
-};
-var nodeathand = getNode(name)
-console.log(nodeathand)
-originalcolor = nodeathand.color
-Graph.nodeColor(node => {
-if (node.screen_name === name) {
-return "red";
+function flashcolor() {
+  var bodyelement = document.querySelector('body')
+  var bodystyle = window.getComputedStyle(bodyelement)
+  var bg = bodystyle.getPropertyValue('color')
+  if (bg === 'rgb(0, 0, 0)') { var nodecol = 'black' }
+  if (bg === 'rgb(255, 255, 255)') { var nodecol = 'white' }
+  var name = document.getElementById("searchuser").value;
+  const getNode = id => {
+    return data.nodes.find(node => node.screen_name === name);
+  };
+  var nodeathand = getNode(name)
+  console.log(nodeathand)
+  originalcolor = nodeathand.color
+  Graph.nodeColor(node => {
+    if (node.screen_name === name) {
+      return "red";
+    }
+    else { return nodecol }
+  });
+  setTimeout(function () {
+    Graph.nodeColor(node => {
+      if (node.screen_name === name) {
+        return nodecol;
+      }
+      else { return nodecol }
+    });
+  }, 250);
 }
-else {return nodecol}
-});
-setTimeout(function(){            
-Graph.nodeColor(node => {
-if (node.screen_name === name) {
-return nodecol;
-}
-else {return nodecol}
-});
-}, 250);}
 
-function resetzoom(){
-Graph.centerAt(0, 0,1000);Graph.zoom(0.4, 1000)
+function resetzoom() {
+  Graph.centerAt(0, 0, 1000); Graph.zoom(0.4, 1000)
 }
 
 // LIGHT / DARK MODE
-function toggle_darkmode(){
-    
-    if (darkmode == false) 
-    {
-        document.documentElement.setAttribute('data-theme', 'darktheme');
-        Graph.linkColor(() => 'rgba(255,255,255,0.2)');
-        var colorselector = document.getElementById("nodecolor");
-        var selectedoption = colorselector.options[colorselector.selectedIndex].value               
-        if (selectedoption === "none") {Graph.nodeColor(() => 'white')}
-        darkmode = true 
-    }
-    else 
-    {
-        document.documentElement.setAttribute('data-theme', 'lighttheme');
-        Graph.linkColor(() => 'rgba(0,0,0,0.2)');
-        var colorselector = document.getElementById("nodecolor");
-        var selectedoption = colorselector.options[colorselector.selectedIndex].value                               
-        if (selectedoption === "none") {Graph.nodeColor(() => 'black')}
-        darkmode = false 
-    }
+function toggle_darkmode() {
+
+  if (darkmode == false) {
+    document.documentElement.setAttribute('data-theme', 'darktheme');
+    Graph.linkColor(() => 'rgba(255,255,255,0.2)');
+    var colorselector = document.getElementById("nodecolor");
+    var selectedoption = colorselector.options[colorselector.selectedIndex].value
+    if (selectedoption === "none") { Graph.nodeColor(() => 'white') }
+    darkmode = true
+  }
+  else {
+    document.documentElement.setAttribute('data-theme', 'lighttheme');
+    Graph.linkColor(() => 'rgba(0,0,0,0.2)');
+    var colorselector = document.getElementById("nodecolor");
+    var selectedoption = colorselector.options[colorselector.selectedIndex].value
+    if (selectedoption === "none") { Graph.nodeColor(() => 'black') }
+    darkmode = false
+  }
 }
 
 // RECOLOR NODES
 var colorscale = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
 document.getElementById("nodecolor").addEventListener("change", recolornodes);
 
-function recolornodes(){
-var colorselector = document.getElementById("nodecolor");
-var selectedoption = colorselector.options[colorselector.selectedIndex].value
-if (selectedoption != "none"){
-Graph.nodeColor(node => colorscale[node[selectedoption]])}            
-else { 
-var bodyelement = document.querySelector('body')
-var bodystyle = window.getComputedStyle(bodyelement)
-var bg = bodystyle.getPropertyValue('color')
-if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
-if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
-Graph.nodeColor(node => nodecol)} }
+function recolornodes() {
+  if(isCluster){
+    Graph = initClusterGraph();
+  }
+  var colorselector = document.getElementById("nodecolor");
+  var selectedoption = colorselector.options[colorselector.selectedIndex].value
+  if (selectedoption != "none") {
+    Graph.nodeColor(node => colorscale[node[selectedoption]])
+  }
+  else {
+    var bodyelement = document.querySelector('body')
+    var bodystyle = window.getComputedStyle(bodyelement)
+    var bg = bodystyle.getPropertyValue('color')
+    if (bg === 'rgb(0, 0, 0)') { var nodecol = 'black' }
+    if (bg === 'rgb(255, 255, 255)') { var nodecol = 'white' }
+    Graph.nodeColor(node => nodecol)
+  }
+}
+
+
+
+
 
 // NODE SIZE
 document.getElementById("slido").addEventListener("change", rescalenodes);
-function rescalenodes(){
+function rescalenodes() {
+  let follower_scale = 0.000005
+  let friends_scale = 0.001
+  let out_degree_scale = 0.1
+  let in_degree_scale = 0.1
+  if (isCluster) {
+    follower_scale = 0.000001
+    friends_scale = 0.000005
+    out_degree_scale = 0.01
+    in_degree_scale = 0.01
+
+  }
+
   var nodescaleslider = document.getElementById("slido");
-  var newscale = nodescaleslider.value  
+  var newscale = nodescaleslider.value
   var sizeselector = document.getElementById("nodesize");
   var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
-  if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.000005 * newscale)}            
-  else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001 * newscale)}
-  else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}
-  else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}              
+  if (selectedoption === "followers") { Graph.nodeVal(node => node[selectedoption] * follower_scale * newscale) }
+  else if (selectedoption === "friends") { Graph.nodeVal(node => node[selectedoption] * friends_scale * newscale) }
+  else if (selectedoption === "out_degree") { Graph.nodeVal(node => node[selectedoption] * out_degree_scale * newscale) }
+  else if (selectedoption === "in_degree") { Graph.nodeVal(node => node[selectedoption] * in_degree_scale * newscale) }
+
 }
 
 document.getElementById("nodesize").addEventListener("change", changenodesize);
-function changenodesize(){
-var sizeselector = document.getElementById("nodesize");
-var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
-if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.00005)}            
-else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.001)}
-else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}
-else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}              
-else { Graph.nodeVal(node => 1.0)} 
+function changenodesize() {
+  let follower_scale = 0.000005
+  let friends_scale = 0.001
+  let out_degree_scale = 0.1
+  let in_degree_scale = 0.1
+
+  var sizeselector = document.getElementById("nodesize");
+  var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
+  if (selectedoption === "followers") { Graph.nodeVal(node => node[selectedoption] * follower_scale) }
+  else if (selectedoption === "friends") { Graph.nodeVal(node => node[selectedoption] * friends_scale) }
+  else if (selectedoption === "out_degree") { Graph.nodeVal(node => node[selectedoption] * out_degree_scale) }
+  else if (selectedoption === "in_degree") { Graph.nodeVal(node => node[selectedoption] * in_degree_scale) }
+  else { Graph.nodeVal(node => 1.0) }
 }
 
-$(function() {
-var colval="none"; 
-$("#nodecolor").val(colval);
+$(function () {
+  var colval = "none";
+  $("#nodecolor").val(colval);
 });
-$(function() {
-var sizeval="in_degree"; 
-$("#nodesize").val(sizeval);
+$(function () {
+  var sizeval = "in_degree";
+  $("#nodesize").val(sizeval);
 });
 
 
@@ -1035,257 +1121,265 @@ document.getElementById('content02').innerHTML = netmeasures
 document.getElementById('version_number').innerHTML = data.version_number
 
 // NODE INFO
-function pastenodeinfo(node){
-userinfostring = `<ul> 
+function pastenodeinfo(node) {
+  userinfostring = `<ul> 
 <li> Followers: ${node.followers}
 <li> Followed accounts: ${node.friends}
 <li> Times the user ${interaction_type_past.split(' ')[0]}: ${node.out_degree}
 <li> Times the user got ${interaction_type_past}: ${node.in_degree}`
-if ("louvain_com" in node){
+  if ("louvain_com" in node) {
     userinfostring += `<li> Louvain community: ${node.louvain_com}`
-}
-if ("leiden_com" in node){
+  }
+  if ("leiden_com" in node) {
     userinfostring += `<li> Leiden community: ${node.leiden_com}`
-}
-userinfostring += `</ul>`
-document.getElementById('userinfostring').innerHTML = userinfostring
-document.getElementById("searchuser").value = node.screen_name
+  }
+  userinfostring += `</ul>`
+  document.getElementById('userinfostring').innerHTML = userinfostring
+  document.getElementById("searchuser").value = node.screen_name
 }
 
 
 var interaction_type = data.graph.type.split(' ')[0].toLowerCase()
 
-if (interaction_type == "retweet"){
-    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got retweeted)"
-    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account retweeted another)"    
-    document.getElementById('panel04').innerHTML = "RETWEETS IN DATASET"
-    document.getElementById('fetch_interaction').innerHTML = "Fetch retweets"
-    var interaction_type_past = "retweeted"
+if (interaction_type == "retweet") {
+  document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got retweeted)"
+  document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account retweeted another)"
+  document.getElementById('panel04').innerHTML = "RETWEETS IN DATASET"
+  document.getElementById('fetch_interaction').innerHTML = "Fetch retweets"
+  var interaction_type_past = "retweeted"
 }
 
-if (interaction_type == "quote"){
-    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got quoted)"
-    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account quoted another)"    
-    document.getElementById('panel04').innerHTML = "QUOTES IN DATASET"
-    document.getElementById('fetch_interaction').innerHTML = "Fetch quotes"
-    var interaction_type_past = "quoted"
+if (interaction_type == "quote") {
+  document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got quoted)"
+  document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account quoted another)"
+  document.getElementById('panel04').innerHTML = "QUOTES IN DATASET"
+  document.getElementById('fetch_interaction').innerHTML = "Fetch quotes"
+  var interaction_type_past = "quoted"
 }
-if (interaction_type == "reply"){
-    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got replied to)"
-    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account replied to another)"    
-    document.getElementById('panel04').innerHTML = "REPLIES IN DATASET"
-    document.getElementById('fetch_interaction').innerHTML = "Fetch replies"
-    var interaction_type_past = "replied to"
+if (interaction_type == "reply") {
+  document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got replied to)"
+  document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account replied to another)"
+  document.getElementById('panel04').innerHTML = "REPLIES IN DATASET"
+  document.getElementById('fetch_interaction').innerHTML = "Fetch replies"
+  var interaction_type_past = "replied to"
 }
-if (interaction_type == "mention"){
-    document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got mentioned)"
-    document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account mentioned another)"    
-    document.getElementById('panel04').innerHTML = "MENTIONS IN DATASET"
-    document.getElementById('fetch_interaction').innerHTML = "Fetch mentions"
-    var interaction_type_past = "mentioned"
-    document.getElementById('fetch_originaltweet').style="display:none"
-    document.getElementById('originaltweetsborders').style="display:none"    
+if (interaction_type == "mention") {
+  document.getElementById('indegreeoption').innerHTML = "In-Degree (Number of times the account got mentioned)"
+  document.getElementById('outdegreeoption').innerHTML = "Out-Degree (Number of times the account mentioned another)"
+  document.getElementById('panel04').innerHTML = "MENTIONS IN DATASET"
+  document.getElementById('fetch_interaction').innerHTML = "Fetch mentions"
+  var interaction_type_past = "mentioned"
+  document.getElementById('fetch_originaltweet').style = "display:none"
+  document.getElementById('originaltweetsborders').style = "display:none"
 }
 
 $("#content00").slideToggle(300)
 
-function toggle_linkvisibility(){
-    if (Graph.linkVisibility() == true){
-        Graph.linkVisibility(false)
+function toggle_linkvisibility() {
+  if (Graph.linkVisibility() == true) {
+    Graph.linkVisibility(false)
+  }
+  else { Graph.linkVisibility(true) }
+}
+
+function make_screenshot() {
+  // var canvas = document.getElementsByClassName('force-graph-container')[0]['children'][0];
+  var canvas = document.getElementById('graph')['children'][0]['children'][0]
+  console.log(canvas)
+  var link = document.getElementById('camera');
+  link.setAttribute('download', 'screenshot.png');
+  link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+  link.click()
+}
+
+function export_nodes_as_csv() {
+  var csv_string = ""
+  var options = Object.keys(data.nodes[0])
+  var to_disregard = ['otweets', 'interactions', 'vx', 'vy', 'index']
+  var filtered_options = options.filter(function (e) { return !to_disregard.includes(e) })
+  for (option of filtered_options) { csv_string += option; csv_string += "," }
+  csv_string = csv_string.slice(0, -1)
+  csv_string += "\n"
+  for (var i = 0; i < data.nodes.length; ++i)
+  // for (var i = 0; i < 2; ++i)
+  {
+    node = data.nodes[i]
+    for (option of filtered_options) {
+      csv_string += node[option]
+      csv_string += ","
     }
-    else {Graph.linkVisibility(true)}
-}
-
-function make_screenshot(){
-// var canvas = document.getElementsByClassName('force-graph-container')[0]['children'][0];
-var canvas = document.getElementById('graph')['children'][0]['children'][0]
-console.log(canvas)
-var link = document.getElementById('camera');
-link.setAttribute('download', 'screenshot.png');
-link.setAttribute('href', canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-link.click()
-}
-
-function export_nodes_as_csv(){
-    var csv_string = ""
-    var options = Object.keys(data.nodes[0])
-    var to_disregard = ['otweets','interactions','vx','vy','index']
-    var filtered_options = options.filter(function(e) { return !to_disregard.includes(e)})
-    for (option of filtered_options)
-        {csv_string += option;csv_string += ","}
     csv_string = csv_string.slice(0, -1)
     csv_string += "\n"
-    for (var i = 0; i < data.nodes.length; ++i)
-    // for (var i = 0; i < 2; ++i)
-        {
-            node = data.nodes[i]
-            for (option of filtered_options){
-                csv_string += node[option]
-                csv_string += ","
-            }
-            csv_string = csv_string.slice(0, -1)
-            csv_string += "\n"
-        }
-    csv_string = csv_string.slice(0, -1)
-    var blob = new Blob([csv_string],
-      { type: "text/plain;charset=utf-8" });
-    saveAs(blob, "nodes_metadata.csv");
+  }
+  csv_string = csv_string.slice(0, -1)
+  var blob = new Blob([csv_string],
+    { type: "text/plain;charset=utf-8" });
+  saveAs(blob, "nodes_metadata.csv");
 }
 
-function d3graph_to_gml(){
+function d3graph_to_gml() {
   var gml_string = "graph\n[\n"
   var options = Object.keys(data.nodes[0])
-  var to_disregard = ['otweets','interactions','vx','vy','index']
-  var filtered_options = options.filter(function(e) { return !to_disregard.includes(e)})
-  for (var i = 0; i < data.nodes.length; ++i){
+  var to_disregard = ['otweets', 'interactions', 'vx', 'vy', 'index']
+  var filtered_options = options.filter(function (e) { return !to_disregard.includes(e) })
+  for (var i = 0; i < data.nodes.length; ++i) {
     node = data.nodes[i]
     gml_string += "node\n"
     gml_string += "[\n"
-    for (option of filtered_options){
+    for (option of filtered_options) {
       if (node[option].constructor !== Array || typeof node[option] !== 'object') {
-      if (typeof node[option] === 'string' || node[option] instanceof String){
-        gml_string += option + " " + '"' + node[option] + '"' + "\n"
+        if (typeof node[option] === 'string' || node[option] instanceof String) {
+          gml_string += option + " " + '"' + node[option] + '"' + "\n"
+        }
+        else {
+          gml_string += option + " " + node[option] + "\n"
+        }
       }
-      else {
-      gml_string += option + " " + node[option] + "\n"
-    }}}
+    }
     gml_string += "]\n"
   }
-  for (var i = 0; i < data.links.length; ++i){
+  for (var i = 0; i < data.links.length; ++i) {
     link = data.links[i], source = link.source, target = link.target;
     gml_string += "edge\n"
-    gml_string += "[\n" 
+    gml_string += "[\n"
     gml_string += "source " + source.id + "\n"
     gml_string += "target " + target.id + "\n"
     gml_string += "]\n"
   }
   gml_string += "]"
   var blob = new Blob([gml_string],
-      { type: "text/plain;charset=utf-8" });
+    { type: "text/plain;charset=utf-8" });
   saveAs(blob, "network.gml");
 }
 
-function export_coordinates(){
-  if(!is3D && !isCluster){
-    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, leiden: d.leiden_com, louvain: d.louvain_com }; });
+function export_coordinates() {
+  if (!is3D && !isCluster) {
+    var positions = data.nodes.map(function (d) { return { id: d.id, screen_name: d.screen_name, x: d.x, y: d.y, leiden: d.leiden_com, louvain: d.louvain_com }; });
     var jsonPostition = JSON.stringify(positions);
-    var blob = new Blob([jsonPostition], {type: "application/json"});
+    var blob = new Blob([jsonPostition], { type: "application/json" });
     saveAs(blob, "positions.json")
   }
-  if(is3D && !isCluster){
-    var positions = data.nodes.map(function(d) { return {id: d.id, screen_name: d.screen_name, x:d.x, y:d.y, z:d.z, leiden: d.leiden_com, louvain: d.louvain_com }; });
+  if (is3D && !isCluster) {
+    var positions = data.nodes.map(function (d) { return { id: d.id, screen_name: d.screen_name, x: d.x, y: d.y, z: d.z, leiden: d.leiden_com, louvain: d.louvain_com }; });
     var jsonPostition = JSON.stringify(positions);
-    var blob = new Blob([jsonPostition], {type: "application/json"});
+    var blob = new Blob([jsonPostition], { type: "application/json" });
     saveAs(blob, "positions3D.json")
   }
 }
 
 
-    function monthDiff(d1, d2) {
-        var months;
-        months = (d2.getFullYear() - d1.getFullYear()) * 12;
-        months -= d1.getMonth();
-        months += d2.getMonth();
-        return months <= 0 ? 0 : months;
-    }        
-    function dayDiff(d1, d2) {
-        const oneDay = 24 * 60 * 60 * 1000;
-        var days;
-        var diffDays = Math.round(Math.abs((d1 - d2) / oneDay));
-        return diffDays
-    }        
+function monthDiff(d1, d2) {
+  var months;
+  months = (d2.getFullYear() - d1.getFullYear()) * 12;
+  months -= d1.getMonth();
+  months += d2.getMonth();
+  return months <= 0 ? 0 : months;
+}
+function dayDiff(d1, d2) {
+  const oneDay = 24 * 60 * 60 * 1000;
+  var days;
+  var diffDays = Math.round(Math.abs((d1 - d2) / oneDay));
+  return diffDays
+}
 
-    function padStr(i) {
-        return (i < 10) ? "0" + i : "" + i;
-    }
-    function addMonths(date, months) {
-        var d = date.getDate();
-        date.setMonth(date.getMonth() + +months);
-        if (date.getDate() != d) {
-          date.setDate(0);
-        }
-        return date;
-    }
-    function addDays(date, days) {
-        var d = date.getDate();
-        date.setDate(date.getDate() + +days);
-        // if (date.getDate() != d) {
-        //   date.setDate(0);
-        // }
-        return date;
-    }
+function padStr(i) {
+  return (i < 10) ? "0" + i : "" + i;
+}
+function addMonths(date, months) {
+  var d = date.getDate();
+  date.setMonth(date.getMonth() + +months);
+  if (date.getDate() != d) {
+    date.setDate(0);
+  }
+  return date;
+}
+function addDays(date, days) {
+  var d = date.getDate();
+  date.setDate(date.getDate() + +days);
+  // if (date.getDate() != d) {
+  //   date.setDate(0);
+  // }
+  return date;
+}
 
-    // FILTER EDGES BY DATE SECTION
-    var all_dates = []
-    for (link of data.links){all_dates.push(new Date(link.ts * 1000))}
-    all_dates.sort((date1, date2) => date1 - date2)
+// FILTER EDGES BY DATE SECTION
+var all_dates = []
+for (link of data.links) { all_dates.push(new Date(link.ts * 1000)) }
+all_dates.sort((date1, date2) => date1 - date2)
 
-    // get the number of elements in the slider
-    var n_days = dayDiff(all_dates[0],all_dates[all_dates.length-1]) + 1
+// get the number of elements in the slider
+var n_days = dayDiff(all_dates[0], all_dates[all_dates.length - 1]) + 1
 
-    var first_year = all_dates[0].getFullYear()
-    var first_month = all_dates[0].getMonth()+1
-    var first_day = all_dates[0].getDay()+1
-    var idx_to_date = {} 
-    var idx_to_timestamp = {} 
+var first_year = all_dates[0].getFullYear()
+var first_month = all_dates[0].getMonth() + 1
+var first_day = all_dates[0].getDay() + 1
+var idx_to_date = {}
+var idx_to_timestamp = {}
 
-    for (let i = 0; i < n_days; i++){
-        var newdate = new Date(all_dates[0].getTime());        
-        newdate = addDays(newdate,i)
-        // console.log(i)
-        // idx_to_date[i] = `${first_year}-${first_month}+${i}`
-        newdate.setHours(0,0,0,0);
-        idx_to_date[i] = padStr(newdate.getFullYear())+"-"+padStr(1 + newdate.getMonth())+"-"+padStr(newdate.getDate())
-        idx_to_timestamp[i] = newdate.getTime() / 1000
-        }
+for (let i = 0; i < n_days; i++) {
+  var newdate = new Date(all_dates[0].getTime());
+  newdate = addDays(newdate, i)
+  // console.log(i)
+  // idx_to_date[i] = `${first_year}-${first_month}+${i}`
+  newdate.setHours(0, 0, 0, 0);
+  idx_to_date[i] = padStr(newdate.getFullYear()) + "-" + padStr(1 + newdate.getMonth()) + "-" + padStr(newdate.getDate())
+  idx_to_timestamp[i] = newdate.getTime() / 1000
+}
 // console.log(all_dates)
 // console.log(idx_to_date)
 
-document.getElementById("time_slider").max = n_days-1;
+document.getElementById("time_slider").max = n_days - 1;
 document.getElementById("time_slider").addEventListener("change", filter_edges_by_time);
 
-function filter_edges_by_time(){        
-    var timeslider = document.getElementById("time_slider").value;
-    // console.log(idx_to_date[timeslider])
-    var show_this_date = idx_to_date[timeslider]
-    var compute_this_date = idx_to_timestamp[timeslider]
-    // console.log(new Date(compute_this_date * 1000))
-    document.getElementById("current_time_filter").innerHTML = show_this_date        
+function filter_edges_by_time() {
+  var timeslider = document.getElementById("time_slider").value;
+  // console.log(idx_to_date[timeslider])
+  var show_this_date = idx_to_date[timeslider]
+  var compute_this_date = idx_to_timestamp[timeslider]
+  // console.log(new Date(compute_this_date * 1000))
+  document.getElementById("current_time_filter").innerHTML = show_this_date
 
-    // USE THIS IF YOU ONLY WANT TO ALTER THE LINKS
-    // for (link of data.links){    
-    //     if (link.ts > compute_this_date && link.ts < compute_this_date+(60*60*24)) {link.show=true;temporal_nodes.push(link.source);temporal_nodes.push(link.target) }
-    //     else {link.show=false}}
+  // USE THIS IF YOU ONLY WANT TO ALTER THE LINKS
+  // for (link of data.links){    
+  //     if (link.ts > compute_this_date && link.ts < compute_this_date+(60*60*24)) {link.show=true;temporal_nodes.push(link.source);temporal_nodes.push(link.target) }
+  //     else {link.show=false}}
 
-    for (link of data.links){
-        link.source.show=false
-        link.target.show=false
+  for (link of data.links) {
+    link.source.show = false
+    link.target.show = false
+  }
+  for (link of data.links) {
+    if (link.ts >= compute_this_date && link.ts <= compute_this_date + (60 * 60 * 24)) {
+      link.show = true;
+      link.source.show = true;
+      link.target.show = true;
     }
-    for (link of data.links){
-        if (link.ts >= compute_this_date && link.ts <= compute_this_date+(60*60*24)) 
-            {link.show=true;
-             link.source.show=true;
-             link.target.show=true;}
-        else {link.show=false}}
+    else { link.show = false }
+  }
 
 
-    Graph.linkVisibility(link => link.show)
+  Graph.linkVisibility(link => link.show)
 
-    var colorselector = document.getElementById("nodecolor");
-    var selectedoption = colorselector.options[colorselector.selectedIndex].value
-    if (selectedoption != "none"){
-    Graph.nodeColor(node => {if (node.show == true) {return colorscale[node[selectedoption]]} 
-                             else {return 'rgba(0,0,0,0.07)'}   })
-                                 }            
-    else { 
+  var colorselector = document.getElementById("nodecolor");
+  var selectedoption = colorselector.options[colorselector.selectedIndex].value
+  if (selectedoption != "none") {
+    Graph.nodeColor(node => {
+      if (node.show == true) { return colorscale[node[selectedoption]] }
+      else { return 'rgba(0,0,0,0.07)' }
+    })
+  }
+  else {
     var bodyelement = document.querySelector('body')
     var bodystyle = window.getComputedStyle(bodyelement)
     var bg = bodystyle.getPropertyValue('color')
-    if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
-    if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
-    Graph.nodeColor(node => {if (node.show == true) {return nodecol} 
-                             else {return 'rgba(0,0,0,0.07)'}   })}
-    // Graph.nodeVisibility(node => node.show)
-    }
-</script>
-</body>
+    if (bg === 'rgb(0, 0, 0)') { var nodecol = 'black' }
+    if (bg === 'rgb(255, 255, 255)') { var nodecol = 'white' }
+    Graph.nodeColor(node => {
+      if (node.show == true) { return nodecol }
+      else { return 'rgba(0,0,0,0.07)' }
+    })
+  }
+  // Graph.nodeVisibility(node => node.show)
+}
+</script >
+</body >

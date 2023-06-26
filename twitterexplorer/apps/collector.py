@@ -3,7 +3,7 @@
 ## =============================================================================
 
 import sys
-sys.path.append("/home/pg/Documents/twitter-explorer/")
+sys.path.append("/home/dominik/Documents/twitter explorer/twitter-explorer")
 
 import streamlit as st
 import tweepy

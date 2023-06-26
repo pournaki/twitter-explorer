@@ -204,7 +204,8 @@
     function openWebsite(page) {
       // Replace 'website_directory' with the actual directory where your websites are located
       // Replace 'html_extension' with the actual extension of your HTML files (e.g., '.html')
-      var websiteDirectory = '/home/felix/Documents/bif/inno2/twitter-explorer/examples/';
+      var loc = window.location.pathname
+      var websiteDirectory = loc.substring(0,loc.lastIndexOf('/')+1);
       var htmlExtension = '.html';
 
       var url = websiteDirectory + page.replace(/ /g, '_') + htmlExtension;

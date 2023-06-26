@@ -526,10 +526,15 @@ function rescalenodes() {
 
 document.getElementById("nodesize").addEventListener("change", changenodesize);
 function changenodesize() {
+  let follower_scale = 0.000005
+  let friends_scale = 0.001
+  let out_degree_scale = 0.1
+  let in_degree_scale = 0.1
+
   var sizeselector = document.getElementById("nodesize");
   var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
   if (selectedoption === "followers") { Graph.nodeVal(node => node[selectedoption] * follower_scale) }
-  else if (selectedoption === "friends") { Graph.nodeVal(node => node[selectedoption] * follower_scale) }
+  else if (selectedoption === "friends") { Graph.nodeVal(node => node[selectedoption] * friends_scale) }
   else if (selectedoption === "out_degree") { Graph.nodeVal(node => node[selectedoption] * out_degree_scale) }
   else if (selectedoption === "in_degree") { Graph.nodeVal(node => node[selectedoption] * in_degree_scale) }
   else { Graph.nodeVal(node => 1.0) }
