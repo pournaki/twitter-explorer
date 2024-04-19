@@ -61,7 +61,7 @@ def file_selector(folder_path='.'):
     filenames = list(reversed(sorted(filenames)))
     filenames.insert(0,'---')
     selected_filename = st.selectbox(
-        'Select a tweet collection inside ./data in JSONL (raw Twitter API v1.1) or CSV (twitwi/minet standard)', 
+        'Select a tweet collection inside ./data ending with CSV (twitwi/minet standard), NDJSON (Zeeschuimer standard) or JSONL (raw Twitter API v1.1)', 
         filenames,
         help='The function that loads the data uses @st.cache to speed up \
               repeated loading of the same dataset. If your dataset has changed\
