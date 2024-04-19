@@ -58,7 +58,7 @@ if filename not in [datapath+"---",datapath+"\\---"]:
     outputdir = DEFAULT_OUTPUT_DIR
     projectdir = outputdir + project
 
-    @st.cache
+    @st.cache_data
     def load_data(path):
         try:
             df = pd.read_csv(path,
