@@ -5,3 +5,4 @@ python-igraph>=0.9.8
 twitwi>=0.15.0
 twarc>=2.9.4
 louvain>=0.8.0
+ebbe>=1.13.2
