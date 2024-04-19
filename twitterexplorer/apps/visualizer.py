@@ -18,6 +18,7 @@ from twitterexplorer.helpers import *
 from twitterexplorer.streamlitutils import *
 from twitterexplorer.plotting import *
 from twitterexplorer.converters import twitterjsonl_to_twitwicsv
+from twitterexplorer.converters import zeeschuimerjsonl_to_twitwicsv
 from twitterexplorer.converters import export_graph
 from twitterexplorer.defaults import *
 from twitterexplorer.constants import *
@@ -81,11 +82,16 @@ if filename not in [datapath+"---",datapath+"\\---"]:
         df = load_data(filename)
     elif filename[-5:] == "jsonl":
         ## convert to twitwi csv
-        with st.spinner("Converting to twitwi csv..."):
+        with st.spinner("Converting raw API to twitwi csv..."):
             twitterjsonl_to_twitwicsv(filename)
         filename = filename.replace("jsonl","csv")
         df = load_data(filename)
-    
+    elif filename[-6:] == "ndjson":
+        ## convert to twitwi csv
+        with st.spinner("Converting Zeeschuimer to twitwi csv..."):
+            zeeschuimerjsonl_to_twitwicsv(filename)
+        filename = filename.replace("ndjson","csv")
+        df = load_data(filename)    
     timeseries = tweetdf_to_timeseries(df,frequency="1H")
     timeseries_plot = plot_timeseries(timeseries)
     st.altair_chart(timeseries_plot, use_container_width=True)
