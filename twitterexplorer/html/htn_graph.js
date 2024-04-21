@@ -3,6 +3,9 @@ var colorselector = document.getElementById("nodecolor");
 var nodescaling = 3;
 var darkmode = false
 
+if (data.graph.cooc == "mention"){var prefix = "@"}
+else if (data.graph.cooc == "hashtag"){var prefix = "#"}
+
 // get node color options
 ms = document.getElementById('nodecolor')
 if ('louvain_com' in data.nodes[0]){ms.innerHTML+=`<option value = "louvain_com">Louvain community</option>\n`}
@@ -27,7 +30,7 @@ const Graph = ForceGraph()(elem)
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = "black";
-  ctx.fillText("#"+label, node.x, node.y);
+  ctx.fillText(prefix+label, node.x, node.y);
 }) 
 .nodeId('id')
 .linkHoverPrecision(10)
@@ -81,7 +84,7 @@ var name = document.getElementById("searchuser").value;
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = colorbar[node.colorthat];
-          ctx.fillText("#"+label, node.x, node.y);
+          ctx.fillText(prefix+label, node.x, node.y);
         })
     // linkcolor depending on dark/lightmode
     var bodyelement = document.querySelector('body')
@@ -115,7 +118,7 @@ var name = document.getElementById("searchuser").value;
         if (selectedoption == "louvain_com" ) {ctx.fillStyle = colorscale[node["louvain_com"]];}
         else if (selectedoption == "leiden_com" ) {ctx.fillStyle = colorscale[node["leiden_com"]];}                
         else { if (darkmode == true) {ctx.fillStyle = "white";} else {ctx.fillStyle = "black";}}
-          ctx.fillText("#"+label, node.x, node.y);
+          ctx.fillText(prefix+label, node.x, node.y);
         })
         if (darkmode == false){Graph.linkColor(link => 'rgba(0,0,0,0.1)')}
         else {Graph.linkColor(link => 'rgba(255,255,255,0.2)')}
@@ -168,7 +171,7 @@ Graph.nodeCanvasObject((node, ctx, globalScale) => {
       else if (bytype == "leiden_com"){ctx.fillStyle = colorscale[node["leiden_com"]]}        
       else {ctx.fillStyle = "white"}
       ;
-      ctx.fillText("#"+label, node.x, node.y);
+      ctx.fillText(prefix+label, node.x, node.y);
     })
 }
 
@@ -192,7 +195,7 @@ Graph.nodeCanvasObject((node, ctx, globalScale) => {
       else if (bytype == "leiden_com"){ctx.fillStyle = colorscale[node["leiden_com"]]}        
       else {ctx.fillStyle = "black"}
       ;
-      ctx.fillText("#"+label, node.x, node.y);
+      ctx.fillText(prefix+label, node.x, node.y);
     })
 }    
 }
@@ -220,7 +223,7 @@ Graph.nodeCanvasObject((node, ctx, globalScale) => {
       else if (bytype == "leiden_com"){ctx.fillStyle = colorscale[node["leiden_com"]]}        
       else {ctx.fillStyle = "black"}
       ;
-      ctx.fillText("#"+label, node.x, node.y);
+      ctx.fillText(prefix+label, node.x, node.y);
     })}
 
 document.getElementById("nodecolor").addEventListener("change", recolornodes);
@@ -241,7 +244,13 @@ function recolornodes(){
 
 function openhashtag(){ 
   var hashtagname = document.getElementById("searchuser").value;
-  window.open(`https://twitter.com/search?q=%23${hashtagname}`, '_blank');
+  if (data.graph.cooc == "hashtag") {
+      window.open(`https://twitter.com/search?q=%23${hashtagname}`, '_blank');
+  }
+  else if (data.graph.cooc == "mention") {
+      window.open(`https://twitter.com/${hashtagname}`, '_blank');
+  }
+
   }
 
 // NODE SIZE
@@ -268,7 +277,7 @@ function rescalenodes(){
     else if (selectedoption == "leiden_com" ) {ctx.fillStyle = colorscale[node["leiden_com"]];}    
     else {ctx.fillStyle = "black";}
     
-    ctx.fillText("#"+label, node.x, node.y);
+    ctx.fillText(prefix+label, node.x, node.y);
   })  
 
 }

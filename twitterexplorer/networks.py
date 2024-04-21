@@ -351,10 +351,12 @@ class SemanticNetwork():
         self._community_detection = {'louvain':False,
                                      'leiden':False}
         self._d3dict = None
-        
+        self._networktype = None
+        self._networktype_html = None
 
     def build_network(self, 
                       pandas_dataframe,
+                      network_type="hashtag",
                       hashtags_to_remove=None,
                       starttime=None,
                       endtime=None,
@@ -372,15 +374,25 @@ class SemanticNetwork():
         from i to j if i retweeted j
         """    
 
+        if network_type == "hashtag":
+            type_field = "hashtags"
+            self._networktype = "hashtag"            
+            self._networktype_html = "Co-hashtag network"
+        elif network_type == "mention":
+            type_field = "mentioned_names"
+            self._networktype = "mention"
+            self._networktype_html = "Co-mention network"
+
         hdf = pandas_dataframe.copy()
         if language_filter != None:
             hdf = hdf[hdf['lang'].isin(language_filter)]
 
         if starttime != None and endtime != None:
             hdf = hdf[(hdf['timestamp_utc'] >= starttime) & (hdf['timestamp_utc']<= endtime)]
-        hdf = hdf[hdf['hashtags'].notna()]
-        hdf = hdf[hdf['hashtags'].str.contains('|')]
-        cohashtags = list(hdf['hashtags'])
+        hdf = hdf[hdf[type_field].notna()]
+        hdf = hdf[hdf[type_field].str.contains('|')]        
+        hdf[type_field] = hdf[type_field].str.lower()
+        cohashtags = list(hdf[type_field])
         times = list(hdf['timestamp_utc'])
         edgelist = []
         for idx,cohashtag in enumerate(cohashtags):
@@ -399,7 +411,7 @@ class SemanticNetwork():
         if hashtags_to_remove != None:
             nodes_to_remove = []
             for ht in hashtags_to_remove:                        
-                ht = ht.replace("#","")
+                ht = ht.replace("#","").replace("@","")
                 idx_of_ht = np.where(np.array(H.vs['name']) == ht)[0][0]
                 nodes_to_remove.append(idx_of_ht)
             H.delete_vertices(nodes_to_remove)
@@ -530,7 +542,8 @@ class SemanticNetwork():
         lastdate_str = str(dt.datetime.fromtimestamp(timestamps[0]))[:16]        
 
         d3graph['graph'] = {}
-        d3graph['graph']['type'] = "Hashtag network"
+        d3graph['graph']['type'] = self._networktype_html
+        d3graph['graph']['cooc'] = self._networktype
         d3graph['graph']['N_nodes'] = len(d3graph["nodes"])
         d3graph['graph']['N_links'] = len(d3graph["links"])
         d3graph['graph']['keyword'] = search_query

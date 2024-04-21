@@ -199,7 +199,7 @@ if filename not in [datapath+"---",datapath+"\\---"]:
         rtn_louvain = st.checkbox("Louvain", key='rtn_louvain', help="Requires the installation of the 'louvain' package, currently not working on M1 machines.")
         rtn_leiden = st.checkbox("Leiden", key='rtn_leiden')
 
-        if st.button("Generate Interaction Network"):
+        if st.button("Generate interaction network"):
             if not os.path.exists(projectdir):
                 os.makedirs(projectdir)
 
@@ -251,9 +251,18 @@ if filename not in [datapath+"---",datapath+"\\---"]:
                           aggregation method if the interactive visualization is\
                           unresponsive.")
             
-    with st.expander("HASHTAG NETWORK"):
-        st.write("Undirected network in which nodes are hashtags. \
+    with st.expander("SEMANTIC NETWORK"):
+        coocurrence_type = st.selectbox(label='Coocurrence type',
+                                        options=['hashtag','mention'])
+        if coocurrence_type == 'hashtag':
+            cooc_savename = "co-hashtag-network"
+            st.write("Undirected network in which nodes are hashtags. \
                   A link is drawn between `i` and `j` if they appear in the same tweet.")
+        elif coocurrence_type == 'mention':
+            cooc_savename = "co-mention-network"            
+            st.write("Undirected network in which nodes are user screen names. \
+                  A link is drawn between `i` and `j` if they are mentioned in the same tweet.")
+
         st.write('<span style="text-decoration: underline;">Options</span>', 
                  unsafe_allow_html=True)
         htn_giantcomponent = st.checkbox("Giant component", key='htn_giantcomponent', help="Reduce the network to its largest connected component.")
@@ -266,7 +275,7 @@ if filename not in [datapath+"---",datapath+"\\---"]:
         link_thresh_htn = st.slider("Remove edges that link hashtags less than than x times", 
                                     0, 50, 1, 1, 
                                     key='l_thresh_htn')
-        ht_to_remove = st.text_input(label="Hashtags to be removed from the graph, separated by '|'",
+        ht_to_remove = st.text_input(label="Nodes to be removed from the graph, separated by '|'",
                                      help="It is recommended to remove the hashtag used for the query.")
         if ht_to_remove != "":
             ht_to_remove_list = ht_to_remove.split("|")
@@ -278,13 +287,14 @@ if filename not in [datapath+"---",datapath+"\\---"]:
         htn_leiden = st.checkbox("Leiden", key='htn_leiden')
 
 
-        if st.button("Generate Hashtag Network"):
+        if st.button("Generate semantic network"):
             if not os.path.exists(projectdir):
                 os.makedirs(projectdir)
-            with st.spinner("Creating hashtag network..."):
+            with st.spinner("Creating semantic network..."):
                 H = SemanticNetwork()
                 ## build a network from the data
                 H.build_network(pandas_dataframe=df,
+                                network_type=coocurrence_type,
                                 language_filter=langselector_iso,
                                 hashtags_to_remove=ht_to_remove_list,
                                 starttime=ts0,
@@ -303,11 +313,11 @@ if filename not in [datapath+"---",datapath+"\\---"]:
                     language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","-").replace(" ","").replace("'","")
                 else:
                     language_savesuffix = str(langselector_iso).replace("[","").replace("]","").replace(",","|").replace(" ","").replace("'","")
-                savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN_{language_savesuffix}"
-                exportname = f"{projectdir}/export/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN_{language_savesuffix}"
+                savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_{cooc_savename}_{language_savesuffix}"
+                exportname = f"{projectdir}/export/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_{cooc_savename}_{language_savesuffix}"
             else:
-                savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN"
-                exportname = f"{projectdir}/export/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_HTN"                
+                savename = f"{projectdir}/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_{cooc_savename}"
+                exportname = f"{projectdir}/export/{project}_nt{node_thresh_htn}_lt{link_thresh_htn}_{cooc_savename}"                
             
             with st.spinner("Writing html..."):
                 st.success(f"`Saved the interactive hashtag network as to: {savename}.html`.")
