@@ -41,17 +41,13 @@ def export_graph(G, savename):
     warnings.filterwarnings("default", category=RuntimeWarning)
 
 def normalize_zs_dict(zs_tweet_dict):
-    if 'data' in zs_tweet_dict.keys():
-        if '__typename' in zs_tweet_dict['data'].keys():
-            tweet = recombobulate_tweet(tweet_root=zs_tweet_dict['data'])
-            tweet_normalized = normalize_tweet(tweet,extract_referenced_tweets=True)
-            return tweet_normalized
+    if '__typename' in zs_tweet_dict['data'].keys():
+        tweet = recombobulate_tweet(tweet_root=zs_tweet_dict['data'])
+        tweet_normalized = normalize_tweet(tweet,extract_referenced_tweets=True)
+        return tweet_normalized
     else:
         return []
-
-def peanut():
-    return "Dang"
-
+        
 def zeeschuimerjsonl_to_twitwicsv(input_filename):
     output_filename = input_filename.replace("ndjson","csv")
     with open(output_filename,"w",encoding="utf-8") as f:    
