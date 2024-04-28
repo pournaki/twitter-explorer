@@ -31,6 +31,7 @@ setup(
         "twitwi>=0.15.0",
         "twarc>=2.9.4,<3",
         "louvain>=0.8.0",
+        "ebbe>=1.13.2"
     ],
     entry_points={"console_scripts": ["twitterexplorer=twitterexplorer.launcher:main"]},
     zip_safe=True,
