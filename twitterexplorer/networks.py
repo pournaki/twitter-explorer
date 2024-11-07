@@ -8,7 +8,6 @@ import igraph as ig
 import pandas as pd
 import numpy as np
 from itertools import combinations
-import louvain as louvain_method
 
 from twitterexplorer.helpers import *
 from twitterexplorer.d3networks import *
@@ -224,7 +223,8 @@ class InteractionNetwork():
                 v["leiden_com"]  = partition_leiden.membership[v.index]
             self._community_detection['leiden'] = True
         if louvain == True:
-            partition_louvain = louvain_method.find_partition(G_comdec, louvain_method.ModularityVertexPartition)
+            # partition_louvain = louvain_method.find_partition(G_comdec, louvain_method.ModularityVertexPartition)
+            partition_louvain = G_comdec.community_multilevel()
             for v in G.vs:
                 v["louvain_com"]  = partition_louvain.membership[v.index]
             self._community_detection['louvain'] = True
@@ -490,7 +490,8 @@ class SemanticNetwork():
                 v["leiden_com"]  = partition_leiden.membership[v.index]
             self._community_detection['leiden'] = True
         if louvain == True:
-            partition_louvain = louvain_method.find_partition(G, louvain_method.ModularityVertexPartition)
+            # partition_louvain = louvain_method.find_partition(G, louvain_method.ModularityVertexPartition)
+            partition_louvain = G.community_multilevel()
             for v in G.vs:
                 v["louvain_com"]  = partition_louvain.membership[v.index]
             self._community_detection['louvain'] = True
