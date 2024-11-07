@@ -92,7 +92,7 @@ if filename not in [datapath+"---",datapath+"\\---"]:
             zeeschuimerjsonl_to_twitwicsv(filename)
         filename = filename.replace("ndjson","csv")
         df = load_data(filename)    
-    timeseries = tweetdf_to_timeseries(df,frequency="1H")
+    timeseries = tweetdf_to_timeseries(df,frequency="1h")
     timeseries_plot = plot_timeseries(timeseries)
     st.altair_chart(timeseries_plot, use_container_width=True)
 

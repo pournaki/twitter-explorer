@@ -22,7 +22,7 @@ def find_out_tweet_type(row):
     else:
         return 'regulartweet'    
 
-def tweetdf_to_timeseries(df,frequency='1H'):
+def tweetdf_to_timeseries(df,frequency='1h'):
     dfc = df.copy()
     ## don't plot the referenced tweets, they might go back centuries!
     if "collected_via" in dfc.columns and dfc['collected_via'].isna().sum() > 0:
