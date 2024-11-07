@@ -25,12 +25,11 @@ setup(
     package_data={'twitterexplorer':['html/*','languages.json']},
     install_requires=[
         "streamlit>=1.7.0,<2",
-        "tweepy>=4.6.0,<5",        
-        "pandas>=1.3.4,<2",        
+        "tweepy>=4.6.0,<5",
+        "pandas>=1.3.4",
         "python-igraph>=0.9.8,<1",
         "twitwi>=0.15.0",
         "twarc>=2.9.4,<3",
-        "louvain>=0.8.0",
         "ebbe>=1.13.2"
     ],
     entry_points={"console_scripts": ["twitterexplorer=twitterexplorer.launcher:main"]},
