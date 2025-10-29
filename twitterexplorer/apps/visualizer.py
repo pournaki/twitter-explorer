@@ -211,7 +211,7 @@ if filename not in [datapath+"---",datapath+"\\---"]:
                                 interaction_type=interaction_type,
                                 starttime=ts0,
                                 endtime=ts1)
-                G.reduce_network(giant_component=True,
+                G.reduce_network(giant_component=rtn_giantcomponent,
                                  aggregation=aggregationmethod,
                                  hard_agg_threshold=hard_aggregation_threshold,                                 
                                  )
